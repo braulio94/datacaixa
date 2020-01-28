@@ -18,3 +18,5 @@ var ProductsQuery = `SELECT ID_PRODUTO,
 						FROM TPRODUTOS 
 						WHERE ID_GRUPO_PRODUTO = %d 
 						ROWS %d TO %d;`
+
+var ProductGroupsQuery = `SELECT * FROM TGRUPOS_PRODUTOS;`
