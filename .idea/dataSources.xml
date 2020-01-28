@@ -4,6 +4,7 @@
     <data-source source="LOCAL" name="Firebirdsql - DATACAIXA" uuid="9f2eec93-2c47-4869-9d05-5475d1c7bd5c">
       <driver-ref>java.sql.Driver</driver-ref>
       <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
       <jdbc-driver>org.firebirdsql.jdbc.FBDriver</jdbc-driver>
       <jdbc-url>jdbc:firebirdsql://localhost:3050/C:/DATACAIXA.FDB</jdbc-url>
     </data-source>
