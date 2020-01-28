@@ -23,7 +23,7 @@ type Order struct {
 	DiscountValue      string
 	AccrualValue       float64
 	Comment            string
-	Dicount            float64
+	Discount           float64
 	Accrual            float64
 	DelivererId        int64
 	DeliveryStatus     string

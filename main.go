@@ -3,5 +3,6 @@ package main
 import "github.com/braulio94/datacaixa/repository"
 
 func main() {
-	repository.NewRepository().GetProductGroups()
+	repo := repository.NewRepository()
+	repo.GetOrder(32059)
 }
