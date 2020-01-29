@@ -35,14 +35,16 @@ func (r *DatabaseRepository) GetOrderItems(orderId int) (items []types.OrderItem
 	return items, oi
 }
 
-func (r *DatabaseRepository) CreateOrder(userId, tableId, clientId, people int) (order types.Order) {
-	formattedQuery := fmt.Sprintf(database.CreateOrder, 1, 1, userId, tableId, clientId, people, "MESA", "Aberta")
+func (r *DatabaseRepository) CreateOrder(new types.Order) (order types.Order) {
+	formattedQuery := fmt.Sprintf(database.CreateOrder, new.HotelId, new.PDVId, new.UserId, new.TableId, new.ClientId, new.People, new.Type, new.TableStatus)
 	_ = database.Database.QueryRow(formattedQuery).Scan(&order.OrderId, &order.OpeningDate)
 	fmt.Println("ORDER: ", order)
 	return order
 }
 
-func (r *DatabaseRepository) CreateOrderItems(group, page int) (orderItem []types.OrderItem) {
-
-	return
+func (r *DatabaseRepository) CreateOrderItem(new types.OrderItem) (orderItem types.OrderItem) {
+	formattedQuery := fmt.Sprintf(database.CreateOrderItem, new.HotelId.Int64, new.OrderId, new.ProductId, new.UserId.Int64, new.Sequence, new.Quantity, new.UnitValue, new.TotalValue)
+	_ = database.Database.QueryRow(formattedQuery).Scan(&orderItem.OrderItemId)
+	fmt.Println("ORDER ITEM: ", orderItem)
+	return orderItem
 }
