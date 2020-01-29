@@ -8,7 +8,7 @@ import (
 )
 
 func (r *DatabaseRepository) GetProducts(group, page int) (products []types.Product) {
-	n, n1 := pageLength(page)
+	n, n1 := PageLength(page)
 	rows, err := database.Query(database.SelectProductsFromGroup, group, n, n1)
 	if err != nil {
 		log.Fatalf("Could not load ROWS: %v", err)
@@ -47,9 +47,4 @@ func (r *DatabaseRepository) GetProductGroups() (groups []types.ProductGroup) {
 		fmt.Println(g)
 	}
 	return groups
-}
-
-func pageLength(page int) (n, n2 int) {
-	//TODO add algorithm for ...
-	return 1, 10
 }

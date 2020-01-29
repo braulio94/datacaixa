@@ -51,7 +51,7 @@ var SelectOrderItemsFromOrder = `SELECT ID_HOTEL,
 								FROM TPEDIDOS_ITENS 
 								WHERE ID_PEDIDO = %d;`
 
-var CreateOrder = `INSERT INTO TPEDIDOS (
+var InsertOrder = `INSERT INTO TPEDIDOS (
 								ID_HOTEL, 
 								ID_PDV, 
 								ID_USUARIO, 
@@ -63,7 +63,7 @@ var CreateOrder = `INSERT INTO TPEDIDOS (
 				   				VALUES (%d, %d, %d, %d, %d, %d, '%s', '%s')
 								RETURNING ID_PEDIDO, DATA_HORA_ABERTURA;`
 
-var CreateOrderItem = `INSERT INTO TPEDIDOS_ITENS (
+var InsertOrderItem = `INSERT INTO TPEDIDOS_ITENS (
 								ID_HOTEL, 
 								ID_PEDIDO, 
 								ID_PRODUTO, 
@@ -74,3 +74,14 @@ var CreateOrderItem = `INSERT INTO TPEDIDOS_ITENS (
 								VALOR_TOTAL)
 								VALUES (%d, %d, %d, %d, %d, %b, %b, %b)
 					   			RETURNING ID_PEDIDO_ITEM;`
+
+var SelectTable = `SELECT * FROM TMESAS WHERE ID_MESA = %d;`
+var SelectTables = `SELECT * FROM TMESAS;`
+var SelectClient = `SELECT ID_HOSPEDE,
+					NOME, ESTADO_CIVIL, 
+					DATA_CADASTRO, NACIONALIDADE,
+					SEXO FROM THOSPEDES WHERE ID_HOSPEDE = %d;`
+var SelectClients = `SELECT ID_HOSPEDE,
+					NOME, ESTADO_CIVIL, 
+					DATA_CADASTRO, NACIONALIDADE,
+					SEXO FROM THOSPEDES ROWS %d TO %d;`
