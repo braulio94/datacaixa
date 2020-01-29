@@ -1,11 +1,13 @@
 package types
 
+import "database/sql"
+
 type OrderItem struct {
-	HotelId           int64
+	HotelId           sql.NullInt64
 	OrderId           int64
 	OrderItemId       int64
 	ProductId         int64
-	UserId            int64
+	UserId            sql.NullInt64
 	Sequence          int64
 	EntryDateTime     string
 	DeliveryDateTime  string

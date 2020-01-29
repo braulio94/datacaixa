@@ -26,7 +26,7 @@ func (r *DatabaseRepository) GetProducts(group, page int) (products []types.Prod
 		products = append(products, p)
 		fmt.Println(p)
 	}
-	fmt.Print(len(products))
+	fmt.Println(len(products))
 	return products
 }
 
