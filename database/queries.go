@@ -7,7 +7,6 @@ import (
 
 func Query(query string, params ...interface{}) (*sql.Rows, error) {
 	formattedQuery := fmt.Sprintf(query, params...)
-	fmt.Println(formattedQuery)
 	return Database.Query(formattedQuery)
 }
 
@@ -77,11 +76,20 @@ var InsertOrderItem = `INSERT INTO TPEDIDOS_ITENS (
 
 var SelectTable = `SELECT * FROM TMESAS WHERE ID_MESA = %d;`
 var SelectTables = `SELECT * FROM TMESAS;`
+
 var SelectClient = `SELECT ID_HOSPEDE,
 					NOME, ESTADO_CIVIL, 
 					DATA_CADASTRO, NACIONALIDADE,
 					SEXO FROM THOSPEDES WHERE ID_HOSPEDE = %d;`
+
 var SelectClients = `SELECT ID_HOSPEDE,
 					NOME, ESTADO_CIVIL, 
 					DATA_CADASTRO, NACIONALIDADE,
 					SEXO FROM THOSPEDES ROWS %d TO %d;`
+
+var SelectClientsLike = `SELECT ID_HOSPEDE,
+							NOME, ESTADO_CIVIL, 
+							DATA_CADASTRO, NACIONALIDADE,
+							SEXO FROM THOSPEDES
+							WHERE NOME LIKE '%s'
+							ORDER BY NOME ROWS %d TO %d;`

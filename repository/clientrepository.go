@@ -38,3 +38,23 @@ func (r *DatabaseRepository) GetClients(page int) (clients []types.Client) {
 	}
 	return clients
 }
+
+func (r *DatabaseRepository) SearchClients(name string) (clients []types.Client) {
+	n, n1 := PageLength(1)
+	name = `%` + name + `%`
+	rows, _ := database.Query(database.SelectClientsLike, name, n, n1)
+	client := types.Client{}
+	for rows.Next() {
+		_ = rows.Scan(
+			&client.HotelId,
+			&client.Name,
+			&client.MaritalStatus,
+			&client.RegisterDate,
+			&client.Nationality,
+			&client.Gender,
+		)
+		clients = append(clients, client)
+		fmt.Println(client)
+	}
+	return clients
+}
