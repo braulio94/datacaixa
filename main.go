@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/braulio94/datacaixa/repository"
+	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func main() {
-	repo := repository.NewRepository()
+	//repo := repository.NewRepository()
 	//repo.GetProducts(19, 1)
 	//repo.GetOrder(32059)
 	//repo.GetOrderItems(32059)
@@ -16,4 +17,5 @@ func main() {
 	//repo.GetClient(104)
 	//repo.GetClients(1)
 	//repo.SearchClients("SAN")
+
 }
