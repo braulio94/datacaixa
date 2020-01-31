@@ -1,4 +1,4 @@
-package types
+package model
 
 type Order struct {
 	HotelId            int64

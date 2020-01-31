@@ -3,10 +3,10 @@ package repository
 import (
 	"fmt"
 	"github.com/braulio94/datacaixa/database"
-	"github.com/braulio94/datacaixa/types"
+	"github.com/braulio94/datacaixa/model"
 )
 
-func (r *DatabaseRepository) GetTable(tableId int) (table types.Table) {
+func (r *DatabaseRepository) GetTable(tableId int) (table model.Table) {
 	formattedQuery := fmt.Sprintf(database.SelectTable, tableId)
 	_ = database.Database.QueryRow(formattedQuery).Scan(
 		&table.HotelId,
@@ -24,9 +24,9 @@ func (r *DatabaseRepository) GetTable(tableId int) (table types.Table) {
 	return table
 }
 
-func (r *DatabaseRepository) GetTables() (tables []types.Table) {
+func (r *DatabaseRepository) GetTables() (tables []model.Table) {
 	rows, _ := database.Query(database.SelectTables)
-	table := types.Table{}
+	table := model.Table{}
 	for rows.Next() {
 		_ = rows.Scan(
 			&table.HotelId,

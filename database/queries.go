@@ -93,3 +93,12 @@ var SelectClientsLike = `SELECT ID_HOSPEDE,
 							SEXO FROM THOSPEDES
 							WHERE NOME LIKE '%s'
 							ORDER BY NOME ROWS %d TO %d;`
+
+var SelectProductsLike = `SELECT ID_PRODUTO, 
+								ID_GRUPO_PRODUTO, 
+								DESCRICAO, 
+								PRECO_VENDA, 
+								TOTAL_VENDAS 
+								FROM TPRODUTOS 
+								WHERE DESCRICAO LIKE '%s'
+								ROWS %d TO %d;`

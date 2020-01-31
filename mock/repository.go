@@ -1,9 +1,9 @@
 package mock
 
-import "github.com/braulio94/datacaixa/types"
+import "github.com/braulio94/datacaixa/model"
 
-func GetOrder() types.Order {
-	return types.Order{
+func GetOrder() model.Order {
+	return model.Order{
 		HotelId:            1,
 		OrderId:            0,
 		PDVId:              1,

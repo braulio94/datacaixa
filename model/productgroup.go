@@ -1,4 +1,4 @@
-package types
+package model
 
 type ProductGroup struct {
 	HotelId        int64
