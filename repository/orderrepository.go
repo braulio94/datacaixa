@@ -48,3 +48,8 @@ func (r *DatabaseRepository) CreateOrderItem(new model.OrderItem) (orderItem mod
 	fmt.Println("ORDER ITEM: ", orderItem)
 	return orderItem
 }
+
+//TODO
+func (r *DatabaseRepository) DeleteOrderItem(id int) {
+
+}

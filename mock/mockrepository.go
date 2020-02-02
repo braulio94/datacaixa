@@ -35,3 +35,12 @@ func GetOrder() model.Order {
 		Type:               "MESA",
 	}
 }
+
+var Product = model.Product{
+	Id:          14,
+	Group:       19,
+	Description: "IMOBILIARIO NAO IDENTIFICADO",
+	Price:       1500,
+	CreatedAt:   "2019-01-09",
+	Sales:       90,
+}

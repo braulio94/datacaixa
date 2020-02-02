@@ -1,16 +1,23 @@
 package main
 
+import (
+	"fmt"
+	"github.com/braulio94/datacaixa/controllers"
+	"github.com/braulio94/datacaixa/router"
+	"log"
+	"os"
+)
+
 func main() {
-	//repo := repository.NewRepository()
-	//repo.GetProductsByGroup(19, 1)
-	//repo.GetOrder(32059)
-	//repo.GetOrderItems(32059)
-	//order := mock.GetOrder()
-	//repo.CreateOrder(order)
-	//repo.GetTable(48)
-	//repo.GetTables()
-	//repo.GetClient(104)
-	//repo.GetClients(1)
-	//repo.SearchClients("SAN")
-	//repo.SearchProducts("BLUE")
+	core := controllers.NewCore()
+	router.CreateRoutes(core)
+	go func() {
+		fmt.Println("Starting server on port 9090")
+
+		err := core.Server.ListenAndServe()
+		if err != nil {
+			log.Fatalf("Error starting server: %s\n", err)
+			os.Exit(1)
+		}
+	}()
 }
