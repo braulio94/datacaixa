@@ -3,7 +3,7 @@ package model
 type OrderItem struct {
 	HotelId           int64   `json:"hotel,omitempty"`
 	OrderItemId       int64   `json:"id,omitempty"`
-	OrderId           int64   `json:"pedido,omitempty"`
+	OrderId           int     `json:"pedido,omitempty"`
 	ProductId         int     `json:"-"`
 	Product           Product `json:"produto,omitempty"`
 	UserId            int     `json:"usuario,omitempty"`

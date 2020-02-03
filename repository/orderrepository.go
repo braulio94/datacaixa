@@ -46,6 +46,12 @@ func (r *DatabaseRepository) GetOrderItems(orderId int) (items []model.OrderItem
 	return items
 }
 
+func (r *DatabaseRepository) GetOrderItemsCount(orderId int) (count int) {
+	formattedQuery := fmt.Sprintf(database.SelectOrderItemsCount, orderId)
+	_ = database.Database.QueryRow(formattedQuery).Scan(&count)
+	return count
+}
+
 func (r *DatabaseRepository) CreateOrder(new model.Order) (order model.Order) {
 	formattedQuery := fmt.Sprintf(database.InsertOrder, new.HotelId, new.PDVId, new.UserId, new.TableId, new.ClientId, new.People, new.Type, new.TableStatus)
 	_ = database.Database.QueryRow(formattedQuery).Scan(&order.OrderId, &order.OpeningDate)
@@ -54,9 +60,13 @@ func (r *DatabaseRepository) CreateOrder(new model.Order) (order model.Order) {
 }
 
 func (r *DatabaseRepository) CreateOrderItem(new model.OrderItem) (orderItem model.OrderItem) {
-	formattedQuery := fmt.Sprintf(database.InsertOrderItem, new.HotelId, new.OrderId, new.ProductId, new.UserId, new.Sequence, new.Quantity, new.UnitValue, new.TotalValue)
-	_ = database.Database.QueryRow(formattedQuery).Scan(&orderItem.OrderItemId)
-	fmt.Println("ORDER ITEM: ", orderItem)
+	count := r.GetOrderItemsCount(new.OrderId)
+	value := new.Quantity * new.Product.Price
+	formattedQuery := fmt.Sprintf(database.InsertOrderItem, new.OrderId, new.Product.Id, count+1, new.Quantity, new.Product.Price, value)
+	_ = database.Database.QueryRow(formattedQuery).Scan(
+		&orderItem.OrderItemId,
+		&orderItem.ProductId,
+	)
 	return orderItem
 }
 

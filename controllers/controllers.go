@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"github.com/braulio94/datacaixa/model"
 	"github.com/braulio94/datacaixa/repository"
 	"github.com/braulio94/datacaixa/util"
@@ -85,4 +86,26 @@ func (D *Datacaixa) FetchOrderItems(rw http.ResponseWriter, r *http.Request) {
 	orderId, _ := strconv.Atoi(vars["id"])
 	orderItems := D.Repository.GetOrderItems(orderId)
 	util.Respond(rw, map[string]interface{}{"pedido_itens": orderItems})
+}
+
+func (D *Datacaixa) CreateNewOrder(rw http.ResponseWriter, r *http.Request) {
+	order := model.Order{}
+	err := json.NewDecoder(r.Body).Decode(&order)
+	if err != nil {
+		log.Fatal("Failed to decode request body")
+		return
+	}
+	newOrder := D.Repository.CreateOrder(order)
+	util.Respond(rw, map[string]interface{}{"pedido": newOrder})
+}
+
+func (D *Datacaixa) CreateNewOrderItem(rw http.ResponseWriter, r *http.Request) {
+	item := model.OrderItem{}
+	err := json.NewDecoder(r.Body).Decode(&item)
+	if err != nil {
+		log.Fatal("Failed to decode request body")
+		return
+	}
+	newOrderItem := D.Repository.CreateOrderItem(item)
+	util.Respond(rw, map[string]interface{}{"item": newOrderItem})
 }

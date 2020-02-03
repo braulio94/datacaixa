@@ -59,6 +59,10 @@ var SelectOrderItemsFromOrder = `SELECT ID_PEDIDO_ITEM,
 								FROM TPEDIDOS_ITENS 
 								WHERE ID_PEDIDO = %d;`
 
+var SelectOrderItemsCount = `SELECT COUNT(ID_PEDIDO_ITEM)
+							 FROM TPEDIDOS_ITENS
+							 WHERE ID_PEDIDO = %d;`
+
 var InsertOrder = `INSERT INTO TPEDIDOS (
 								ID_HOTEL, 
 								ID_PDV, 
@@ -72,16 +76,14 @@ var InsertOrder = `INSERT INTO TPEDIDOS (
 								RETURNING ID_PEDIDO, DATA_HORA_ABERTURA;`
 
 var InsertOrderItem = `INSERT INTO TPEDIDOS_ITENS (
-								ID_HOTEL, 
 								ID_PEDIDO, 
 								ID_PRODUTO, 
-								ID_USUARIO, 
 								SEQUENCIA, 
 								QUANTIDADE, 
 								VALOR_UNITARIO, 
 								VALOR_TOTAL)
-								VALUES (%d, %d, %d, %d, %d, %b, %b, %b)
-					   			RETURNING ID_PEDIDO_ITEM;`
+								VALUES (%d, %d, %d, %v, %v, %v)
+					   			RETURNING ID_PEDIDO_ITEM, ID_PRODUTO;`
 
 var SelectTable = `SELECT * FROM TMESAS WHERE ID_MESA = %d;`
 var SelectTables = `SELECT * FROM TMESAS;`
