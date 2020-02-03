@@ -8,7 +8,7 @@ import (
 
 func main() {
 	core := controllers.NewCore()
-	router.CreateRoutes(core)
+	router.RegisterRoutes(core)
 	_ = http.ListenAndServe(":9090", core.Router)
 	//go func() {
 	//	fmt.Println("Starting server on port 9090")

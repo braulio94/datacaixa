@@ -10,6 +10,15 @@ func Query(query string, params ...interface{}) (*sql.Rows, error) {
 	return Database.Query(formattedQuery)
 }
 
+var SelectProduct = `SELECT ID_PRODUTO, 
+								ID_GRUPO_PRODUTO, 
+								DESCRICAO, 
+								PRECO_VENDA, 
+								TOTAL_VENDAS,
+								DATA_CADASTRO
+								FROM TPRODUTOS 
+								WHERE ID_PRODUTO = %d`
+
 var SelectProductsFromGroup = `SELECT ID_PRODUTO, 
 								ID_GRUPO_PRODUTO, 
 								DESCRICAO, 

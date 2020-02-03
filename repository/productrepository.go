@@ -3,7 +3,6 @@ package repository
 import (
 	"fmt"
 	"github.com/braulio94/datacaixa/database"
-	"github.com/braulio94/datacaixa/mock"
 	"github.com/braulio94/datacaixa/model"
 	"log"
 )
@@ -32,9 +31,19 @@ func (r *DatabaseRepository) GetProductsByGroup(groupId, page int) (products []m
 	return products
 }
 
-//TODO replace mock with database product
-func (r *DatabaseRepository) GetSingleProduct(id int) model.Product {
-	return mock.Product
+func (r *DatabaseRepository) GetSingleProduct(id int) (product model.Product) {
+	rows, _ := database.Query(database.SelectProduct, id)
+	for rows.Next() {
+		_ = rows.Scan(
+			&product.Id,
+			&product.GroupId,
+			&product.Description,
+			&product.Price,
+			&product.Sales,
+			&product.CreatedAt,
+		)
+	}
+	return product
 }
 
 func (r *DatabaseRepository) SearchProducts(description string) (products []model.Product) {

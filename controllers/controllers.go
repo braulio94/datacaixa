@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/braulio94/datacaixa/model"
 	"github.com/braulio94/datacaixa/repository"
 	"github.com/braulio94/datacaixa/util"
 	"github.com/gorilla/mux"
@@ -31,8 +32,21 @@ func NewCore() *Datacaixa {
 
 func (D *Datacaixa) FetchProducts(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+	var products []model.Product
 	groupId, _ := strconv.Atoi(vars["group"])
 	page, _ := strconv.Atoi(vars["pageNumber"])
-	products := D.Repository.GetProductsByGroup(groupId, page)
+	description := vars["description"]
+	if len(vars["group"]) > 0 {
+		products = D.Repository.GetProductsByGroup(groupId, page)
+	} else {
+		products = D.Repository.SearchProducts(description)
+	}
 	util.Respond(rw, map[string]interface{}{"products": products})
+}
+
+func (D *Datacaixa) FetchProduct(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	productId, _ := strconv.Atoi(vars["id"])
+	product := D.Repository.GetSingleProduct(productId)
+	util.Respond(rw, map[string]interface{}{"product": product})
 }

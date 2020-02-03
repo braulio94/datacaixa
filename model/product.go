@@ -33,6 +33,6 @@ type Product struct {
 	PreparingTime int64   `json:"tempo_preparo,omitempty"`
 	Discrete      string  `json:"descritivo,omitempty"`
 	ServiceTax    float64 `json:"taxa_servico,omitempty"`
-	Alcohool      string  `json:"bebida_alcoolica,omitempty "`
+	Alcohool      string  `json:"bebida_alcoolica,omitempty"`
 	Spotlight     string  `json:"destaque,omitempty"`
 }
