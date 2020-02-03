@@ -15,6 +15,17 @@ func (r *DatabaseRepository) GetOrder(orderId int) (order model.Order) {
 	return order
 }
 
+func (r *DatabaseRepository) GetOpenOrders() (orders []model.Order) {
+	rows, _ := database.Query(database.SelectOpenOrders)
+	var order model.Order
+	for rows.Next() {
+		_ = rows.Scan(&order.OrderId, &order.UserId, &order.TableId, &order.TableStatus, &order.OpeningDate, &order.GeneralTotalAmount)
+
+		orders = append(orders, order)
+	}
+	return orders
+}
+
 func (r *DatabaseRepository) GetOrderItems(orderId int) (items []model.OrderItem, oi model.OrderItem) {
 	rows, _ := database.Query(database.SelectOrderItemsFromOrder, orderId)
 	for rows.Next() {
