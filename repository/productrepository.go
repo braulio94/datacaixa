@@ -19,9 +19,9 @@ func (r *DatabaseRepository) GetProductsByGroup(groupId, page int) (products []m
 	for rows.Next() {
 		_ = rows.Scan(
 			&p.Id,
-			&p.Group,
+			&p.GroupId,
 			&p.Description,
-			&p.SellingPrice,
+			&p.Price,
 			&p.Sales,
 			&p.CreatedAt,
 		)
@@ -45,9 +45,9 @@ func (r *DatabaseRepository) SearchProducts(description string) (products []mode
 	for rows.Next() {
 		_ = rows.Scan(
 			&p.Id,
-			&p.Group,
+			&p.GroupId,
 			&p.Description,
-			&p.SellingPrice,
+			&p.Price,
 			&p.Sales,
 			&p.CreatedAt,
 		)
