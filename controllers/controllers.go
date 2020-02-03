@@ -1,21 +1,14 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/braulio94/datacaixa/repository"
+	"github.com/braulio94/datacaixa/util"
 	"github.com/gorilla/mux"
-	"github.com/nicholasjackson/env"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
-)
-
-var (
-	Core        *Datacaixa
-	bindAddress = env.String("BIND_ADDRESS", false, ":9090", "Bind address for the server")
-	l           = log.New(os.Stdout, "products-api ", log.LstdFlags)
 )
 
 type Datacaixa struct {
@@ -28,23 +21,18 @@ func NewCore() *Datacaixa {
 	r := mux.NewRouter()
 	repo := repository.NewRepository()
 	s := http.Server{
-		Addr:         *bindAddress,      // configure the bind address
-		Handler:      r,                 // set the default handler
-		ErrorLog:     l,                 // set the logger for the server
-		ReadTimeout:  5 * time.Second,   // max time to read request from the client
-		WriteTimeout: 10 * time.Second,  // max time to write response to the client
-		IdleTimeout:  120 * time.Second, // max time for connections using TCP Keep-Alive
+		ErrorLog:     log.New(os.Stdout, "datacaixa ", log.LstdFlags),
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  120 * time.Second,
 	}
-	Core = &Datacaixa{Router: r, Repository: repo, Server: s}
-	return Core
+	return &Datacaixa{Router: r, Repository: repo, Server: s}
 }
 
 func (D *Datacaixa) FetchProducts(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	groupId, err := strconv.Atoi(vars["id"])
-	if err != nil {
-		http.Error(rw, "Unable to convert id", http.StatusBadRequest)
-		return
-	}
-	fmt.Println("Handle PUT Product", groupId)
+	groupId, _ := strconv.Atoi(vars["group"])
+	page, _ := strconv.Atoi(vars["pageNumber"])
+	products := D.Repository.GetProductsByGroup(groupId, page)
+	util.Respond(rw, map[string]interface{}{"products": products})
 }
