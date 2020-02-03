@@ -67,3 +67,22 @@ func (D *Datacaixa) FetchTables(rw http.ResponseWriter, r *http.Request) {
 	tables := D.Repository.GetTables()
 	util.Respond(rw, map[string]interface{}{"mesas": tables})
 }
+
+func (D *Datacaixa) FetchOrder(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	orderId, _ := strconv.Atoi(vars["id"])
+	order := D.Repository.GetOrder(orderId)
+	util.Respond(rw, map[string]interface{}{"pedido": order})
+}
+
+func (D *Datacaixa) FetchOrders(rw http.ResponseWriter, r *http.Request) {
+	orders := D.Repository.GetOpenOrders()
+	util.Respond(rw, map[string]interface{}{"pedidos": orders})
+}
+
+func (D *Datacaixa) FetchOrderItems(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	orderId, _ := strconv.Atoi(vars["id"])
+	orderItems := D.Repository.GetOrderItems(orderId)
+	util.Respond(rw, map[string]interface{}{"pedido_itens": orderItems})
+}

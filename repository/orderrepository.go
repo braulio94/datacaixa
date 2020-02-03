@@ -20,30 +20,30 @@ func (r *DatabaseRepository) GetOpenOrders() (orders []model.Order) {
 	var order model.Order
 	for rows.Next() {
 		_ = rows.Scan(&order.OrderId, &order.UserId, &order.TableId, &order.TableStatus, &order.OpeningDate, &order.GeneralTotalAmount)
-
 		orders = append(orders, order)
 	}
 	return orders
 }
 
-func (r *DatabaseRepository) GetOrderItems(orderId int) (items []model.OrderItem, oi model.OrderItem) {
+func (r *DatabaseRepository) GetOrderItems(orderId int) (items []model.OrderItem) {
 	rows, _ := database.Query(database.SelectOrderItemsFromOrder, orderId)
+	var oi model.OrderItem
 	for rows.Next() {
 		_ = rows.Scan(
-			&oi.HotelId,
+			&oi.OrderItemId,
 			&oi.OrderId,
 			&oi.ProductId,
-			&oi.UserId,
 			&oi.Sequence,
 			&oi.Quantity,
 			&oi.UnitValue,
 			&oi.TotalValue,
 		)
+		oi.Product = r.GetSingleProduct(oi.ProductId)
 		items = append(items, oi)
 		fmt.Println(oi)
 	}
 	fmt.Println("Total rows: ", len(items))
-	return items, oi
+	return items
 }
 
 func (r *DatabaseRepository) CreateOrder(new model.Order) (order model.Order) {
@@ -54,7 +54,7 @@ func (r *DatabaseRepository) CreateOrder(new model.Order) (order model.Order) {
 }
 
 func (r *DatabaseRepository) CreateOrderItem(new model.OrderItem) (orderItem model.OrderItem) {
-	formattedQuery := fmt.Sprintf(database.InsertOrderItem, new.HotelId.Int64, new.OrderId, new.ProductId, new.UserId.Int64, new.Sequence, new.Quantity, new.UnitValue, new.TotalValue)
+	formattedQuery := fmt.Sprintf(database.InsertOrderItem, new.HotelId, new.OrderId, new.ProductId, new.UserId, new.Sequence, new.Quantity, new.UnitValue, new.TotalValue)
 	_ = database.Database.QueryRow(formattedQuery).Scan(&orderItem.OrderItemId)
 	fmt.Println("ORDER ITEM: ", orderItem)
 	return orderItem
@@ -62,5 +62,10 @@ func (r *DatabaseRepository) CreateOrderItem(new model.OrderItem) (orderItem mod
 
 //TODO
 func (r *DatabaseRepository) DeleteOrderItem(id int) {
+
+}
+
+//TODO
+func (r *DatabaseRepository) UpdateOrder(id int) {
 
 }

@@ -49,10 +49,9 @@ var SelectOpenOrders = `SELECT ID_PEDIDO,
 								FROM TPEDIDOS 
 								WHERE Situacao = 'Aberto';`
 
-var SelectOrderItemsFromOrder = `SELECT ID_HOTEL, 
+var SelectOrderItemsFromOrder = `SELECT ID_PEDIDO_ITEM,
 								ID_PEDIDO, 
 								ID_PRODUTO, 
-								ID_USUARIO, 
 								SEQUENCIA, 
 								QUANTIDADE, 
 								VALOR_UNITARIO, 

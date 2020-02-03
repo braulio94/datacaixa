@@ -1,28 +1,27 @@
 package model
 
-import "database/sql"
-
 type OrderItem struct {
-	HotelId           sql.NullInt64
-	OrderId           int64
-	OrderItemId       int64
-	ProductId         int64
-	UserId            sql.NullInt64
-	Sequence          int64
-	EntryDateTime     string
-	DeliveryDateTime  string
-	Quantity          float64
-	UnitValue         float64
-	TotalValue        float64
-	ServiceTax        float64
-	ServiceTaxValue   float64
-	GeneralTotalValue float64
-	Canceled          string
-	PreparingTime     int64
-	Comment           string
-	Printed           string
-	Discount          float64
-	DiscoultValue     float64
-	Accrual           float64
-	AccrualValue      float64
+	HotelId           int64   `json:"hotel,omitempty"`
+	OrderItemId       int64   `json:"id,omitempty"`
+	OrderId           int64   `json:"pedido,omitempty"`
+	ProductId         int     `json:"-"`
+	Product           Product `json:"produto,omitempty"`
+	UserId            int     `json:"usuario,omitempty"`
+	Sequence          int64   `json:"sequencia,omitempty"`
+	EntryDateTime     string  `json:"data_lancto,omitempty"`
+	DeliveryDateTime  string  `json:"data_entrega,omitempty"`
+	Quantity          float64 `json:"quantidade,omitempty"`
+	UnitValue         float64 `json:"valor_unitario,omitempty"`
+	TotalValue        float64 `json:"valor_total,omitempty"`
+	ServiceTax        float64 `json:"taxa_servico,omitempty"`
+	ServiceTaxValue   float64 `json:"valor_taxa_servico,omitempty"`
+	GeneralTotalValue float64 `json:"valor_total_geral,omitempty"`
+	Canceled          string  `json:"cancelado,omitempty"`
+	PreparingTime     int64   `json:"tempo_preparo,omitempty"`
+	Comment           string  `json:"observacao,omitempty"`
+	Printed           string  `json:"impresso,omitempty"`
+	Discount          float64 `json:"desconto,omitempty"`
+	DiscoultValue     float64 `json:"valor_desconto,omitempty"`
+	Accrual           float64 `json:"acrescimo,omitempty"`
+	AccrualValue      float64 `json:"valor_acrescimo,omitempty"`
 }
