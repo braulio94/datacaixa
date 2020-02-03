@@ -36,17 +36,22 @@ func (D *Datacaixa) FetchProducts(rw http.ResponseWriter, r *http.Request) {
 	groupId, _ := strconv.Atoi(vars["group"])
 	page, _ := strconv.Atoi(vars["pageNumber"])
 	description := vars["description"]
-	if len(vars["group"]) > 0 {
-		products = D.Repository.GetProductsByGroup(groupId, page)
-	} else {
+	if len(vars["description"]) > 0 {
 		products = D.Repository.SearchProducts(description)
+	} else {
+		products = D.Repository.GetProductsByGroup(groupId, page)
 	}
-	util.Respond(rw, map[string]interface{}{"products": products})
+	util.Respond(rw, map[string]interface{}{"produtos": products})
 }
 
 func (D *Datacaixa) FetchProduct(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	productId, _ := strconv.Atoi(vars["id"])
 	product := D.Repository.GetSingleProduct(productId)
-	util.Respond(rw, map[string]interface{}{"product": product})
+	util.Respond(rw, map[string]interface{}{"produto": product})
+}
+
+func (D *Datacaixa) FetchCategories(rw http.ResponseWriter, r *http.Request) {
+	categories := D.Repository.GetProductGroups()
+	util.Respond(rw, map[string]interface{}{"categorias": categories})
 }
