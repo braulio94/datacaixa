@@ -20,7 +20,6 @@ func (r *DatabaseRepository) GetTable(tableId int) (table model.Table) {
 		&table.PVD,
 		&table.Seats,
 	)
-	fmt.Println("TABLE: ", table)
 	return table
 }
 
@@ -41,7 +40,6 @@ func (r *DatabaseRepository) GetTables() (tables []model.Table) {
 			&table.Seats,
 		)
 		tables = append(tables, table)
-		fmt.Println(table)
 	}
 	return tables
 }

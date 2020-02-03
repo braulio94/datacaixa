@@ -55,3 +55,15 @@ func (D *Datacaixa) FetchCategories(rw http.ResponseWriter, r *http.Request) {
 	categories := D.Repository.GetProductGroups()
 	util.Respond(rw, map[string]interface{}{"categorias": categories})
 }
+
+func (D *Datacaixa) FetchTable(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	tableId, _ := strconv.Atoi(vars["id"])
+	table := D.Repository.GetTable(tableId)
+	util.Respond(rw, map[string]interface{}{"mesa": table})
+}
+
+func (D *Datacaixa) FetchTables(rw http.ResponseWriter, r *http.Request) {
+	tables := D.Repository.GetTables()
+	util.Respond(rw, map[string]interface{}{"mesas": tables})
+}
