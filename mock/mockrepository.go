@@ -37,10 +37,10 @@ func GetOrder() model.Order {
 }
 
 var Product = model.Product{
-	Id:          14,
-	Group:       19,
-	Description: "IMOBILIARIO NAO IDENTIFICADO",
-	Price:       1500,
-	CreatedAt:   "2019-01-09",
-	Sales:       90,
+	Id:           14,
+	Group:        19,
+	Description:  "IMOBILIARIO NAO IDENTIFICADO",
+	SellingPrice: 1500,
+	CreatedAt:    "2019-01-09",
+	Sales:        90,
 }

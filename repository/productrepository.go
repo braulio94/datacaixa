@@ -21,8 +21,9 @@ func (r *DatabaseRepository) GetProductsByGroup(groupId, page int) (products []m
 			&p.Id,
 			&p.Group,
 			&p.Description,
-			&p.Price,
+			&p.SellingPrice,
 			&p.Sales,
+			&p.CreatedAt,
 		)
 		products = append(products, p)
 		fmt.Println(p)
@@ -46,8 +47,9 @@ func (r *DatabaseRepository) SearchProducts(description string) (products []mode
 			&p.Id,
 			&p.Group,
 			&p.Description,
-			&p.Price,
+			&p.SellingPrice,
 			&p.Sales,
+			&p.CreatedAt,
 		)
 		products = append(products, p)
 		fmt.Println(p)

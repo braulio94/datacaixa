@@ -14,7 +14,8 @@ var SelectProductsFromGroup = `SELECT ID_PRODUTO,
 								ID_GRUPO_PRODUTO, 
 								DESCRICAO, 
 								PRECO_VENDA, 
-								TOTAL_VENDAS 
+								TOTAL_VENDAS,
+								DATA_CADASTRO
 								FROM TPRODUTOS 
 								WHERE ID_GRUPO_PRODUTO = %d 
 								ROWS %d TO %d;`
@@ -98,7 +99,8 @@ var SelectProductsLike = `SELECT ID_PRODUTO,
 								ID_GRUPO_PRODUTO, 
 								DESCRICAO, 
 								PRECO_VENDA, 
-								TOTAL_VENDAS 
+								TOTAL_VENDAS,
+								DATA_CADASTRO
 								FROM TPRODUTOS 
 								WHERE DESCRICAO LIKE '%s'
 								ROWS %d TO %d;`
