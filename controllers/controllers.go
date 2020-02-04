@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -72,7 +73,13 @@ func (D *Datacaixa) FetchTables(rw http.ResponseWriter, r *http.Request) {
 func (D *Datacaixa) FetchOrder(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	orderId, _ := strconv.Atoi(vars["id"])
-	order := D.Repository.GetOrder(orderId)
+	order := model.Order{}
+	if len(vars["withItems"]) > 0 && strings.Contains(vars["withItems"], "yes") {
+		order = D.Repository.GetOrder(orderId, true)
+	} else {
+		order = D.Repository.GetOrder(orderId, false)
+	}
+
 	util.Respond(rw, map[string]interface{}{"pedido": order})
 }
 
@@ -116,4 +123,24 @@ func (D *Datacaixa) DeleteOrderItem(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	itemId, _ := strconv.Atoi(vars["id"])
 	D.Repository.DeleteOrderItem(itemId)
+}
+
+func (D *Datacaixa) FetchClients(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	var clients []model.Client
+	page, _ := strconv.Atoi(vars["pageNumber"])
+	name := vars["name"]
+	if len(vars["name"]) > 0 {
+		clients = D.Repository.SearchClients(name)
+	} else {
+		clients = D.Repository.GetClients(page)
+	}
+	util.Respond(rw, map[string]interface{}{"clientes": clients})
+}
+
+func (D *Datacaixa) FetchClient(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	clientId, _ := strconv.Atoi(vars["id"])
+	client := D.Repository.GetSingleProduct(clientId)
+	util.Respond(rw, map[string]interface{}{"cliente": client})
 }

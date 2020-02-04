@@ -6,12 +6,16 @@ import (
 	"github.com/braulio94/datacaixa/model"
 )
 
-func (r *DatabaseRepository) GetOrder(orderId int) (order model.Order) {
+func (r *DatabaseRepository) GetOrder(orderId int, withItems bool) (order model.Order) {
 	rows, _ := database.Query(database.SelectOrder, orderId)
 	for rows.Next() {
-		_ = rows.Scan(&order.OrderId, &order.UserId, &order.TableId, &order.TableStatus, &order.OpeningDate, &order.GeneralTotalAmount)
+		_ = rows.Scan(&order.OrderId, &order.ClientId, &order.UserId, &order.TableId, &order.TableStatus, &order.OpeningDate, &order.GeneralTotalAmount)
 	}
-	fmt.Println(order)
+	order.Client = r.GetClient(order.ClientId)
+	if withItems {
+		order.OrderItems = r.GetOrderItems(orderId)
+	}
+
 	return order
 }
 
@@ -27,7 +31,7 @@ func (r *DatabaseRepository) GetOpenOrders() (orders []model.Order) {
 
 func (r *DatabaseRepository) GetOrderItems(orderId int) (items []model.OrderItem) {
 	rows, _ := database.Query(database.SelectOrderItemsFromOrder, orderId)
-	var oi model.OrderItem
+	oi := model.OrderItem{}
 	for rows.Next() {
 		_ = rows.Scan(
 			&oi.OrderItemId,
@@ -40,7 +44,6 @@ func (r *DatabaseRepository) GetOrderItems(orderId int) (items []model.OrderItem
 		)
 		oi.Product = r.GetSingleProduct(oi.ProductId)
 		items = append(items, oi)
-		fmt.Println(oi)
 	}
 	fmt.Println("Total rows: ", len(items))
 	return items

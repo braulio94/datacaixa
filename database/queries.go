@@ -32,6 +32,7 @@ var SelectProductsFromGroup = `SELECT ID_PRODUTO,
 var SelectProductGroups = `SELECT * FROM TGRUPOS_PRODUTOS;`
 
 var SelectOrder = `SELECT ID_PEDIDO, 
+								ID_CLIENTE,
 								ID_USUARIO, 
 								ID_MESA, 
 								SITUACAO_MESA, 
