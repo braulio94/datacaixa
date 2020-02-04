@@ -30,7 +30,29 @@ var SelectProductsFromGroup = `SELECT ID_PRODUTO,
 								ROWS %d TO %d;`
 
 var SelectProductGroups = `SELECT * FROM TGRUPOS_PRODUTOS;`
+var SelectTopSoldProducts = `SELECT  ID_PRODUTO, 
+								ID_GRUPO_PRODUTO, 
+								DESCRICAO, 
+								PRECO_VENDA, 
+								TOTAL_VENDAS,
+								DATA_CADASTRO FROM TPRODUTOS
+							 	ORDER BY TOTAL_VENDAS DESC ROWS %d TO %d`
 
+var SelectDescriptionProducts = `SELECT  ID_PRODUTO, 
+								ID_GRUPO_PRODUTO, 
+								DESCRICAO, 
+								PRECO_VENDA, 
+								TOTAL_VENDAS,
+								DATA_CADASTRO FROM TPRODUTOS
+							 	ORDER BY DESCRICAO ASC ROWS %d TO %d`
+
+var SelectMostRecentProducts = `SELECT  ID_PRODUTO, 
+								ID_GRUPO_PRODUTO, 
+								DESCRICAO, 
+								PRECO_VENDA, 
+								TOTAL_VENDAS,
+								DATA_CADASTRO FROM TPRODUTOS
+							 	ORDER BY DATA_CADASTRO DESC ROWS %d TO %d`
 var SelectOrder = `SELECT ID_PEDIDO, 
 								ID_CLIENTE,
 								ID_USUARIO, 

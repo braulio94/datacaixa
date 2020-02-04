@@ -40,6 +40,12 @@ func (D *Datacaixa) FetchProducts(rw http.ResponseWriter, r *http.Request) {
 	description := vars["description"]
 	if len(vars["description"]) > 0 {
 		products = D.Repository.SearchProducts(description)
+	} else if len(vars["order"]) > 0 && strings.Contains(vars["order"], "sales") {
+		products = D.Repository.GetTopProducts(page)
+	} else if len(vars["order"]) > 0 && strings.Contains(vars["order"], "description") {
+		products = D.Repository.GetProductsByDescription(page)
+	} else if len(vars["order"]) > 0 && strings.Contains(vars["order"], "recentlyAdded") {
+		products = D.Repository.GetMostRecentProducts(page)
 	} else {
 		products = D.Repository.GetProductsByGroup(groupId, page)
 	}

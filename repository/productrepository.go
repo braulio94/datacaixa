@@ -85,3 +85,61 @@ func (r *DatabaseRepository) GetProductGroups() (groups []model.ProductGroup) {
 	}
 	return groups
 }
+
+func (r *DatabaseRepository) GetTopProducts(page int) (products []model.Product) {
+	n, n1 := PageLength(page)
+	rows, err := database.Query(database.SelectTopSoldProducts, n, n1)
+	if err != nil {
+		log.Fatalf("Could not load ROWS: %v", err)
+		return nil
+	}
+	var product = model.Product{}
+	for rows.Next() {
+		_ = rows.Scan(
+			&product.Id,
+			&product.GroupId,
+			&product.Description,
+			&product.Price,
+			&product.Sales,
+			&product.CreatedAt,
+		)
+		products = append(products, product)
+	}
+	return products
+}
+
+func (r *DatabaseRepository) GetProductsByDescription(page int) (products []model.Product) {
+	n, n1 := PageLength(page)
+	rows, _ := database.Query(database.SelectDescriptionProducts, n, n1)
+	var product = model.Product{}
+	for rows.Next() {
+		_ = rows.Scan(
+			&product.Id,
+			&product.GroupId,
+			&product.Description,
+			&product.Price,
+			&product.Sales,
+			&product.CreatedAt,
+		)
+		products = append(products, product)
+	}
+	return products
+}
+
+func (r *DatabaseRepository) GetMostRecentProducts(page int) (products []model.Product) {
+	n, n1 := PageLength(page)
+	rows, _ := database.Query(database.SelectMostRecentProducts, n, n1)
+	var product = model.Product{}
+	for rows.Next() {
+		_ = rows.Scan(
+			&product.Id,
+			&product.GroupId,
+			&product.Description,
+			&product.Price,
+			&product.Sales,
+			&product.CreatedAt,
+		)
+		products = append(products, product)
+	}
+	return products
+}
