@@ -100,12 +100,20 @@ func (D *Datacaixa) CreateNewOrder(rw http.ResponseWriter, r *http.Request) {
 }
 
 func (D *Datacaixa) CreateNewOrderItem(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	orderId, _ := strconv.Atoi(vars["orderId"])
 	item := model.OrderItem{}
-	err := json.NewDecoder(r.Body).Decode(&item)
-	if err != nil {
-		log.Fatal("Failed to decode request body")
-		return
-	}
-	newOrderItem := D.Repository.CreateOrderItem(item)
+	_ = json.NewDecoder(r.Body).Decode(&item)
+	newOrderItem := D.Repository.CreateOrderItem(item, orderId)
 	util.Respond(rw, map[string]interface{}{"item": newOrderItem})
+}
+
+func (D *Datacaixa) UpdateOrderItem(rw http.ResponseWriter, r *http.Request) {
+
+}
+
+func (D *Datacaixa) DeleteOrderItem(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	itemId, _ := strconv.Atoi(vars["id"])
+	D.Repository.DeleteOrderItem(itemId)
 }

@@ -59,10 +59,10 @@ func (r *DatabaseRepository) CreateOrder(new model.Order) (order model.Order) {
 	return order
 }
 
-func (r *DatabaseRepository) CreateOrderItem(new model.OrderItem) (orderItem model.OrderItem) {
-	count := r.GetOrderItemsCount(new.OrderId)
+func (r *DatabaseRepository) CreateOrderItem(new model.OrderItem, orderId int) (orderItem model.OrderItem) {
+	count := r.GetOrderItemsCount(orderId)
 	value := new.Quantity * new.Product.Price
-	formattedQuery := fmt.Sprintf(database.InsertOrderItem, new.OrderId, new.Product.Id, count+1, new.Quantity, new.Product.Price, value)
+	formattedQuery := fmt.Sprintf(database.InsertOrderItem, orderId, new.Product.Id, count+1, new.Quantity, new.Product.Price, value)
 	_ = database.Database.QueryRow(formattedQuery).Scan(
 		&orderItem.OrderItemId,
 		&orderItem.ProductId,
@@ -70,12 +70,11 @@ func (r *DatabaseRepository) CreateOrderItem(new model.OrderItem) (orderItem mod
 	return orderItem
 }
 
-//TODO
 func (r *DatabaseRepository) DeleteOrderItem(id int) {
-
+	formattedQuery := fmt.Sprintf(database.DeleteOrderItem, id)
+	_ = database.Database.QueryRow(formattedQuery)
 }
 
-//TODO
 func (r *DatabaseRepository) UpdateOrder(id int) {
 
 }

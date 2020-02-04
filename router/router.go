@@ -16,5 +16,7 @@ func RegisterRoutes(core *controllers.Datacaixa) {
 	core.Router.HandleFunc("/api/orders", core.FetchOrders).Methods("GET")
 	core.Router.HandleFunc("/api/order/{id}/items", core.FetchOrderItems).Methods("GET")
 	core.Router.HandleFunc("/api/order", core.CreateNewOrder).Methods("PUT")
-	core.Router.HandleFunc("/api/order/item", core.CreateNewOrderItem).Methods("PUT")
+	core.Router.HandleFunc("/api/order/{orderId}/item", core.CreateNewOrderItem).Methods("PUT")
+	core.Router.HandleFunc("/api/order/{orderId}/item", core.UpdateOrderItem).Methods("POST")
+	core.Router.HandleFunc("/api/order/item/{id}", core.DeleteOrderItem).Methods("DELETE")
 }

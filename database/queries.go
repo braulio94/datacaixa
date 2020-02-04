@@ -85,6 +85,7 @@ var InsertOrderItem = `INSERT INTO TPEDIDOS_ITENS (
 								VALUES (%d, %d, %d, %v, %v, %v)
 					   			RETURNING ID_PEDIDO_ITEM, ID_PRODUTO;`
 
+var DeleteOrderItem = `DELETE FROM TPEDIDOS_ITENS WHERE ID_PEDIDO_ITEM = %d`
 var SelectTable = `SELECT * FROM TMESAS WHERE ID_MESA = %d;`
 var SelectTables = `SELECT * FROM TMESAS;`
 
