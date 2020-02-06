@@ -1,3 +1,5 @@
+import 'package:datacaixa/common/contants.dart' as c;
+
 class Order {
   int hotelId;
   int orderId;
@@ -29,6 +31,54 @@ class Order {
   String deliveryStatus;
   String deliveryDate;
   String deliveryTime;
+  String type;
 
+  Order();
 
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      c.hotelId: hotelId,
+      c.orderId: orderId,
+      c.pdvId: pdvId,
+      c.userId: userId,
+      c.tableId: tableId,
+      c.clientId: clientId,
+      c.employeeId: employeeId,
+      c.openingDate: openingDate,
+      c.closingDate: closingDate,
+      c.totalValue: totalAmount,
+      c.people: people,
+      c.status: status,
+      c.tableStatus: tableStatus,
+      c.comment: comment,
+      c.deliverer: delivererId,
+      c.deliveryStatus: deliveryStatus,
+      c.deliveryDate: deliveryDate,
+      c.deliveryTime: deliveryTime,
+      c.type: type,
+    };
+    return map;
+  }
+
+  Order.fromMap(Map<String, dynamic> map) {
+    hotelId = map[c.hotelId];
+    orderId = map[c.orderId];
+    pdvId = map[c.pdvId];
+    userId = map[c.userId];
+    tableId = map[c.tableId];
+    clientId = map[c.clientId];
+    employeeId = map[c.employeeId];
+    openingDate = map[c.openingDate];
+    closingDate = map[c.closingDate];
+    totalAmount = map[c.totalValue];
+    people = map[c.people];
+    status = map[c.status];
+    tableStatus = map[c.tableStatus];
+    comment = map[c.comment];
+    delivererId = map[c.deliverer];
+    deliveryStatus = map[c.deliveryStatus];
+    deliveryDate = map[c.deliveryDate];
+    deliveryTime = map[c.deliveryTime];
+    type = map[c.type];
+  }
 }
