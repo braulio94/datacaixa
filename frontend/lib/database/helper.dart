@@ -1,4 +1,4 @@
-abstract class DataSourceHelper {
+abstract class DataStoreHelper {
   void create();
   void connect();
   void disconnect();

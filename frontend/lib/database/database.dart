@@ -4,7 +4,7 @@ import 'package:datacaixa/database/helper.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DataSource implements DataSourceHelper {
+class DataStore implements DataStoreHelper {
   Database db;
   String dbName = 'datacaixa.db';
 
@@ -33,7 +33,7 @@ class DataSource implements DataSourceHelper {
 
   @override
   void preload() async {
-    await db.execute("CREATE TABLE TPRODUTOS ($productId INTEGER, $description TEXT)");
+
   }
 
   @override
