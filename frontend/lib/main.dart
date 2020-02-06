@@ -1,4 +1,5 @@
 import 'package:datacaixa/database/database.dart';
+import 'package:datacaixa/database/helper.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -25,18 +26,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   DataStore store;
+
   @override
   void initState() {
     super.initState();
     store = DataStore();
-    print("IS DATABASE OPEN? ${store.db.isOpen}");
-
+    _initialiseDatabase();
   }
 
-  @override
-  void dispose() {
-    store.disconnect();
-    super.dispose();
+  _initialiseDatabase() async {
+    var db = await store.connect();
+    print("IS DATABASE OPEN? ${db.isOpen}");
   }
 
   void _incrementCounter() {
@@ -60,9 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              // Provide a Key to this specific Text widget. This allows
-              // identifing the widget from inside the test suite,
-              // and reading the text.
               key: Key('counter'),
               style: Theme.of(context).textTheme.display1,
             ),
@@ -70,8 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        // Provide a Key to this button. This allows finding this
-        // specific button inside the test suite, and tapping it.
         key: Key('increment'),
         onPressed: _incrementCounter,
         tooltip: 'Increment',
