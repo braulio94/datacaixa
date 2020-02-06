@@ -9,9 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  moor: 2.3.0
-  moor_flutter: 2.1.0
-  moor_ffi: 0.4.0
   path_provider: 1.6.0
   path: 1.6.4
   cupertino_icons: ^0.1.2
@@ -22,7 +19,6 @@ dev_dependencies:
   flutter_driver:
     sdk: flutter
   test: any
-  moor_generator: 2.3.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

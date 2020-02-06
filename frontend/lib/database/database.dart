@@ -12,6 +12,7 @@ class DataStore implements DataStoreHelper {
   @override
   void create(Database database, int version) async {
     storeHelper.createProductTable(database);
+    storeHelper.createTablesTable(database);
   }
 
   @override
@@ -21,7 +22,6 @@ class DataStore implements DataStoreHelper {
 
     try {
       await Directory(databasesPath).create(recursive: true);
-      connect(path);
     } catch (_) {}
     db = await openDatabase(path, onCreate: create);
   }
@@ -38,6 +38,6 @@ class DataStore implements DataStoreHelper {
 
   @override
   void disconnect() async {
-    db = await openDatabase(dbName);
+    db.close();
   }
 }
