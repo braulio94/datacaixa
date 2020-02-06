@@ -20,7 +20,7 @@ class ProductDao implements DaoHelper{
   }
 
   @override
-  Future get() {
+  Future get(int id) {
     return null;
   }
 

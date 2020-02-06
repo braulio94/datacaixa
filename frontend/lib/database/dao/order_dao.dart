@@ -1,5 +1,6 @@
 import 'package:datacaixa/common/contants.dart';
 import 'package:datacaixa/database/dao/dao_helper.dart';
+import 'package:datacaixa/models/order.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class OrderDao implements DaoHelper {
@@ -33,9 +34,34 @@ class OrderDao implements DaoHelper {
   }
 
   @override
-  Future get() {
-    // TODO: implement get
-    throw UnimplementedError();
+  Future get(int id) async {
+    List<Map> maps = await db.query(orderTable,
+        columns: [
+          hotelId,
+          orderId,
+          pdvId,
+          userId,
+          tableId,
+          clientId,
+          employeeId,
+          openingDate,
+          closingDate,
+          totalValue,
+          people,
+          status,
+          tableStatus,
+          comment,
+          deliverer,
+          deliveryStatus,
+          deliveryDate,
+          deliveryTime,
+          type
+        ],
+        where: '$orderId = ?',
+        whereArgs: [id]);
+    if (maps.length > 0) {
+      return Order.fromMap(maps.first);
+    }
   }
 
   @override
@@ -45,23 +71,32 @@ class OrderDao implements DaoHelper {
   }
 
   @override
-  void insert(item) {
-    // TODO: implement insert
+  void insert(item) async {
+    if(item is Order){
+      await db.insert(orderTable, item.toMap());
+    }
   }
 
   @override
   void insertAll(List items) {
-    // TODO: implement insertAll
+    if(items is List<Order>){
+      for(Order item in items){
+        insert(item);
+      }
+    }
   }
 
   @override
-  void update(item) {
-    // TODO: implement update
+  void update(item) async {
+    if(item is Order){
+      await db.update(orderTable, item.toMap(),
+          where: '$orderId = ?', whereArgs: [item.orderId]);
+    }
   }
 
   @override
-  void delete(item) {
-    // TODO: implement delete
+  void delete(int id) async {
+    await db.delete(orderTable,
+        where: '$orderId = ?', whereArgs: [id]);
   }
-
 }
