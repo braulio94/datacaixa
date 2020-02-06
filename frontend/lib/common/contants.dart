@@ -6,7 +6,6 @@ final String code = 'CODIGO';
 final String cfopId = 'ID_CFOP';
 final String barCode = 'CODIGO_BARRAS';
 final String comment = 'OBSERVACAO';
-
 final String description = 'DESCRICAO';
 final String price = 'PRECO';
 

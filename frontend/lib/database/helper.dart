@@ -1,6 +1,8 @@
+import 'package:sqflite/sqflite.dart';
+
 abstract class DataStoreHelper {
-  void create();
-  void connect();
+  void create(Database db, int version);
+  void connect(String path);
   void disconnect();
   void configure();
   void preload();

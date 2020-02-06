@@ -1,5 +1,5 @@
-import 'package:datacaixa/database/database.dart';
+import 'package:sqflite/sqflite.dart';
 
 abstract class StoreQueriesHelper {
-  void createProductTable();
+  void createProductTable(Database db);
 }
