@@ -1,6 +1,16 @@
+import 'package:datacaixa/database/database.dart';
+import 'package:datacaixa/database/helper.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  //DataStore store = DataStoreHelper();
+  //var db = await store.connect();
+  //print("IS DATABASE OPEN? ${db.isOpen}");
+
+  runApp(
+      MyApp()
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -23,6 +33,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  DataStore store;
+
+  @override
+  void initState() {
+    super.initState();
+    store = DataStore();
+    _initialiseDatabase();
+  }
+
+  _initialiseDatabase() async {
+    var db = await store.connect();
+    print("IS DATABASE OPEN? ${db.isOpen}");
+  }
 
   void _incrementCounter() {
     setState(() {

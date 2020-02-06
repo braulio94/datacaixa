@@ -1,13 +1,15 @@
 import 'dart:io';
 import 'package:datacaixa/database/helper.dart';
 import 'package:datacaixa/database/store_queries.dart';
+import 'package:datacaixa/database/store_queries_helper.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DataStore implements DataStoreHelper {
   Database db;
   String dbName = 'datacaixa.db';
-  StoreQueries storeHelper = StoreQueries();
+  StoreQueriesHelper storeHelper = StoreQueries();
+  String path;
 
   @override
   void create(Database database, int version) async {
@@ -15,19 +17,21 @@ class DataStore implements DataStoreHelper {
   }
 
   @override
-  void connect(String path) async {
+  Future<Database> connect() async {
     var databasesPath = await getDatabasesPath();
-    var path = join(databasesPath, dbName);
-
+    path = join(databasesPath, dbName);
+    delete();
     try {
       await Directory(databasesPath).create(recursive: true);
-      connect(path);
-    } catch (_) {}
-    db = await openDatabase(path, onCreate: create);
+      db = await openDatabase(path, version: 1, onCreate: create);
+    } catch (_) {
+      print("ERROR CONNECTING TO DATABASE");
+    }
+    return db;
   }
 
   @override
-  void configure() {
+  void configure() async {
 
   }
 
@@ -38,6 +42,11 @@ class DataStore implements DataStoreHelper {
 
   @override
   void disconnect() async {
-    db = await openDatabase(dbName);
+    db.close();
+  }
+
+  @override
+  void delete() async {
+    await deleteDatabase(path);
   }
 }
