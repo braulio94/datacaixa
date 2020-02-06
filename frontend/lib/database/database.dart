@@ -14,6 +14,7 @@ class DataStore implements DataStoreHelper {
   @override
   void create(Database database, int version) async {
     storeHelper.createProductTable(database);
+    storeHelper.createTablesTable(database);
   }
 
   @override
