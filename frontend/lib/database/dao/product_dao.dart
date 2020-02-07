@@ -7,7 +7,9 @@ class ProductDao implements DaoHelper{
 
   @override
   Database db;
-  ProductDao(this.db);
+  ProductDao(this.db){
+    createTable();
+  }
 
   @override
   void createTable() async {

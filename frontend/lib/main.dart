@@ -1,5 +1,7 @@
 import 'package:datacaixa/database/database.dart';
 import 'package:datacaixa/database/helper.dart';
+import 'package:datacaixa/database/dao/order_dao.dart';
+import 'package:datacaixa/models/order.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -37,6 +39,22 @@ class _MyHomePageState extends State<MyHomePage> {
   _initialiseDatabase() async {
     var db = await store.connect();
     print("IS DATABASE OPEN? ${db.isOpen}");
+    store.orderDao.insert(
+      Order.add(
+        hotelId: 1,
+        orderId: 1,
+        userId: 1,
+        clientId: 1,
+        tableId: 1,
+        employeeId: 1,
+        openingDate: '2020-02-07',
+        totalAmount: 2000.20,
+        people: 2,
+        status: 'Aberto',
+        tableStatus: 'Ocupada',
+        type: 'MESA',
+      )
+    );
   }
 
   void _incrementCounter() {

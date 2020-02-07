@@ -4,32 +4,36 @@ import 'package:datacaixa/models/order.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class OrderDao implements DaoHelper {
-  @override
   Database db;
+  OrderDao(Database database){
+    this.db = database;
+    print("DATABASE $db");
+    createTable();
+  }
 
   @override
   void createTable() async {
     await db.execute(
-      '''CREATE TABLE $orderTable 
-            ($hotelId INTEGER, 
-            $orderId INTEGER, 
-            $pdvId INTEGER, 
-            $userId INTEGER, 
-            $tableId INTEGER, 
-            $clientId INTEGER, 
-            $employeeId INTEGER, 
-            $openingDate TEXT, 
-            $closingDate TEXT, 
-            $totalValue REAL, 
-            $people INTEGER, 
-            $status TEXT, 
-            $tableStatus TEXT, 
-            $comment TEXT, 
-            $deliverer INTEGER, 
-            $deliveryStatus TEXT, 
-            $deliveryDate TEXT, 
-            $deliveryTime TEXT, 
-            $type TEXT)'''
+      "CREATE TABLE $orderTable "
+            "($hotelId INTEGER, "
+            "$orderId INTEGER, "
+            "$pdvId INTEGER, "
+            "$userId INTEGER, "
+            "$tableId INTEGER, "
+            "$clientId INTEGER, "
+            "$employeeId INTEGER, "
+            "$openingDate TEXT, "
+            "$closingDate TEXT, "
+            "$totalValue REAL, "
+            "$people INTEGER, "
+            "$status TEXT, "
+            "$tableStatus TEXT, "
+            "$comment TEXT, "
+            "$deliverer INTEGER, "
+            "$deliveryStatus TEXT, "
+            "$deliveryDate TEXT, "
+            "$deliveryTime TEXT, "
+            "$type TEXT) "
     );
   }
 

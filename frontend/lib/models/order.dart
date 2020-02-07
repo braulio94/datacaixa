@@ -60,6 +60,15 @@ class Order {
     return map;
   }
 
+
+  Order.add({this.hotelId, this.orderId, this.pdvId, this.userId, this.chargeId,
+      this.tableId, this.clientId, this.accommodationId, this.roomId,
+      this.accountTypeId, this.employeeId, this.openingDate, this.closingDate,
+      this.totalAmount, this.serviceTax, this.generalTotalAmount, this.people,
+      this.status, this.tableStatus, this.discountValue, this.accrualValue,
+      this.comment, this.discount, this.accrual, this.delivererId,
+      this.deliveryStatus, this.deliveryDate, this.deliveryTime, this.type});
+
   Order.fromMap(Map<String, dynamic> map) {
     hotelId = map[c.hotelId];
     orderId = map[c.orderId];
