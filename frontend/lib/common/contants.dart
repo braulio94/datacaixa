@@ -8,6 +8,7 @@ final String productGroupTable = 'TGRUPO_PRODUTOS';
 final String userTable = 'TUSUARIOS';
 
 //TABLE ATTRIBUTES
+final String identifier = 'ID';
 final String hotelId = 'ID_HOTEL';
 final String orderId = 'ID_PEDIDO';
 final String orderItemId = 'ID_PEDIDO_ITEM';

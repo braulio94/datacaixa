@@ -57,7 +57,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _incrementCounter() {
+  void _incrementCounter() async {
+    var order = await store.orderDao.get(1);
+    print("ORDER $order}");
     setState(() {
       _counter++;
     });

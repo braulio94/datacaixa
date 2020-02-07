@@ -14,9 +14,7 @@ class DataStore implements DataStoreHelper {
   String dbName = 'datacaixa.db';
   StoreQueriesHelper storeHelper = StoreQueries();
   String path;
-  DaoHelper orderDao;
-
-
+  OrderDao orderDao;
 
   @override
   void create(Database database, int version) async {

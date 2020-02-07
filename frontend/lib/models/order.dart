@@ -1,6 +1,7 @@
 import 'package:datacaixa/common/contants.dart' as c;
 
 class Order {
+  int identifier;
   int hotelId;
   int orderId;
   int pdvId;
@@ -37,6 +38,7 @@ class Order {
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
+      c.identifier: identifier,
       c.hotelId: hotelId,
       c.orderId: orderId,
       c.pdvId: pdvId,
@@ -61,7 +63,7 @@ class Order {
   }
 
 
-  Order.add({this.hotelId, this.orderId, this.pdvId, this.userId, this.chargeId,
+  Order.add({this.identifier, this.hotelId, this.orderId, this.pdvId, this.userId, this.chargeId,
       this.tableId, this.clientId, this.accommodationId, this.roomId,
       this.accountTypeId, this.employeeId, this.openingDate, this.closingDate,
       this.totalAmount, this.serviceTax, this.generalTotalAmount, this.people,
@@ -70,6 +72,7 @@ class Order {
       this.deliveryStatus, this.deliveryDate, this.deliveryTime, this.type});
 
   Order.fromMap(Map<String, dynamic> map) {
+    identifier = map[c.identifier];
     hotelId = map[c.hotelId];
     orderId = map[c.orderId];
     pdvId = map[c.pdvId];

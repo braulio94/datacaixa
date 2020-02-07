@@ -13,9 +13,11 @@ class OrderDao implements DaoHelper {
 
   @override
   void createTable() async {
+    print("CREATEING ORDER TABLE");
     await db.execute(
       "CREATE TABLE $orderTable "
-            "($hotelId INTEGER, "
+            "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "$hotelId INTEGER, "
             "$orderId INTEGER, "
             "$pdvId INTEGER, "
             "$userId INTEGER, "
@@ -41,6 +43,7 @@ class OrderDao implements DaoHelper {
   Future get(int id) async {
     List<Map> maps = await db.query(orderTable,
         columns: [
+          identifier,
           hotelId,
           orderId,
           pdvId,
@@ -64,8 +67,10 @@ class OrderDao implements DaoHelper {
         where: '$orderId = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
+      print("MAP IS HIGHER THAN 0");
       return Order.fromMap(maps.first);
     }
+    print("MAP IS HIGHER THAN $maps");
   }
 
   @override
@@ -77,7 +82,8 @@ class OrderDao implements DaoHelper {
   @override
   void insert(item) async {
     if(item is Order){
-      await db.insert(orderTable, item.toMap());
+      item.identifier = await db.insert(orderTable, item.toMap());
+      print("INSERTING ORDER ITEM  ${item.identifier}");
     }
   }
 
@@ -94,13 +100,13 @@ class OrderDao implements DaoHelper {
   void update(item) async {
     if(item is Order){
       await db.update(orderTable, item.toMap(),
-          where: '$orderId = ?', whereArgs: [item.orderId]);
+          where: '$identifier = ?', whereArgs: [item.identifier]);
     }
   }
 
   @override
   void delete(int id) async {
     await db.delete(orderTable,
-        where: '$orderId = ?', whereArgs: [id]);
+        where: '$identifier = ?', whereArgs: [id]);
   }
 }
