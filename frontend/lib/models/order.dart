@@ -94,8 +94,8 @@ class Order {
     type = map[c.type];
   }
 
-  List<String> columns(){
-    return [
+  List<String> get columns => [
+      c.identifier,
       c.hotelId,
       c.orderId,
       c.pdvId,
@@ -116,5 +116,9 @@ class Order {
       c.deliveryTime,
       c.type
     ];
+
+  @override
+  String toString() {
+    return 'Order{identifier: $identifier, hotelId: $hotelId, orderId: $orderId, pdvId: $pdvId, userId: $userId, chargeId: $chargeId, tableId: $tableId, clientId: $clientId, accommodationId: $accommodationId, roomId: $roomId, accountTypeId: $accountTypeId, employeeId: $employeeId, openingDate: $openingDate, closingDate: $closingDate, totalAmount: $totalAmount, serviceTax: $serviceTax, generalTotalAmount: $generalTotalAmount, people: $people, status: $status, tableStatus: $tableStatus, discountValue: $discountValue, accrualValue: $accrualValue, comment: $comment, discount: $discount, accrual: $accrual, delivererId: $delivererId, deliveryStatus: $deliveryStatus, deliveryDate: $deliveryDate, deliveryTime: $deliveryTime, type: $type}';
   }
 }

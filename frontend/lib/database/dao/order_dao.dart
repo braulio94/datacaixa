@@ -13,7 +13,6 @@ class OrderDao implements DaoHelper {
 
   @override
   void createTable() async {
-    print("CREATEING ORDER TABLE");
     await db.execute(
       "CREATE TABLE $orderTable "
             "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -64,13 +63,12 @@ class OrderDao implements DaoHelper {
           deliveryTime,
           type
         ],
-        where: '$orderId = ?',
+        where: '$identifier = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
       print("MAP IS HIGHER THAN 0");
       return Order.fromMap(maps.first);
     }
-    print("MAP IS HIGHER THAN $maps");
   }
 
   @override

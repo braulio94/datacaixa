@@ -42,12 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
     store.orderDao.insert(
       Order.add(
         hotelId: 1,
-        orderId: 1,
+        orderId: 12,
         userId: 1,
         clientId: 1,
         tableId: 1,
         employeeId: 1,
-        openingDate: '2020-02-07',
+        openingDate: '2019-02-10',
         totalAmount: 2000.20,
         people: 2,
         status: 'Aberto',
@@ -58,8 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _incrementCounter() async {
-    var order = await store.orderDao.get(1);
-    print("ORDER $order}");
+    Order order = await store.orderDao.get(4);
+    print("ORDER ${order.toString()}");
     setState(() {
       _counter++;
     });
