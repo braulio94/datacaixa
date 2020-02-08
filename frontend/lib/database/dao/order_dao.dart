@@ -34,6 +34,7 @@ class OrderDao implements DaoHelper {
             "$deliveryTime TEXT, "
             "$type TEXT) "
     );
+    print("CREATE ORDER TABLE");
   }
 
   @override

@@ -20,6 +20,7 @@ class ProductDao implements DaoHelper{
             "$price REAL, "
             "$sales INTEGER)"
     );
+    print("CREATED PRODUCT TABLE");
   }
 
   @override

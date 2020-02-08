@@ -14,10 +14,11 @@ class DataStore implements DataStoreHelper {
   StoreQueriesHelper storeHelper = StoreQueries();
   String path;
   OrderDao orderDao;
+  DaoHelper daoHelper;
 
   @override
   void create(Database database, int version) async {
-    orderDao.createTable(database);
+    daoHelper.createTable(database);
   }
 
   @override
@@ -35,7 +36,9 @@ class DataStore implements DataStoreHelper {
 
   @override
   void createDaos() async {
-    orderDao = OrderDao(db);
+    daoHelper = OrderDao(db);
+    daoHelper = ProductDao(db);
+
   }
 
   @override
