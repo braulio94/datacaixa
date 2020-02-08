@@ -48,4 +48,7 @@ final String vip = 'VIP';
 final String honeyMoon = 'LUA_MEL';
 final String pdv = 'PDV';
 final String seats = 'LUGARES';
+final String sequence = 'SEQUENCIA';
+final String quantity = 'QUANTIDADE';
+final String unitValue = 'VALOR_UNITARIO';
 
