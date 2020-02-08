@@ -40,7 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
   _initialiseDatabase() async {
     db = await store.connect();
     print("IS DATABASE OPEN? ${db.isOpen}");
-
   }
 
   void _incrementCounter() async {

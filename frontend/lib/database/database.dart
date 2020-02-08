@@ -35,7 +35,7 @@ class DataStore implements DataStoreHelper {
   }
 
   @override
-  void createDaos() async {
+  void createDaos() {
     daoHelper = OrderDao(db);
     daoHelper = ProductDao(db);
 

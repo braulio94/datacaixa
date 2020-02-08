@@ -33,6 +33,7 @@ final String deliveryTime = 'HORA_ENTREGA';
 final String deliveryDate = 'DATA_ENTREGA';
 final String type = 'TIPO';
 final String code = 'CODIGO';
+final String display = 'EXIBIR';
 final String cfopId = 'ID_CFOP';
 final String barCode = 'CODIGO_BARRAS';
 final String comment = 'OBSERVACAO';
