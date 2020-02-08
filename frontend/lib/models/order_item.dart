@@ -25,8 +25,6 @@ class OrderItem {
   double accrualValue;
 
   OrderItem();
-
-
   OrderItem.add({this.identifier, this.hotelId, this.orderItemId, this.orderId,
       this.productId, this.sequence, this.quantity, this.unitValue,
       this.totalValue});
