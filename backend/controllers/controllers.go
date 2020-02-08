@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"encoding/json"
-	"github.com/braulio94/datacaixa/model"
-	"github.com/braulio94/datacaixa/repository"
-	"github.com/braulio94/datacaixa/util"
+	"github.com/braulio94/datacaixa/backend/model"
+	"github.com/braulio94/datacaixa/backend/repository"
+	"github.com/braulio94/datacaixa/backend/util"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"

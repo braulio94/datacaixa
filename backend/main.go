@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/braulio94/datacaixa/controllers"
-	"github.com/braulio94/datacaixa/router"
+	"github.com/braulio94/datacaixa/backend/controllers"
+	"github.com/braulio94/datacaixa/backend/router"
 	"net/http"
 )
 

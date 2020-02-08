@@ -2,8 +2,8 @@ package repository
 
 import (
 	"database/sql"
-	"github.com/braulio94/datacaixa/database"
-	"github.com/braulio94/datacaixa/model"
+	"github.com/braulio94/datacaixa/backend/database"
+	"github.com/braulio94/datacaixa/backend/model"
 )
 
 type Repository interface {

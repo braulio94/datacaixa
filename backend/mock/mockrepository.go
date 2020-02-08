@@ -1,6 +1,6 @@
 package mock
 
-import "github.com/braulio94/datacaixa/model"
+import "github.com/braulio94/datacaixa/backend/model"
 
 func GetOrder() model.Order {
 	return model.Order{

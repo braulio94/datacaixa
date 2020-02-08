@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/braulio94/datacaixa/controllers"
+	"github.com/braulio94/datacaixa/backend/controllers"
 )
 
 func RegisterRoutes(core *controllers.Datacaixa) {

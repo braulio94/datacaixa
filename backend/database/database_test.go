@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/braulio94/datacaixa/repository"
+	"github.com/braulio94/datacaixa/backend/repository"
 	"testing"
 )
 

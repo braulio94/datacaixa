@@ -2,8 +2,8 @@ package repository
 
 import (
 	"fmt"
-	"github.com/braulio94/datacaixa/database"
-	"github.com/braulio94/datacaixa/model"
+	"github.com/braulio94/datacaixa/backend/database"
+	"github.com/braulio94/datacaixa/backend/model"
 )
 
 func (r *DatabaseRepository) GetTable(tableId int) (table model.Table) {
