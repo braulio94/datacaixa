@@ -7,13 +7,11 @@ class OrderDao implements DaoHelper {
   Database db;
   OrderDao(Database database){
     this.db = database;
-    print("DATABASE $db");
-    createTable();
   }
 
   @override
-  void createTable() async {
-    await db.execute(
+  void createTable(Database database) async {
+    await database.execute(
       "CREATE TABLE $orderTable "
             "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
             "$hotelId INTEGER, "
@@ -39,49 +37,77 @@ class OrderDao implements DaoHelper {
   }
 
   @override
-  Future get(int id) async {
-    List<Map> maps = await db.query(orderTable,
-        columns: [
-          identifier,
-          hotelId,
-          orderId,
-          pdvId,
-          userId,
-          tableId,
-          clientId,
-          employeeId,
-          openingDate,
-          closingDate,
-          totalValue,
-          people,
-          status,
-          tableStatus,
-          comment,
-          deliverer,
-          deliveryStatus,
-          deliveryDate,
-          deliveryTime,
-          type
-        ],
-        where: '$identifier = ?',
-        whereArgs: [id]);
-    if (maps.length > 0) {
-      print("MAP IS HIGHER THAN 0");
-      return Order.fromMap(maps.first);
+  Future get(id, table) async {
+    if(table == DatabaseTable.Order){
+      List<Map> maps = await db.query(orderTable,
+          columns: [
+            identifier,
+            hotelId,
+            orderId,
+            pdvId,
+            userId,
+            tableId,
+            clientId,
+            employeeId,
+            openingDate,
+            closingDate,
+            totalValue,
+            people,
+            status,
+            tableStatus,
+            comment,
+            deliverer,
+            deliveryStatus,
+            deliveryDate,
+            deliveryTime,
+            type
+          ],
+          where: '$identifier = ?',
+          whereArgs: [id]);
+      if (maps.length > 0) {
+        print("MAP IS HIGHER THAN 0");
+        return Order.fromMap(maps.first);
+      }
     }
   }
 
   @override
-  Future<List> getAll() {
-    // TODO: implement getAll
-    throw UnimplementedError();
+  Future<List> getAll(table) async {
+    if(table == DatabaseTable.Order){
+      List<Map> maps = await db.query(orderTable,
+          columns: [
+            identifier,
+            hotelId,
+            orderId,
+            pdvId,
+            userId,
+            tableId,
+            clientId,
+            employeeId,
+            openingDate,
+            closingDate,
+            totalValue,
+            people,
+            status,
+            tableStatus,
+            comment,
+            deliverer,
+            deliveryStatus,
+            deliveryDate,
+            deliveryTime,
+            type
+          ]);
+      if (maps.length > 0) {
+        return maps.map((map) => Order.fromMap(map)).toList();
+      }
+    }
+    return [];
   }
 
   @override
   void insert(item) async {
     if(item is Order){
       item.identifier = await db.insert(orderTable, item.toMap());
-      print("INSERTING ORDER ITEM  ${item.identifier}");
     }
   }
 
@@ -103,8 +129,10 @@ class OrderDao implements DaoHelper {
   }
 
   @override
-  void delete(int id) async {
-    await db.delete(orderTable,
-        where: '$identifier = ?', whereArgs: [id]);
+  void delete(item) async {
+    if(item is Order){
+      await db.delete(orderTable,
+          where: '$identifier = ?', whereArgs: [item.identifier]);
+    }
   }
 }
