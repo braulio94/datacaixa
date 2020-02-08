@@ -38,7 +38,6 @@ class Order {
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      c.identifier: identifier,
       c.hotelId: hotelId,
       c.orderId: orderId,
       c.pdvId: pdvId,
@@ -59,6 +58,9 @@ class Order {
       c.deliveryTime: deliveryTime,
       c.type: type,
     };
+    if(identifier != null){
+      map[c.identifier] = identifier;
+    }
     return map;
   }
 
@@ -93,29 +95,6 @@ class Order {
     deliveryTime = map[c.deliveryTime];
     type = map[c.type];
   }
-
-  List<String> get columns => [
-      c.identifier,
-      c.hotelId,
-      c.orderId,
-      c.pdvId,
-      c.userId,
-      c.tableId,
-      c.clientId,
-      c.employeeId,
-      c.openingDate,
-      c.closingDate,
-      c.totalValue,
-      c.people,
-      c.status,
-      c.tableStatus,
-      c.comment,
-      c.deliverer,
-      c.deliveryStatus,
-      c.deliveryDate,
-      c.deliveryTime,
-      c.type
-    ];
 
   @override
   String toString() {

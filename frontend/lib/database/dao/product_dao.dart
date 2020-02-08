@@ -5,53 +5,79 @@ import 'package:sqflite/sqlite_api.dart';
 
 class ProductDao implements DaoHelper{
 
-  @override
   Database db;
-  ProductDao(this.db){
-    createTable();
-  }
+  ProductDao(this.db);
 
   @override
-  void createTable() async {
-    await db.execute(
+  void createTable(Database database) async {
+    await database.execute(
         "CREATE TABLE $productsTable "
-            "($productId INTEGER, "
+            "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "$productId INTEGER, "
+            "$productGroupId INTEGER, "
+            "$description TEXT, "
+            "$createdAt TEXT, "
             "$price REAL, "
-            "$description TEXT)"
+            "$sales INTEGER)"
     );
   }
 
   @override
-  Future get(int id) {
-    return null;
+  Future get(int id, table) async {
+    if(table == DatabaseTable.Product){
+      List<Map> maps = await db.query(productsTable,
+          columns: [identifier, productId, productGroupId, description, createdAt, price, sales],
+          where: '$identifier = ?',
+          whereArgs: [id]
+      );
+      if(maps.length > 0)
+        return Product.fromMap(maps.first);
+    }
+    return Product();
   }
 
   @override
-  Future<List> getAll() {
-    // TODO: implement getAll
-    throw UnimplementedError();
+  Future<List> getAll(table) async {
+    if(table == DatabaseTable.Product){
+      List<Map> maps = await db.query(productsTable,
+          columns: [identifier, productId, productGroupId, description, createdAt, price, sales]
+      );
+      if(maps.length > 0) {
+        return maps.map((map) => Product.fromMap(map)).toList();
+      }
+    }
+    return [];
   }
 
   @override
-  void insert(item) {
-    Product product = item;
-
-  }
-
-  @override
-  void insertAll(List items) {
-    // TODO: implement insertAll
-  }
-
-  @override
-  void update(item) {
+  void insert(item) async {
     if(item is Product){
-
+      item.identifier = await db.insert(productsTable, item.toMap());
     }
   }
 
   @override
-  void delete(item) {
-    // TODO: implement delete
+  void insertAll(List items) {
+    if(items is List<Product>){
+      for(Product item in items){
+        insert(item);
+      }
+    }
+  }
+
+  @override
+  void update(item) async {
+    if(item is Product){
+      await db.update(productsTable, item.toMap(),
+          where: '$identifier = ?', whereArgs: [item.identifier]);
+    }
+  }
+
+  @override
+  void delete(item) async {
+    if(item is Product){
+      await db.delete(productsTable,
+          where: '$identifier = ?', whereArgs: [item.identifier]);
+    }
   }
 }

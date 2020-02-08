@@ -1,8 +1,8 @@
 import 'package:datacaixa/database/database.dart';
-import 'package:datacaixa/database/helper.dart';
 import 'package:datacaixa/database/dao/order_dao.dart';
 import 'package:datacaixa/models/order.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,6 +28,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   DataStore store;
+  Database db;
 
   @override
   void initState() {
@@ -37,32 +38,39 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _initialiseDatabase() async {
-    var db = await store.connect();
+    db = await store.connect();
     print("IS DATABASE OPEN? ${db.isOpen}");
-    store.orderDao.insert(
-      Order.add(
-        hotelId: 1,
-        orderId: 12,
-        userId: 1,
-        clientId: 1,
-        tableId: 1,
-        employeeId: 1,
-        openingDate: '2019-02-10',
-        totalAmount: 2000.20,
-        people: 2,
-        status: 'Aberto',
-        tableStatus: 'Ocupada',
-        type: 'MESA',
-      )
-    );
+
   }
 
   void _incrementCounter() async {
-    Order order = await store.orderDao.get(4);
-    print("ORDER ${order.toString()}");
+    store.orderDao.insert(
+        Order.add(
+          hotelId: 1,
+          orderId: 12,
+          userId: 1,
+          clientId: 1,
+          tableId: 1,
+          employeeId: 1,
+          openingDate: '2019-02-10',
+          totalAmount: 2000.20,
+          people: 2,
+          status: 'Aberto',
+          tableStatus: 'Ocupada',
+          type: 'MESA',
+        )
+    );
+    //Order order = await store.orderDao.get(10);
+    //print("ORDER ${order.toString()}");
     setState(() {
       _counter++;
     });
+  }
+
+  @override
+  void dispose() {
+    store.disconnect();
+    super.dispose();
   }
 
   @override
