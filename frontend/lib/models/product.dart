@@ -1,4 +1,7 @@
+import 'package:datacaixa/common/contants.dart' as c;
+
 class Product {
+  int identifier;
   int hotelId;
   int productId;
   int userId;
@@ -33,6 +36,38 @@ class Product {
   String alcohol;
   String spotlight;
 
+  Product();
 
+  Product.add({this.productId, this.productGroupId, this.description, this.createdAt,
+      this.price, this.sales});
 
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      c.productId: productId,
+      c.productGroupId: productGroupId,
+      c.description: description,
+      c.createdAt: createdAt,
+      c.price: price,
+      c.sales: sales,
+    };
+    if(identifier != null){
+      map[c.identifier] = identifier;
+    }
+    return map;
+  }
+
+  Product.fromMap(Map<String, dynamic> map){
+    identifier = map[c.identifier];
+    productId = map[c.productId];
+    productGroupId = map[c.productGroupId];
+    description = map[c.description];
+    createdAt = map[c.createdAt];
+    price = map[c.price];
+    sales = map[c.sales];
+  }
+
+  @override
+  String toString() {
+    return 'Product{identifier: $identifier, productId: $productId, productGroupId: $productGroupId, description: $description, createdAt: $createdAt, price: $price, sales: $sales}';
+  }
 }
