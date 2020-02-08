@@ -8,6 +8,10 @@ class ProductDao implements DaoHelper{
   Database db;
   ProductDao(this.db);
 
+  ProductDao.createTable(Database database){
+    createTable(database);
+  }
+
   @override
   void createTable(Database database) async {
     await database.execute(

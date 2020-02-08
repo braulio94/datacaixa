@@ -7,6 +7,12 @@ class OrderDao implements DaoHelper {
   Database db;
   OrderDao(Database database){
     this.db = database;
+    print("orde constructor");
+  }
+
+
+  OrderDao.createTable(Database database){
+    createTable(database);
   }
 
   @override
