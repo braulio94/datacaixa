@@ -7,6 +7,10 @@ class UserDao implements DaoHelper {
   Database db;
   UserDao(this.db);
 
+  UserDao.createTable(Database database){
+    createTable(database);
+  }
+
   @override
   void createTable(Database database) async {
     await database.execute(

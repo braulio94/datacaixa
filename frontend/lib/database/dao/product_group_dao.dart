@@ -7,7 +7,6 @@ class ProductGroupDao implements DaoHelper {
   Database db;
   ProductGroupDao(this.db);
 
-
   ProductGroupDao.createTable(Database database){
     createTable(database);
   }

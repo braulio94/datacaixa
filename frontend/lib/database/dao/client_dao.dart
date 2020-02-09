@@ -7,6 +7,11 @@ class ClientDao implements DaoHelper {
   Database db;
   ClientDao(this.db);
 
+
+  ClientDao.createTable(Database database){
+    createTable(database);
+  }
+
   @override
   void createTable(Database database) async {
     await database.execute(

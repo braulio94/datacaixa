@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:datacaixa/database/dao/client_dao.dart';
 import 'package:datacaixa/database/dao/dao_helper.dart';
 import 'package:datacaixa/database/dao/order_dao.dart';
 import 'package:datacaixa/database/dao/order_item_dao.dart';
@@ -16,6 +17,7 @@ class DataStore implements DataStoreHelper {
   String dbName = 'datacaixa.db';
   StoreQueriesHelper storeHelper = StoreQueries();
   String path;
+  ClientDao clientDao;
   TableDao tableDao;
   OrderDao orderDao;
   ProductDao productDao;
@@ -29,6 +31,9 @@ class DataStore implements DataStoreHelper {
     OrderItemDao.createTable(database);
     ProductGroupDao.createTable(database);
     ProductDao.createTable(database);
+    TableDao.createTable(database);
+    ClientDao.createTable(database);
+    UserDao.createTable(database);
   }
 
   @override
@@ -52,6 +57,7 @@ class DataStore implements DataStoreHelper {
     orderItemDao = OrderItemDao(db);
     tableDao = TableDao(db);
     userDao = UserDao(db);
+    clientDao = ClientDao(db);
   }
 
   @override

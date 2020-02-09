@@ -7,7 +7,6 @@ class OrderItemDao implements DaoHelper {
   Database db;
   OrderItemDao(this.db);
 
-
   OrderItemDao.createTable(Database database){
     createTable(database);
   }

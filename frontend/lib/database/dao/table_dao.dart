@@ -7,6 +7,10 @@ class TableDao implements DaoHelper {
   Database db;
   TableDao(this.db);
 
+  TableDao.createTable(Database database){
+    createTable(database);
+  }
+
   @override
   void createTable(Database database) async {
     await database.execute(

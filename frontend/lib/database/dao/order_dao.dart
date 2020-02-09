@@ -10,7 +10,6 @@ class OrderDao implements DaoHelper {
     print("orde constructor");
   }
 
-
   OrderDao.createTable(Database database){
     createTable(database);
   }
