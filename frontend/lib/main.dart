@@ -1,6 +1,5 @@
 import 'package:datacaixa/database/dao/dao_helper.dart';
 import 'package:datacaixa/database/database.dart';
-import 'package:datacaixa/database/dao/order_dao.dart';
 import 'package:datacaixa/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -60,8 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
           type: 'MESA',
         )
     );
-    Order order = await store.orderDao.get(2, DatabaseTable.Order);
-    print("ORDER ${order.toString()}");
+    List<Order> order = await store.orderDao.getAll(DatabaseTable.Order);
+    print("ORDER ${order.toString}");
     setState(() {
       _counter++;
     });
