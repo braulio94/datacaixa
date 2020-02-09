@@ -1,0 +1,93 @@
+import 'package:datacaixa/common/contants.dart';
+import 'package:datacaixa/database/dao/dao_helper.dart';
+import 'package:datacaixa/models/client.dart';
+import 'package:sqflite/sqlite_api.dart';
+
+class ClientDao implements DaoHelper {
+  Database db;
+  ClientDao(this.db);
+
+  @override
+  void createTable(Database database) async {
+    await database.execute(
+        "CREATE TABLE $clientTable "
+            "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "$clientId INTEGER, "
+            "$name TEXT, "
+            "$phoneNumber TEXT, "
+            "$gender TEXT)"
+    );
+    print("CREATED CLIENT TABLE");
+  }
+
+  @override
+  Future get(int id, DatabaseTable table) async {
+    if(table == DatabaseTable.OrderItem){
+      List<Map> maps = await db.query(clientTable,
+          columns: [
+            identifier,
+            clientId,
+            name,
+            phoneNumber,
+            gender,
+          ],
+          where: '$identifier = ?',
+          whereArgs: [id]
+      );
+      if(maps.length > 0)
+        return Client.fromMap(maps.first);
+    }
+    return Client();
+  }
+
+  @override
+  Future<List> getAll(DatabaseTable table) async {
+    if(table == DatabaseTable.OrderItem){
+      List<Map> maps = await db.query(clientTable,
+        columns: [
+          identifier,
+          clientId,
+          name,
+          phoneNumber,
+          gender,
+        ],
+      );
+      if(maps.length > 0) {
+        return maps.map((map) => Client.fromMap(map)).toList();
+      }
+    }
+    return [];
+  }
+
+  @override
+  void insert(item) async {
+    if(item is Client){
+      item.identifier = await db.insert(clientTable, item.toMap());
+    }
+  }
+
+  @override
+  void insertAll(List items) async {
+    if(items is List<Client>){
+      for(Client item in items){
+        insert(item);
+      }
+    }
+  }
+
+  @override
+  void update(item) async {
+    if(item is Client){
+      await db.update(clientTable, item.toMap(),
+          where: '$identifier = ?', whereArgs: [item.identifier]);
+    }
+  }
+
+  @override
+  void delete(item) async {
+    if(item is Client){
+      await db.delete(clientTable,
+          where: '$identifier = ?', whereArgs: [item.identifier]);
+    }
+  }
+}
