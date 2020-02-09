@@ -20,7 +20,6 @@ class Table {
 
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{
-      c.identifier: identifier,
       c.hotelId: hotelId,
       c.pdvId: pdvId,
       c.tableId: tableId,
