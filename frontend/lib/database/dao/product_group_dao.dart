@@ -27,8 +27,7 @@ class ProductGroupDao implements DaoHelper {
   }
 
   @override
-  Future get(int id, DatabaseTable table) async {
-    if(table == DatabaseTable.ProductGroup){
+  Future get(int id) async {
       List<Map> maps = await db.query(productGroupTable,
           columns: [identifier, hotelId, productGroupId, description, display, code],
           where: '$identifier = ?',
@@ -36,19 +35,16 @@ class ProductGroupDao implements DaoHelper {
       );
       if(maps.length > 0)
         return ProductGroup.fromMap(maps.first);
-    }
   }
 
   @override
-  Future<List> getAll(DatabaseTable table) async {
-    if(table == DatabaseTable.ProductGroup){
+  Future<List> getAll() async {
       List<Map> maps = await db.query(productGroupTable,
         columns: [identifier, hotelId, productGroupId, description, display, code],
       );
       if(maps.length > 0) {
         return maps.map((map) => ProductGroup.fromMap(map)).toList();
       }
-    }
     return [];
   }
 

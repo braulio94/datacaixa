@@ -5,17 +5,7 @@ abstract class DaoHelper {
   void insert(dynamic item);
   void insertAll(List<dynamic> items);
   void update(dynamic item);
-  Future<dynamic> get(int id, DatabaseTable table);
-  Future<List<dynamic>> getAll(DatabaseTable table);
+  Future<dynamic> get(int id);
+  Future<List<dynamic>> getAll();
   void delete(dynamic item);
-}
-
-enum DatabaseTable {
-  Client,
-  Order,
-  OrderItem,
-  Product,
-  ProductGroup,
-  Table,
-  User
 }

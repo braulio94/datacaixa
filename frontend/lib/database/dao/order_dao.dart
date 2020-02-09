@@ -44,8 +44,7 @@ class OrderDao implements DaoHelper {
   }
 
   @override
-  Future get(id, table) async {
-    if(table == DatabaseTable.Order){
+  Future get(id) async {
       List<Map> maps = await db.query(orderTable,
           columns: [
             identifier,
@@ -75,12 +74,10 @@ class OrderDao implements DaoHelper {
         print("MAP IS HIGHER THAN 0");
         return Order.fromMap(maps.first);
       }
-    }
   }
 
   @override
-  Future<List> getAll(table) async {
-    if(table == DatabaseTable.Order){
+  Future<List> getAll() async {
       List<Map> maps = await db.query(orderTable,
           columns: [
             identifier,
@@ -107,7 +104,6 @@ class OrderDao implements DaoHelper {
       if (maps.length > 0) {
         return maps.map((map) => Order.fromMap(map)).toList();
       }
-    }
     return [];
   }
 

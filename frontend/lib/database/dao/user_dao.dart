@@ -23,8 +23,7 @@ class UserDao implements DaoHelper {
   }
 
   @override
-  Future get(int id, DatabaseTable table) async {
-    if(table == DatabaseTable.OrderItem){
+  Future get(int id) async {
       List<Map> maps = await db.query(userTable,
           columns: [
             identifier,
@@ -40,13 +39,10 @@ class UserDao implements DaoHelper {
       );
       if(maps.length > 0)
         return User.fromMap(maps.first);
-    }
-    return User();
   }
 
   @override
-  Future<List> getAll(DatabaseTable table) async {
-    if(table == DatabaseTable.OrderItem){
+  Future<List> getAll() async {
       List<Map> maps = await db.query(userTable,
         columns: [
           identifier,
@@ -61,7 +57,6 @@ class UserDao implements DaoHelper {
       if(maps.length > 0) {
         return maps.map((map) => User.fromMap(map)).toList();
       }
-    }
     return [];
   }
 

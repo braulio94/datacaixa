@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           type: 'MESA',
         )
     );
-    List<Order> order = await store.orderDao.getAll(DatabaseTable.Order);
+    List<Order> order = await store.orderDao.getAll();
     print("ORDER ${order.toString}");
     setState(() {
       _counter++;
