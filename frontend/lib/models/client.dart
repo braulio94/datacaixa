@@ -1,4 +1,7 @@
+import 'package:datacaixa/common/contants.dart' as c;
+
 class Client {
+  int identifier;
   int hotelId;
   int clientId;
   int groupId;
@@ -33,4 +36,38 @@ class Client {
   String syncCode;
   String creditTotal;
   String creditLimit;
+
+  Client();
+
+  Client.add({this.identifier, this.clientId, this.name, this.phoneNumber,
+      this.gender});
+
+  Map<String, dynamic> toMap(){
+    var map = <String, dynamic>{
+      c.identifier: identifier,
+      c.clientId: clientId,
+      c.name: name,
+      c.phoneNumber: phoneNumber,
+      c.gender: gender,
+    };
+    if(identifier != null){
+      map[c.identifier] = identifier;
+    }
+    return map;
+  }
+
+  Client.fromMap(Map<String, dynamic> map){
+    identifier = map[c.identifier];
+    clientId = map[c.clientId];
+    name = map[c.name];
+    phoneNumber = map[c.phoneNumber];
+    gender = map[c.gender];
+  }
+
+  @override
+  String toString() {
+    return 'Client{identifier: $identifier, clientId: $clientId, name: $name, phoneNumber: $phoneNumber}';
+  }
+
+
 }
