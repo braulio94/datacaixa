@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:datacaixa/database/dao/client_dao.dart';
-import 'package:datacaixa/database/dao/dao_helper.dart';
 import 'package:datacaixa/database/dao/order_dao.dart';
 import 'package:datacaixa/database/dao/order_item_dao.dart';
 import 'package:datacaixa/database/dao/product_group_dao.dart';

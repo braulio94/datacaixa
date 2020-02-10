@@ -1,5 +1,33 @@
 import 'package:datacaixa/common/contants.dart' as c;
 
+import 'dart:convert';
+
+import 'package:datacaixa/models/client.dart';
+
+Order orderFromJson(String str) => Order.fromJson(json.decode(str));
+
+String orderToJson(Order data) => json.encode(data.toJson());
+
+OrderList orderListFromJson(String str) => OrderList.fromJson(json.decode(str));
+
+String orderListToJson(OrderList data) => json.encode(data.toJson());
+
+class OrderList {
+  List<Order> orders;
+
+  OrderList({
+    this.orders,
+  });
+
+  factory OrderList.fromJson(Map<String, dynamic> json) => OrderList(
+    orders: List<Order>.from(json["pedidos"].map((x) => Order.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "pedidos": List<dynamic>.from(orders.map((x) => x.toJson())),
+  };
+}
+
 class Order {
   int identifier;
   int hotelId;
@@ -21,6 +49,7 @@ class Order {
   double serviceTax;
   double generalTotalAmount;
   int people;
+  Client client;
   String status;
   String tableStatus;
   String discountValue;
@@ -70,7 +99,7 @@ class Order {
       this.accountTypeId, this.employeeId, this.openingDate, this.closingDate,
       this.totalAmount, this.serviceTax, this.generalTotalAmount, this.people,
       this.status, this.tableStatus, this.discountValue, this.accrualValue,
-      this.comment, this.discount, this.accrual, this.delivererId,
+      this.comment, this.discount, this.accrual, this.delivererId, this.client,
       this.deliveryStatus, this.deliveryDate, this.deliveryTime, this.type});
 
   Order.fromMap(Map<String, dynamic> map) {
@@ -95,6 +124,28 @@ class Order {
     deliveryTime = map[c.deliveryTime];
     type = map[c.type];
   }
+
+  factory Order.fromJson(Map<String, dynamic> json) => Order.add(
+    orderId: json["id"],
+    userId: json["usuario"],
+    tableId: json["mesa"],
+    clientId: json["id_cliente"],
+    client: Client.fromJson(json["client"]),
+    openingDate: json["data_abertura"],
+    totalAmount: json["valor_total_geral"].toDouble(),
+    tableStatus: json["situacao_mesa"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": orderId,
+    "usuario": userId,
+    "mesa": tableId,
+    "id_cliente": clientId,
+    "client": client.toJson(),
+    "data_abertura": openingDate,
+    "valor_total_geral": totalAmount,
+    "situacao_mesa": tableStatus,
+  };
 
   @override
   String toString() {

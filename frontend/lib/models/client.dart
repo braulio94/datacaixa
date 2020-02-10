@@ -1,4 +1,29 @@
 import 'package:datacaixa/common/contants.dart' as c;
+import 'dart:convert';
+
+Client clientFromJson(String str) => Client.fromJson(json.decode(str));
+
+String clientToJson(Client data) => json.encode(data.toJson());
+
+ClientList orderListFromJson(String str) => ClientList.fromJson(json.decode(str));
+
+String orderListToJson(ClientList data) => json.encode(data.toJson());
+
+class ClientList {
+  List<ClientList> clients;
+
+  ClientList({
+    this.clients,
+  });
+
+  factory ClientList.fromJson(Map<String, dynamic> json) => ClientList(
+    clients: List<ClientList>.from(json["clientes"].map((x) => Client.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "clientes": List<dynamic>.from(clients.map((x) => x.toJson())),
+  };
+}
 
 class Client {
   int identifier;
@@ -40,7 +65,7 @@ class Client {
   Client();
 
   Client.add({this.identifier, this.clientId, this.name, this.phoneNumber,
-      this.gender});
+    this.gender, this.maritalStatus, this.registerDate, this.nationality});
 
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{
@@ -64,10 +89,26 @@ class Client {
     gender = map[c.gender];
   }
 
+  factory Client.fromJson(Map<String, dynamic> json) => Client.add(
+    clientId: json["id"],
+    name: json["nome"],
+    maritalStatus: json["estado_civil"],
+    registerDate: json["data_cadastro"],
+    nationality: json["nacionalidade"],
+    gender: json["sexo"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": clientId,
+    "nome": name,
+    "estado_civil": maritalStatus,
+    "data_cadastro": registerDate,
+    "nacionalidade": nationality,
+    "sexo": gender,
+  };
+
   @override
   String toString() {
     return 'Client{identifier: $identifier, clientId: $clientId, name: $name, phoneNumber: $phoneNumber}';
   }
-
-
 }
