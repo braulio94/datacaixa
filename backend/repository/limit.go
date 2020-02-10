@@ -1,6 +1,11 @@
 package repository
 
+var itemsPerPage = 10
+
 func PageLength(page int) (n, n2 int) {
-	//TODO add algorithm for ...
-	return 1, 10
+	start := (page - 1) * itemsPerPage
+    stop := start + itemsPerPage
+    start = start+1
+    
+    return start, stop
 }
