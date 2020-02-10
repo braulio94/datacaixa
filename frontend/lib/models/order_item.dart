@@ -1,4 +1,26 @@
 import 'package:datacaixa/common/contants.dart' as c;
+import 'dart:convert';
+import 'package:datacaixa/models/product.dart';
+
+OrderItemList orderItemListFromJson(String str) => OrderItemList.fromJson(json.decode(str));
+
+String orderItemListToJson(OrderItemList data) => json.encode(data.toJson());
+
+class OrderItemList {
+  List<OrderItem> orderItems;
+
+  OrderItemList({
+    this.orderItems,
+  });
+
+  factory OrderItemList.fromJson(Map<String, dynamic> json) => OrderItemList(
+    orderItems: List<OrderItem>.from(json["pedido_itens"].map((x) => OrderItem.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "pedido_itens": List<dynamic>.from(orderItems.map((x) => x.toJson())),
+  };
+}
 
 class OrderItem {
   int identifier;
@@ -6,7 +28,7 @@ class OrderItem {
   int orderItemId;
   int orderId;
   int productId;
-  //TODO add product
+  Product product;
   int userId;
   int sequence;
   String entryDateTime;
@@ -27,7 +49,7 @@ class OrderItem {
   OrderItem();
   OrderItem.add({this.identifier, this.hotelId, this.orderItemId, this.orderId,
       this.productId, this.sequence, this.quantity, this.unitValue,
-      this.totalValue});
+      this.totalValue, this.product});
 
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{
@@ -56,4 +78,24 @@ class OrderItem {
     unitValue = map[c.unitValue];
     totalValue = map[c.totalValue];
   }
+
+  factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem.add(
+    orderItemId: json["id"],
+    orderId: json["pedido"],
+    product: Product.fromJson(json["produto"]),
+    sequence: json["sequencia"],
+    quantity: json["quantidade"],
+    unitValue: json["valor_unitario"].toDouble(),
+    totalValue: json["valor_total"].toDouble(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": orderItemId,
+    "pedido": orderId,
+    "produto": product.toJson(),
+    "sequencia": sequence,
+    "quantidade": quantity,
+    "valor_unitario": unitValue,
+    "valor_total": totalValue,
+  };
 }

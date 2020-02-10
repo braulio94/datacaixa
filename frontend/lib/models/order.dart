@@ -3,6 +3,7 @@ import 'package:datacaixa/common/contants.dart' as c;
 import 'dart:convert';
 
 import 'package:datacaixa/models/client.dart';
+import 'package:datacaixa/models/order_item.dart';
 
 Order orderFromJson(String str) => Order.fromJson(json.decode(str));
 
@@ -37,8 +38,6 @@ class Order {
   int chargeId;
   int tableId;
   int clientId;
-  //TODO add client here
-  //TODO add order items here
   int accommodationId;
   int roomId;
   int accountTypeId;
@@ -62,6 +61,7 @@ class Order {
   String deliveryDate;
   String deliveryTime;
   String type;
+  List<OrderItem> orderItems;
 
   Order();
 
@@ -95,7 +95,7 @@ class Order {
 
 
   Order.add({this.identifier, this.hotelId, this.orderId, this.pdvId, this.userId, this.chargeId,
-      this.tableId, this.clientId, this.accommodationId, this.roomId,
+      this.tableId, this.clientId, this.accommodationId, this.roomId, this.orderItems,
       this.accountTypeId, this.employeeId, this.openingDate, this.closingDate,
       this.totalAmount, this.serviceTax, this.generalTotalAmount, this.people,
       this.status, this.tableStatus, this.discountValue, this.accrualValue,
