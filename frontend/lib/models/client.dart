@@ -4,27 +4,6 @@ import 'dart:convert';
 Client clientFromJson(String str) => Client.fromJson(json.decode(str));
 
 String clientToJson(Client data) => json.encode(data.toJson());
-
-ClientList orderListFromJson(String str) => ClientList.fromJson(json.decode(str));
-
-String orderListToJson(ClientList data) => json.encode(data.toJson());
-
-class ClientList {
-  List<ClientList> clients;
-
-  ClientList({
-    this.clients,
-  });
-
-  factory ClientList.fromJson(Map<String, dynamic> json) => ClientList(
-    clients: List<ClientList>.from(json["clientes"].map((x) => Client.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "clientes": List<dynamic>.from(clients.map((x) => x.toJson())),
-  };
-}
-
 class Client {
   int identifier;
   int hotelId;

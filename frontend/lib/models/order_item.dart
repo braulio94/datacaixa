@@ -2,25 +2,9 @@ import 'package:datacaixa/common/contants.dart' as c;
 import 'dart:convert';
 import 'package:datacaixa/models/product.dart';
 
-OrderItemList orderItemListFromJson(String str) => OrderItemList.fromJson(json.decode(str));
+OrderItem orderItemFromJson(String str) => OrderItem.fromJson(json.decode(str));
 
-String orderItemListToJson(OrderItemList data) => json.encode(data.toJson());
-
-class OrderItemList {
-  List<OrderItem> orderItems;
-
-  OrderItemList({
-    this.orderItems,
-  });
-
-  factory OrderItemList.fromJson(Map<String, dynamic> json) => OrderItemList(
-    orderItems: List<OrderItem>.from(json["pedido_itens"].map((x) => OrderItem.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "pedido_itens": List<dynamic>.from(orderItems.map((x) => x.toJson())),
-  };
-}
+String orderItemToJson(OrderItem data) => json.encode(data.toJson());
 
 class OrderItem {
   int identifier;
@@ -45,11 +29,12 @@ class OrderItem {
   double discountValue;
   double accrual;
   double accrualValue;
+  List<OrderItem> orderItems;
 
   OrderItem();
   OrderItem.add({this.identifier, this.hotelId, this.orderItemId, this.orderId,
       this.productId, this.sequence, this.quantity, this.unitValue,
-      this.totalValue, this.product});
+      this.totalValue, this.product, this.orderItems});
 
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{

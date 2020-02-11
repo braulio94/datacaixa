@@ -134,6 +134,7 @@ class Order {
     openingDate: json["data_abertura"],
     totalAmount: json["valor_total_geral"].toDouble(),
     tableStatus: json["situacao_mesa"],
+    orderItems: List<OrderItem>.from(json["pedido_itens"].map((x) => OrderItem.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -145,6 +146,7 @@ class Order {
     "data_abertura": openingDate,
     "valor_total_geral": totalAmount,
     "situacao_mesa": tableStatus,
+    "pedidos_itens": orderItems,
   };
 
   @override
