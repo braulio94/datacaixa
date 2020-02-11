@@ -4,6 +4,7 @@ import 'dart:convert';
 Client clientFromJson(String str) => Client.fromJson(json.decode(str));
 
 String clientToJson(Client data) => json.encode(data.toJson());
+
 class Client {
   int identifier;
   int hotelId;

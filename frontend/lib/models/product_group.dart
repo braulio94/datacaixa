@@ -1,4 +1,5 @@
 import 'package:datacaixa/common/contants.dart' as c;
+import 'package:datacaixa/models/product.dart';
 
 class ProductGroup {
   int identifier;
@@ -9,11 +10,12 @@ class ProductGroup {
   int code;
   String printer1;
   String printer2;
+  List<Product> products;
 
   ProductGroup();
 
-  ProductGroup.add(this.hotelId, this.productGroupId, this.description,
-      this.displayProduct, this.code);
+  ProductGroup.add({this.hotelId, this.productGroupId, this.description,
+      this.displayProduct, this.code, this.products});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic> {
@@ -37,6 +39,14 @@ class ProductGroup {
     displayProduct = map[c.display];
     code = map[c.display];
   }
+
+  factory ProductGroup.fromJson(Map<String, dynamic> json) => ProductGroup.add(
+    products: List<Product>.from(json["produtos"].map((x) => Product.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "produtos": List<dynamic>.from(products.map((x) => x.toJson())),
+  };
 
   @override
   String toString() {
