@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:datacaixa/common/api_routes.dart';
 import 'package:datacaixa/models/product.dart';
+import 'package:datacaixa/models/product_group.dart';
 import 'package:datacaixa/services/product_service.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
@@ -17,8 +19,8 @@ void main(){
   test('Product Group test', () async {
 
     ProductService productService = ProductService();
-    Response response = await productService.getProduct(408);
-    Product product = Product.fromJson(json.decode(response.body)['produto']);
-    expect('SAGRES PRETA LATA', product.description);
+    Response response = await productService.client.get(BASE_URL + PRODUCT_GROUP);
+    List<ProductGroup> groups = List<ProductGroup>.from(json.decode(response.body)["grupo_produtos"].map((x) => ProductGroup.fromJson(x)));
+    expect('HOSPEDAGENS', groups.first.description);
   });
 }

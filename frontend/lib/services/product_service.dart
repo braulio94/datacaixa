@@ -14,8 +14,7 @@ class ProductService extends BaseService {
   }
 
   getProductsByGroup(int id) async {
-    Response response = await client.get(BASE_URL + PRODUCT_GROUP + '/$id');
-    return ProductGroup.fromJson(json.decode(response.body)['produto']);
+
   }
 
   getProductsInOrder(){
@@ -26,7 +25,8 @@ class ProductService extends BaseService {
 
   }
 
-  getProductGroups(){
-
+  getProductGroups() async {
+    Response response = await client.get(BASE_URL + PRODUCT_GROUP);
+    return List<ProductGroup>.from(json.decode(response.body)["grupo_produtos"].map((x) => ProductGroup.fromJson(x)));
   }
 }
