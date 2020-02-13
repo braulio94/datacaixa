@@ -1,9 +1,4 @@
 import 'package:datacaixa/common/contants.dart' as c;
-import 'dart:convert';
-
-Product productFromJson(String str) => Product.fromJson(json.decode(str));
-
-String productToJson(Product data) => json.encode(data.toJson());
 
 class Product {
   int identifier;
@@ -76,8 +71,8 @@ class Product {
     productGroupId: json["grupo"],
     description: json["descricao"],
     createdAt: json["data_cadastro"],
-    price: json["preco"],
-    sales: json["total_vendas"] == null ? null : json["total_vendas"],
+    price: json["preco"].toDouble(),
+    sales: json["total_vendas"] == null ? null : json["total_vendas"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
