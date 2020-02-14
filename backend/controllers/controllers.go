@@ -59,9 +59,9 @@ func (D *Datacaixa) FetchProduct(rw http.ResponseWriter, r *http.Request) {
 	util.Respond(rw, map[string]interface{}{"produto": product})
 }
 
-func (D *Datacaixa) FetchCategories(rw http.ResponseWriter, r *http.Request) {
-	categories := D.Repository.GetProductGroups()
-	util.Respond(rw, map[string]interface{}{"categorias": categories})
+func (D *Datacaixa) FetchProductGroups(rw http.ResponseWriter, r *http.Request) {
+	groups := D.Repository.GetProductGroups()
+	util.Respond(rw, map[string]interface{}{"grupo_produtos": groups})
 }
 
 func (D *Datacaixa) FetchTable(rw http.ResponseWriter, r *http.Request) {

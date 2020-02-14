@@ -9,12 +9,14 @@ import 'package:http/http.dart';
 class ProductService extends BaseService {
 
   getProduct(int id) async {
-    Response response = await client.get(BASE_URL + PRODUCT + '/$id');
+    Response response = await client.get(BASE_URL + PRODUCT + '/$id') ;
     return Product.fromJson(json.decode(response.body)['produto']);
   }
 
-  getProductsByGroup(int id) async {
-
+  getProductsByGroup(int groupId, int page) async {
+    var uri = Uri.http(BASE_URL, BASE_URL + PRODUCTS + '/$groupId', {'$PAGE': '$page'});
+    Response response = await client.get(uri);
+    return List<Product>.from(json.decode(response.body)["produtos"].map((x) => Product.fromJson(x)));
   }
 
   getProductsInOrder(){

@@ -4,3 +4,4 @@ final String PRODUCT = '/api/product';
 final String PRODUCTS = '/api/products';
 final String PRODUCT_GROUP = '/api/groups';
 final String PRODUCT_SEARCH = '/api/products/search';
+final String PAGE = 'page';
