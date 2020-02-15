@@ -13,18 +13,21 @@ class ProductService extends BaseService {
     return Product.fromJson(json.decode(response.body)['produto']);
   }
 
-  getProductsByGroup(int groupId, int page) async {
-    var uri = Uri.http(BASE_URL, BASE_URL + PRODUCTS + '/$groupId', {'$PAGE': '$page'});
+  getProductsByGroup(int groupId, int page, order) async {
+    var uri = Uri.http(HOST, PRODUCTS + '/$groupId', {PAGE: '$page', ORDERBY: order});
     Response response = await client.get(uri);
     return List<Product>.from(json.decode(response.body)["produtos"].map((x) => Product.fromJson(x)));
   }
 
-  getProductsInOrder(){
-
+  getProducts(int page, order) async {
+    var uri = Uri.http(HOST, PRODUCTS, {PAGE: '$page', ORDERBY: order});
+    Response response = await client.get(uri);
+    return List<Product>.from(json.decode(response.body)["produtos"].map((x) => Product.fromJson(x)));
   }
 
-  searchProducts(){
-
+  searchProducts(String description) async {
+    Response response = await client.get(BASE_URL + PRODUCTS + SEARCH + '/$description');
+    return List<Product>.from(json.decode(response.body)["produtos"].map((x) => Product.fromJson(x)));
   }
 
   getProductGroups() async {

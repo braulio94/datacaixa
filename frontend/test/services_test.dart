@@ -23,4 +23,16 @@ void main(){
     List<ProductGroup> groups = List<ProductGroup>.from(json.decode(response.body)["grupo_produtos"].map((x) => ProductGroup.fromJson(x)));
     expect('HOSPEDAGENS', groups.first.description);
   });
+
+  test('Products By Group test', () async {
+    ProductService productService = ProductService();
+    List<Product> products = await productService.getProductsByGroup(19, 1, 'sales');
+    expect('SUPERBOCK 33CL', products.first.description);
+  });
+
+  test('Search Products test', () async {
+    ProductService productService = ProductService();
+    List<Product> products = await productService.searchProducts('PREGO');
+    expect('PREGO NO PRATO PD', products.first.description);
+  });
 }
