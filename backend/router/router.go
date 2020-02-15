@@ -5,9 +5,9 @@ import (
 )
 
 func RegisterRoutes(core *controllers.Datacaixa) {
-	core.Router.HandleFunc("/api/products/{group}", core.FetchProducts).Methods("GET").Queries("page", "{pageNumber}")
-	core.Router.HandleFunc("/api/products", core.FetchProducts).Methods("GET").Queries("page", "{pageNumber}", "orderBy", "{order}")
-	core.Router.HandleFunc("/api/products/search/{description}", core.FetchProducts).Methods("GET")
+	core.Router.HandleFunc("/api/products/{group}", core.FetchProductsByGroup).Methods("GET").Queries("page", "{pageNumber}", "orderBy", "{order}")
+	core.Router.HandleFunc("/api/products", core.FetchProductsInOrder).Methods("GET").Queries("page", "{pageNumber}", "orderBy", "{order}")
+	core.Router.HandleFunc("/api/products/search/{description}", core.SearchProducts).Methods("GET")
 	core.Router.HandleFunc("/api/product/{id}", core.FetchProduct).Methods("GET")
 	core.Router.HandleFunc("/api/groups", core.FetchProductGroups).Methods("GET")
 	core.Router.HandleFunc("/api/table/{id}", core.FetchTable).Methods("GET")

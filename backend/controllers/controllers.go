@@ -32,22 +32,35 @@ func NewCore() *Datacaixa {
 	return &Datacaixa{Router: r, Repository: repo, Server: s}
 }
 
-func (D *Datacaixa) FetchProducts(rw http.ResponseWriter, r *http.Request) {
+func (D *Datacaixa) FetchProductsByGroup(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	var products []model.Product
 	groupId, _ := strconv.Atoi(vars["group"])
 	page, _ := strconv.Atoi(vars["pageNumber"])
+	orderBy := vars["order"]
+	if len(vars["group"]) > 0  && len(vars["order"]) > 0 {
+		products = D.Repository.GetProductsByGroup(groupId, page, orderBy)
+	}
+	util.Respond(rw, map[string]interface{}{"produtos": products})
+}
+
+func (D *Datacaixa) FetchProductsInOrder(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	var products []model.Product
+	page, _ := strconv.Atoi(vars["pageNumber"])
+	order := vars["order"]
+	if len(vars["order"]) > 0 {
+		products = D.Repository.GetProductsOrderedBy(page, order)
+	}
+	util.Respond(rw, map[string]interface{}{"produtos": products})
+}
+
+func (D *Datacaixa) SearchProducts(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	var products []model.Product
 	description := vars["description"]
 	if len(vars["description"]) > 0 {
 		products = D.Repository.SearchProducts(description)
-	} else if len(vars["order"]) > 0 && strings.Contains(vars["order"], "sales") {
-		products = D.Repository.GetTopProducts(page)
-	} else if len(vars["order"]) > 0 && strings.Contains(vars["order"], "description") {
-		products = D.Repository.GetProductsByDescription(page)
-	} else if len(vars["order"]) > 0 && strings.Contains(vars["order"], "recentlyAdded") {
-		products = D.Repository.GetMostRecentProducts(page)
-	} else {
-		products = D.Repository.GetProductsByGroup(groupId, page)
 	}
 	util.Respond(rw, map[string]interface{}{"produtos": products})
 }

@@ -1,15 +1,18 @@
 package repository
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/braulio94/datacaixa/backend/database"
 	"github.com/braulio94/datacaixa/backend/model"
+	"github.com/braulio94/datacaixa/backend/util"
 	"log"
 )
 
-func (r *DatabaseRepository) GetProductsByGroup(groupId, page int) (products []model.Product) {
-	n, n1 := PageLength(page)
-	rows, err := database.Query(database.SelectProductsFromGroup, groupId, n, n1)
+func (r *DatabaseRepository) GetProductsByGroup(groupId, page int, order string) (products []model.Product) {
+	n, n1 := util.PageLength(page)
+	order, from := util.SqlOrder(order)
+	rows, err := database.Query(database.SelectProductsFromGroup, groupId, order, from, n, n1)
 	if err != nil {
 		log.Fatalf("Could not load ROWS: %v", err)
 		return nil
@@ -47,7 +50,7 @@ func (r *DatabaseRepository) GetSingleProduct(id int) (product model.Product) {
 }
 
 func (r *DatabaseRepository) SearchProducts(description string) (products []model.Product) {
-	n, n1 := PageLength(1)
+	n, n1 := util.PageLength(1)
 	description = `%` + description + `%`
 	rows, _ := database.Query(database.SelectProductsLike, description, n, n1)
 	var p = model.Product{}
@@ -86,49 +89,15 @@ func (r *DatabaseRepository) GetProductGroups() (groups []model.ProductGroup) {
 	return groups
 }
 
-func (r *DatabaseRepository) GetTopProducts(page int) (products []model.Product) {
-	n, n1 := PageLength(page)
-	rows, err := database.Query(database.SelectTopSoldProducts, n, n1)
-	if err != nil {
-		log.Fatalf("Could not load ROWS: %v", err)
-		return nil
+func (r *DatabaseRepository) GetProductsOrderedBy(page int, order string) (products []model.Product) {
+	n, n1 := util.PageLength(page)
+	order, from := util.SqlOrder(order)
+	var rows *sql.Rows
+	if order == `recentlySold` {
+		rows, _ = database.Query(database.SelectProductsRecentlySold, n, n1)
+	} else {
+		rows, _ = database.Query(database.SelectProductsOrderedBy, order, from, n, n1)
 	}
-	var product = model.Product{}
-	for rows.Next() {
-		_ = rows.Scan(
-			&product.Id,
-			&product.GroupId,
-			&product.Description,
-			&product.Price,
-			&product.Sales,
-			&product.CreatedAt,
-		)
-		products = append(products, product)
-	}
-	return products
-}
-
-func (r *DatabaseRepository) GetProductsByDescription(page int) (products []model.Product) {
-	n, n1 := PageLength(page)
-	rows, _ := database.Query(database.SelectDescriptionProducts, n, n1)
-	var product = model.Product{}
-	for rows.Next() {
-		_ = rows.Scan(
-			&product.Id,
-			&product.GroupId,
-			&product.Description,
-			&product.Price,
-			&product.Sales,
-			&product.CreatedAt,
-		)
-		products = append(products, product)
-	}
-	return products
-}
-
-func (r *DatabaseRepository) GetMostRecentProducts(page int) (products []model.Product) {
-	n, n1 := PageLength(page)
-	rows, _ := database.Query(database.SelectMostRecentProducts, n, n1)
 	var product = model.Product{}
 	for rows.Next() {
 		_ = rows.Scan(

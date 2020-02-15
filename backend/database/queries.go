@@ -27,32 +27,27 @@ var SelectProductsFromGroup = `SELECT ID_PRODUTO,
 								DATA_CADASTRO
 								FROM TPRODUTOS 
 								WHERE ID_GRUPO_PRODUTO = %d 
-								ROWS %d TO %d;`
+								ORDER BY %s %s ROWS %d TO %d;`
 
 var SelectProductGroups = `SELECT * FROM TGRUPOS_PRODUTOS;`
-var SelectTopSoldProducts = `SELECT  ID_PRODUTO, 
+var SelectProductsOrderedBy = `SELECT  ID_PRODUTO, 
 								ID_GRUPO_PRODUTO, 
 								DESCRICAO, 
 								PRECO_VENDA, 
 								TOTAL_VENDAS,
 								DATA_CADASTRO FROM TPRODUTOS
-							 	ORDER BY TOTAL_VENDAS DESC ROWS %d TO %d`
+							 	ORDER BY %s %s ROWS %d TO %d`
 
-var SelectDescriptionProducts = `SELECT  ID_PRODUTO, 
-								ID_GRUPO_PRODUTO, 
-								DESCRICAO, 
-								PRECO_VENDA, 
-								TOTAL_VENDAS,
-								DATA_CADASTRO FROM TPRODUTOS
-							 	ORDER BY DESCRICAO ASC ROWS %d TO %d`
+var SelectProductsRecentlySold = `SELECT P.ID_PRODUTO,
+										P.ID_GRUPO_PRODUTO,
+										P.DESCRICAO,
+										P.PRECO_VENDA,
+										P.TOTAL_VENDAS,
+										V.DATA_HORA_LANCTO AS DATA_CADASTRO FROM TPRODUTOS P
+										LEFT JOIN TVENDAS_ITENS V ON V.ID_PRODUTO = P.ID_PRODUTO
+										ORDER BY V.DATA_HORA_LANCTO DESC
+										ROWS %d TO %d`
 
-var SelectMostRecentProducts = `SELECT  ID_PRODUTO, 
-								ID_GRUPO_PRODUTO, 
-								DESCRICAO, 
-								PRECO_VENDA, 
-								TOTAL_VENDAS,
-								DATA_CADASTRO FROM TPRODUTOS
-							 	ORDER BY DATA_CADASTRO DESC ROWS %d TO %d`
 var SelectOrder = `SELECT ID_PEDIDO, 
 								ID_CLIENTE,
 								ID_USUARIO, 
