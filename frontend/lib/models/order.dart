@@ -132,21 +132,21 @@ class Order {
     clientId: json["id_cliente"],
     client: Client.fromJson(json["client"]),
     openingDate: json["data_abertura"],
-    totalAmount: json["valor_total_geral"].toDouble(),
+    totalAmount: json["valor_total_geral"] != null ? json["valor_total_geral"].toDouble() : 0.0,
     tableStatus: json["situacao_mesa"],
-    orderItems: List<OrderItem>.from(json["pedido_itens"].map((x) => OrderItem.fromJson(x))),
+    orderItems: json["pedido_itens"] != null ? List<OrderItem>.from(json["pedido_itens"].map((x) => OrderItem.fromJson(x))) : [],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": orderId,
+    "hotel": hotelId,
+    "pdv": pdvId,
     "usuario": userId,
     "mesa": tableId,
+    "situacao": status,
     "id_cliente": clientId,
-    "client": client.toJson(),
-    "data_abertura": openingDate,
-    "valor_total_geral": totalAmount,
+    "quantidade_pessoas": people,
     "situacao_mesa": tableStatus,
-    "pedidos_itens": orderItems,
+    "tipo": type,
   };
 
   @override

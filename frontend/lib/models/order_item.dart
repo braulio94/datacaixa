@@ -69,7 +69,7 @@ class OrderItem {
     orderId: json["pedido"],
     product: Product.fromJson(json["produto"]),
     sequence: json["sequencia"],
-    quantity: json["quantidade"],
+    quantity: json["quantidade"].toDouble(),
     unitValue: json["valor_unitario"].toDouble(),
     totalValue: json["valor_total"].toDouble(),
   );
