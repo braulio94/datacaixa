@@ -19,11 +19,14 @@ func (r *DatabaseRepository) GetOrder(orderId int, withItems bool) (order model.
 	return order
 }
 
+//TODO create get recently closed orders method
+
 func (r *DatabaseRepository) GetOpenOrders() (orders []model.Order) {
 	rows, _ := database.Query(database.SelectOpenOrders)
 	var order model.Order
 	for rows.Next() {
-		_ = rows.Scan(&order.OrderId, &order.UserId, &order.TableId, &order.TableStatus, &order.OpeningDate, &order.GeneralTotalAmount)
+		_ = rows.Scan(&order.OrderId, &order.UserId, &order.TableId, &order.TableStatus, &order.OpeningDate, &order.GeneralTotalAmount, &order.ClientId)
+		order.Client = r.GetClient(order.ClientId)
 		orders = append(orders, order)
 	}
 	return orders
@@ -57,7 +60,8 @@ func (r *DatabaseRepository) GetOrderItemsCount(orderId int) (count int) {
 
 func (r *DatabaseRepository) CreateOrder(new model.Order) (order model.Order) {
 	formattedQuery := fmt.Sprintf(database.InsertOrder, new.HotelId, new.PDVId, new.UserId, new.TableId, new.ClientId, new.People, new.Type, new.TableStatus)
-	_ = database.Database.QueryRow(formattedQuery).Scan(&order.OrderId, &order.OpeningDate)
+	_ = database.Database.QueryRow(formattedQuery).Scan(&order.OrderId, &order.OpeningDate, &order.ClientId)
+	order.Client = r.GetClient(order.ClientId)
 	fmt.Println("ORDER: ", order)
 	return order
 }

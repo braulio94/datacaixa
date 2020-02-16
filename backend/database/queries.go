@@ -60,12 +60,14 @@ var SelectOrder = `SELECT ID_PEDIDO,
 
 var SelectOpenOrders = `SELECT ID_PEDIDO, 
 								ID_USUARIO, 
-								ID_MESA, 
+								ID_MESA,
 								SITUACAO_MESA, 
 								DATA_HORA_ABERTURA, 
-								VALOR_TOTAL_GERAL 
+								VALOR_TOTAL_GERAL,
+								ID_CLIENTE
 								FROM TPEDIDOS 
-								WHERE Situacao = 'Aberto';`
+								WHERE Situacao = 'Aberto'
+								ORDER BY ID_MESA ASC;`
 
 var SelectOrderItemsFromOrder = `SELECT ID_PEDIDO_ITEM,
 								ID_PEDIDO, 
@@ -91,7 +93,7 @@ var InsertOrder = `INSERT INTO TPEDIDOS (
 								TIPO, 
 								SITUACAO_MESA)
 				   				VALUES (%d, %d, %d, %d, %d, %d, '%s', '%s')
-								RETURNING ID_PEDIDO, DATA_HORA_ABERTURA;`
+								RETURNING ID_PEDIDO, DATA_HORA_ABERTURA, ID_CLIENTE;`
 
 var InsertOrderItem = `INSERT INTO TPEDIDOS_ITENS (
 								ID_PEDIDO, 
