@@ -4,7 +4,7 @@ type OrderItem struct {
 	HotelId           int64   `json:"hotel,omitempty"`
 	OrderItemId       int64   `json:"id,omitempty"`
 	OrderId           int     `json:"pedido,omitempty"`
-	ProductId         int     `json:"-"`
+	ProductId         int     `json:"id_produto,omitempty"`
 	Product           Product `json:"produto,omitempty"`
 	UserId            int     `json:"usuario,omitempty"`
 	Sequence          int64   `json:"sequencia,omitempty"`

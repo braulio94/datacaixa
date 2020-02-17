@@ -27,7 +27,7 @@ func (r *DatabaseRepository) GetClients(page int) (clients []model.Client) {
 	client := model.Client{}
 	for rows.Next() {
 		_ = rows.Scan(
-			&client.HotelId,
+			&client.ClientId,
 			&client.Name,
 			&client.MaritalStatus,
 			&client.RegisterDate,
@@ -47,7 +47,7 @@ func (r *DatabaseRepository) SearchClients(name string) (clients []model.Client)
 	client := model.Client{}
 	for rows.Next() {
 		_ = rows.Scan(
-			&client.HotelId,
+			&client.ClientId,
 			&client.Name,
 			&client.MaritalStatus,
 			&client.RegisterDate,

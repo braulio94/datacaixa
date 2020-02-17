@@ -3,7 +3,7 @@ package model
 type Table struct {
 	HotelId        int64  `json:"-,hotel,omitempty"`
 	PDVId          int64  `json:"-,pdv,omitempty"`
-	TableId        int64  `json:"-,mesa,omitempty"`
+	TableId        int64  `json:"id_mesa,omitempty"`
 	Number         int64  `json:"numero,omitempty"`
 	Status         string `json:"situacao,omitempty"`
 	BirthdayPerson string `json:"aniveriante,omitempty"`

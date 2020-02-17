@@ -75,7 +75,8 @@ var SelectOrderItemsFromOrder = `SELECT ID_PEDIDO_ITEM,
 								SEQUENCIA, 
 								QUANTIDADE, 
 								VALOR_UNITARIO, 
-								VALOR_TOTAL 
+								VALOR_TOTAL,
+								DATA_HORA_LANCTO
 								FROM TPEDIDOS_ITENS 
 								WHERE ID_PEDIDO = %d;`
 
@@ -97,13 +98,15 @@ var InsertOrder = `INSERT INTO TPEDIDOS (
 
 var InsertOrderItem = `INSERT INTO TPEDIDOS_ITENS (
 								ID_PEDIDO, 
-								ID_PRODUTO, 
+								ID_PRODUTO,
+								ID_USUARIO,
 								SEQUENCIA, 
 								QUANTIDADE, 
 								VALOR_UNITARIO, 
 								VALOR_TOTAL)
-								VALUES (%d, %d, %d, %v, %v, %v)
-					   			RETURNING ID_PEDIDO_ITEM, ID_PRODUTO;`
+								VALUES (%d, %d, %d, %d, %v, %v, %v)
+					   			RETURNING ID_PEDIDO, ID_PEDIDO_ITEM, ID_USUARIO, SEQUENCIA, 
+								QUANTIDADE, VALOR_UNITARIO, VALOR_TOTAL, DATA_HORA_LANCTO;`
 
 var DeleteOrderItem = `DELETE FROM TPEDIDOS_ITENS WHERE ID_PEDIDO_ITEM = %d`
 var SelectTable = `SELECT * FROM TMESAS WHERE ID_MESA = %d;`

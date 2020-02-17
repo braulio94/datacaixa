@@ -160,6 +160,6 @@ func (D *Datacaixa) FetchClients(rw http.ResponseWriter, r *http.Request) {
 func (D *Datacaixa) FetchClient(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	clientId, _ := strconv.Atoi(vars["id"])
-	client := D.Repository.GetSingleProduct(clientId)
+	client := D.Repository.GetClient(clientId)
 	util.Respond(rw, map[string]interface{}{"cliente": client})
 }

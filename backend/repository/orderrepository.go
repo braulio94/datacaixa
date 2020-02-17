@@ -44,6 +44,7 @@ func (r *DatabaseRepository) GetOrderItems(orderId int) (items []model.OrderItem
 			&oi.Quantity,
 			&oi.UnitValue,
 			&oi.TotalValue,
+			&oi.EntryDateTime,
 		)
 		oi.Product = r.GetSingleProduct(oi.ProductId)
 		items = append(items, oi)
@@ -68,12 +69,20 @@ func (r *DatabaseRepository) CreateOrder(new model.Order) (order model.Order) {
 
 func (r *DatabaseRepository) CreateOrderItem(new model.OrderItem, orderId int) (orderItem model.OrderItem) {
 	count := r.GetOrderItemsCount(orderId)
-	value := new.Quantity * new.Product.Price
-	formattedQuery := fmt.Sprintf(database.InsertOrderItem, orderId, new.Product.Id, count+1, new.Quantity, new.Product.Price, value)
+	orderItem.Product = r.GetSingleProduct(new.ProductId)
+	value := new.Quantity * orderItem.Product.Price
+	formattedQuery := fmt.Sprintf(database.InsertOrderItem, orderId, orderItem.Product.Id, new.UserId, count+1, new.Quantity, orderItem.Product.Price, value)
 	_ = database.Database.QueryRow(formattedQuery).Scan(
+		&orderItem.OrderId,
 		&orderItem.OrderItemId,
-		&orderItem.ProductId,
+		&orderItem.UserId,
+		&orderItem.Sequence,
+		&orderItem.Quantity,
+		&orderItem.UnitValue,
+		&orderItem.TotalValue,
+		&orderItem.EntryDateTime,
 	)
+	fmt.Println(orderItem)
 	return orderItem
 }
 
