@@ -12,4 +12,4 @@ final String ORDER = '/api/order';
 final String ORDERS = '/api/orders';
 final String ORDER_ITEMS = '/items';
 final String WITH_ITEMS = 'withItems';
-final String ORDER_ITEM = '/api/item';
+final String ORDER_ITEM = '/item';

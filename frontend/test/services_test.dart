@@ -59,11 +59,19 @@ void main(){
         type: 'MESA'
       )
     );
-    expect(32290, order.orderId);
+    expect(32291, order.orderId);
   });
 
   test('Create Order Items test', () async {
-    int orderItemId = await orderService.createOrderItem();
-    expect(12332, orderItemId);
+    OrderItem orderItem = await orderService.createOrderItem(
+      OrderItem.add(
+        orderId: 32280,
+        productId: 92,
+        quantity: 5,
+        userId: 6,
+      )
+    );
+    print(orderItem);
+    expect(1800, orderItem.product.price);
   });
 }

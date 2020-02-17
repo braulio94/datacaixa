@@ -31,10 +31,13 @@ class OrderService extends BaseService {
     return Order.fromJson(json.decode(response.body)["pedido"]);
   }
 
-  createOrderItem() async {
-
+  createOrderItem(OrderItem newOrderItem) async {
+    var uri = Uri.http(HOST, ORDER + '/${newOrderItem.orderId}' + ORDER_ITEM);
+    Response response = await client.put(uri, body: json.encode(newOrderItem.toJson()));
+    return OrderItem.fromJson(json.decode(response.body)["item"]);
   }
 
+  //TODO create below methods
   updateOrder(){
 
   }

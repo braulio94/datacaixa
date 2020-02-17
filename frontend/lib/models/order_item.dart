@@ -33,8 +33,8 @@ class OrderItem {
 
   OrderItem();
   OrderItem.add({this.identifier, this.hotelId, this.orderItemId, this.orderId,
-      this.productId, this.sequence, this.quantity, this.unitValue,
-      this.totalValue, this.product, this.orderItems});
+      this.productId, this.sequence, this.quantity, this.unitValue, this.userId,
+      this.totalValue, this.product, this.orderItems, this.entryDateTime});
 
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{
@@ -72,15 +72,18 @@ class OrderItem {
     quantity: json["quantidade"].toDouble(),
     unitValue: json["valor_unitario"].toDouble(),
     totalValue: json["valor_total"].toDouble(),
+    userId: json["usuario"],
+    entryDateTime: json["data_lancto"]
   );
 
   Map<String, dynamic> toJson() => {
-    "id": orderItemId,
-    "pedido": orderId,
-    "produto": product.toJson(),
-    "sequencia": sequence,
+    "id_produto": productId,
     "quantidade": quantity,
-    "valor_unitario": unitValue,
-    "valor_total": totalValue,
+    "usuario": userId,
   };
+
+  @override
+  String toString() {
+    return 'OrderItem{identifier: $identifier, hotelId: $hotelId, orderItemId: $orderItemId, orderId: $orderId, productId: $productId, product: $product, userId: $userId, sequence: $sequence, entryDateTime: $entryDateTime, deliveryDateTime: $deliveryDateTime, quantity: $quantity, unitValue: $unitValue, totalValue: $totalValue, generalTotalValue: $generalTotalValue, canceled: $canceled, preparingTime: $preparingTime, comment: $comment, printed: $printed, discount: $discount, discountValue: $discountValue, accrual: $accrual, accrualValue: $accrualValue, orderItems: $orderItems}';
+  }
 }
