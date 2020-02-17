@@ -39,6 +39,24 @@ class User {
     email = map[c.email];
   }
 
+  factory User.fromJson(Map<String, dynamic> json) => User.add(
+    hotelId: json["id_hotel"],
+    userId: json["id_usuario"],
+    username: json["usuario"],
+    name: json["nome"],
+    password: json["senha"],
+    email: json["email"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id_hotel": hotelId,
+    "id_usuario": userId,
+    "usuario": username,
+    "nome": name,
+    "senha": password,
+    "email": email,
+  };
+
   @override
   String toString() {
     return 'User{identifier: $identifier, hotelId: $hotelId, userId: $userId, username: $username, name: $name, password: $password, email: $email}';

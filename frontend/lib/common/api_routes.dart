@@ -17,3 +17,6 @@ final String TABLE = '/api/table';
 final String TABLES = '/api/tables';
 final String CLIENT = '/api/client';
 final String CLIENTS = '/api/clients';
+final String USER = '/api/user';
+final String USERS = '/api/users';
+final String LOGIN = '/login';
