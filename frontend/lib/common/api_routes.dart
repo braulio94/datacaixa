@@ -13,3 +13,7 @@ final String ORDERS = '/api/orders';
 final String ORDER_ITEMS = '/items';
 final String WITH_ITEMS = 'withItems';
 final String ORDER_ITEM = '/item';
+final String TABLE = '/api/table';
+final String TABLES = '/api/tables';
+final String CLIENT = '/api/client';
+final String CLIENTS = '/api/clients';

@@ -1,14 +1,20 @@
+import 'package:datacaixa/models/client.dart';
 import 'package:datacaixa/models/order.dart';
 import 'package:datacaixa/models/order_item.dart';
 import 'package:datacaixa/models/product.dart';
 import 'package:datacaixa/models/product_group.dart';
+import 'package:datacaixa/models/table.dart';
+import 'package:datacaixa/services/client_service.dart';
 import 'package:datacaixa/services/order_service.dart';
 import 'package:datacaixa/services/product_service.dart';
+import 'package:datacaixa/services/table_service.dart';
 import 'package:test/test.dart';
 
 void main(){
   ProductService productService = ProductService();
   OrderService orderService = OrderService();
+  TableService tableService = TableService();
+  ClientService clientService = ClientService();
 
   test('Product test', () async {
     Product product = await productService.getProduct(408);
@@ -59,7 +65,7 @@ void main(){
         type: 'MESA'
       )
     );
-    expect(32291, order.orderId);
+    expect('Ocupada', order.status);
   });
 
   test('Create Order Items test', () async {
@@ -73,5 +79,30 @@ void main(){
     );
     print(orderItem);
     expect(1800, orderItem.product.price);
+  });
+
+  test('Single Table test', () async {
+    Table table = await tableService.getTable(8);
+    expect('Livre', table.status);
+  });
+
+  test('All Tables test', () async {
+    List<Table> tables = await tableService.getTables();
+    expect(48, tables.last.tableId);
+  });
+
+  test('Single Client test', () async {
+    Client client = await clientService.getClient(104);
+    expect('BRAULIO', client.name);
+  });
+
+  test('Clients test', () async {
+    List<Client> clients = await clientService.getClients(2);
+    expect('ERICA', clients.first.name);
+  });
+
+  test('Search Client test', () async {
+    List<Client> clients = await clientService.searchClient('TIO');
+    expect('TIO BRAVO', clients.first.name);
   });
 }

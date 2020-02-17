@@ -51,6 +51,18 @@ class Table {
     seats = map[c.seats];
   }
 
+  factory Table.fromJson(Map<String, dynamic> json) => Table.add(
+    tableId: json["id_mesa"],
+    number: json["numero"],
+    status: json["situacao"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id_mesa": tableId,
+    "numero": number,
+    "situacao": status,
+  };
+
   @override
   String toString() {
     return 'Table{identifier: $identifier, hotelId: $hotelId, pdvId: $pdvId, tableId: $tableId, number: $number, status: $status, birthDayPerson: $birthDayPerson, vip: $vip, honeyMoon: $honeyMoon, pdv: $pdv, seats: $seats}';
