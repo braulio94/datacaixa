@@ -138,3 +138,17 @@ var SelectProductsLike = `SELECT ID_PRODUTO,
 								FROM TPRODUTOS 
 								WHERE DESCRICAO LIKE '%s'
 								ROWS %d TO %d;`
+
+var SelectUser = `SELECT ID_HOTEL,
+					     ID_USUARIO,
+					     USUARIO,
+					     NOME,
+					     EMAIL
+					     FROM TUSUARIOS WHERE ID_USUARIO = %d`
+
+var SelectUsers = `SELECT  ID_HOTEL,
+						   ID_USUARIO,
+						   USUARIO,
+						   NOME,
+						   EMAIL
+						   FROM TUSUARIOS WHERE ID_USUARIO NOT IN (1, 5);`

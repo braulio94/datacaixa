@@ -163,3 +163,22 @@ func (D *Datacaixa) FetchClient(rw http.ResponseWriter, r *http.Request) {
 	client := D.Repository.GetClient(clientId)
 	util.Respond(rw, map[string]interface{}{"cliente": client})
 }
+
+func (D *Datacaixa) LoginUser(rw http.ResponseWriter, r *http.Request) {
+	user := model.User{}
+	_ = json.NewDecoder(r.Body).Decode(&user)
+	user = D.Repository.LoginUser(user)
+	util.Respond(rw, map[string]interface{}{"usuario": user})
+}
+
+func (D *Datacaixa) FetchUser(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	userId, _ := strconv.Atoi(vars["id"])
+	user := D.Repository.GetUser(userId)
+	util.Respond(rw, map[string]interface{}{"usuario": user})
+}
+
+func (D *Datacaixa) FetchUsers(rw http.ResponseWriter, r *http.Request) {
+	users := D.Repository.GetUsers()
+	util.Respond(rw, map[string]interface{}{"usuarios": users})
+}

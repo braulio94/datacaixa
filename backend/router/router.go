@@ -23,4 +23,7 @@ func RegisterRoutes(core *controllers.Datacaixa) {
 	core.Router.HandleFunc("/api/clients", core.FetchClients).Methods("GET").Queries("page", "{pageNumber}")
 	core.Router.HandleFunc("/api/clients/search/{name}", core.FetchClients).Methods("GET")
 	core.Router.HandleFunc("/api/client/{id}", core.FetchClient).Methods("GET")
+	core.Router.HandleFunc("/api/user/{id}", core.FetchUser).Methods("GET")
+	core.Router.HandleFunc("/api/user/login", core.LoginUser).Methods("POST")
+	core.Router.HandleFunc("/api/users", core.FetchUsers).Methods("GET")
 }
