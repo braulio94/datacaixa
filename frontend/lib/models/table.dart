@@ -1,4 +1,9 @@
 import 'package:datacaixa/common/contants.dart' as c;
+import 'dart:convert';
+
+Table tableFromJson(String str) => Table.fromJson(json.decode(str));
+
+String tableToJson(Table data) => json.encode(data.toJson());
 
 class Table {
   int identifier;
@@ -50,6 +55,17 @@ class Table {
     pdv = map[c.pdv];
     seats = map[c.seats];
   }
+
+  factory Table.fromJson(Map<String, dynamic> json) => Table.add(
+    //tableId: json["id_mesa"],
+    number: json["numero"],
+    status: json["situacao"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "numero": number,
+    "situacao": status,
+  };
 
   @override
   String toString() {
