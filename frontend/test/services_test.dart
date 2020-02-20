@@ -4,10 +4,12 @@ import 'package:datacaixa/models/order_item.dart';
 import 'package:datacaixa/models/product.dart';
 import 'package:datacaixa/models/product_group.dart';
 import 'package:datacaixa/models/table.dart';
+import 'package:datacaixa/models/user.dart';
 import 'package:datacaixa/services/client_service.dart';
 import 'package:datacaixa/services/order_service.dart';
 import 'package:datacaixa/services/product_service.dart';
 import 'package:datacaixa/services/table_service.dart';
+import 'package:datacaixa/services/user_service.dart';
 import 'package:test/test.dart';
 
 void main(){
@@ -15,6 +17,7 @@ void main(){
   OrderService orderService = OrderService();
   TableService tableService = TableService();
   ClientService clientService = ClientService();
+  UserService userService = UserService();
 
   test('Product test', () async {
     Product product = await productService.getProduct(408);
@@ -106,5 +109,13 @@ void main(){
     expect('TIO BRAVO', clients.first.name);
   });
 
-  
+  test('Single User Test', () async {
+    User user = await userService.getUser(6);
+    expect('BRAULIO', user.username);
+  });
+
+  test('Get Users Test', () async {
+    List<User> users = await userService.getUsers();
+    expect('VENANCIO', users.first.username);
+  });
 }

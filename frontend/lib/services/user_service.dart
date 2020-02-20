@@ -18,6 +18,6 @@ class UserService extends BaseService {
 
   getUsers() async {
     Response response = await client.get(BASE_URL + USERS);
-    return List<User>.from(json.decode(response.body)["produtos"].map((x) => User.fromJson(x)));
+    return List<User>.from(json.decode(response.body)["usuarios"].map((x) => User.fromJson(x)));
   }
 }

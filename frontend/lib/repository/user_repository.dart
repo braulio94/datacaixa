@@ -1,14 +1,30 @@
+import 'package:datacaixa/data/mock_data.dart';
 import 'package:datacaixa/models/user.dart';
 import 'package:datacaixa/repository/repository.dart';
 
 class UserRepository extends Repository {
 
-  loadUsers(){
-    List<User> users = store.userDao.getAll() as List<User>;
-    addNotExisting(users);
+  List<User> users = [];
+
+  loadUsers() async {
+    users = mockUsers;
+    try {
+      var newUsers = await userService.getUsers();
+      _addNoneExisting(newUsers);
+      _removeExisting(newUsers);
+    } catch(_) {
+      users = mockUsers;
+    }
   }
 
-  addNotExisting(List<User> users){
+  _addNoneExisting(List<User> list) {
+    for(User user in users) {
+      list.retainWhere((item) => item.userId != user.userId);
+    }
+    users.addAll(list);
+  }
+
+  _removeExisting(List<User> list) {
 
   }
 }
