@@ -10,21 +10,29 @@ class UserRepository extends Repository {
     users = mockUsers;
     try {
       var newUsers = await userService.getUsers();
-      _addNoneExisting(newUsers);
       _removeExisting(newUsers);
+      _addNoneExisting(newUsers);
     } catch(_) {
       users = mockUsers;
     }
   }
 
   _addNoneExisting(List<User> list) {
-    for(User user in users) {
-      list.retainWhere((item) => item.userId != user.userId);
-    }
+    printUsers();
+    users.retainWhere((item) => item.userId == null);
+    printUsers();
     users.addAll(list);
+    printUsers();
   }
 
   _removeExisting(List<User> list) {
 
+  }
+
+  printUsers(){
+    for(User user in users){
+      print('USER: ${user.username}\n');
+    }
+    print("=======================================\n");
   }
 }

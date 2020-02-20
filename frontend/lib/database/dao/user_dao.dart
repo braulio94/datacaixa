@@ -83,16 +83,14 @@ class UserDao implements DaoHelper {
   @override
   void update(item) async {
     if(item is User){
-      await db.update(userTable, item.toMap(),
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+      await db.update(userTable, item.toMap(), where: '$identifier = ?', whereArgs: [item.identifier]);
     }
   }
 
   @override
   void delete(item) async {
     if(item is User){
-      await db.delete(userTable,
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+      await db.delete(userTable, where: '$identifier = ?', whereArgs: [item.identifier]);
     }
   }
 }
