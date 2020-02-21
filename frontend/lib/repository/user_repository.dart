@@ -35,4 +35,8 @@ class UserRepository extends Repository {
     }
     print("=======================================\n");
   }
+
+  isNew(User user){
+    return users.where((u) => u.userId != user.userId);
+  }
 }

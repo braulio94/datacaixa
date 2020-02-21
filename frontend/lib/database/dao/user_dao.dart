@@ -17,7 +17,7 @@ class UserDao implements DaoHelper {
         "CREATE TABLE $userTable "
             "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
             "$hotelId INTEGER, "
-            "$userId INTEGER, "
+            "$userId INTEGER UNIQUE, "
             "$username TEXT, "
             "$name TEXT, "
             "$password TEXT, "
@@ -67,7 +67,18 @@ class UserDao implements DaoHelper {
   @override
   void insert(item) async {
     if(item is User){
-      item.identifier = await db.insert(userTable, item.toMap());
+      //item.identifier = await db.insert(userTable, item.toMap());
+      item.identifier = await db.rawInsert(
+          "INSERT OR IGNORE INTO $userTable "
+              "$hotelId, "
+              "$userId, "
+              "$username, "
+              "$name, "
+              "$email) "
+              "VALUES (?, ?, ?, ?, ?) ",
+              //"WHERE $userId IS NULL",
+        [item.hotelId, item.userId, item.username, item.name, item.email]
+      );
     }
   }
 
