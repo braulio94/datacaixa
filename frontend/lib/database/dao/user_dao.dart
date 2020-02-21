@@ -5,7 +5,9 @@ import 'package:sqflite/sqlite_api.dart';
 
 class UserDao implements DaoHelper {
   Database db;
-  UserDao(this.db);
+  UserDao(Database database){
+    this.db = database;
+  }
 
   UserDao.createTable(Database database){
     createTable(database);
@@ -67,18 +69,10 @@ class UserDao implements DaoHelper {
   @override
   void insert(item) async {
     if(item is User){
-      //item.identifier = await db.insert(userTable, item.toMap());
-      item.identifier = await db.rawInsert(
-          "INSERT OR IGNORE INTO $userTable "
-              "$hotelId, "
-              "$userId, "
-              "$username, "
-              "$name, "
-              "$email) "
-              "VALUES (?, ?, ?, ?, ?) ",
-              //"WHERE $userId IS NULL",
-        [item.hotelId, item.userId, item.username, item.name, item.email]
-      );
+      //
+      try {
+        item.identifier = await db.insert(userTable, item.toMap());
+      } catch (_){}
     }
   }
 

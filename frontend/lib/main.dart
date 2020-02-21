@@ -1,15 +1,27 @@
-import 'package:datacaixa/database/database.dart';
-import 'package:datacaixa/models/order.dart';
 import 'package:datacaixa/repository/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   UserRepository userRepository;
-  MyApp(){
+
+  @override
+  void initState() {
+    super.initState();
+    _initRepo();
+  }
+
+  _initRepo() async {
     userRepository = UserRepository();
+    await userRepository.store.connect();
+    await userRepository.loadUsers();
+    setState(() {});
   }
 
   @override

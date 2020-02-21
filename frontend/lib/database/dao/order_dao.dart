@@ -5,10 +5,7 @@ import 'package:sqflite/sqlite_api.dart';
 
 class OrderDao implements DaoHelper {
   Database db;
-  OrderDao(Database database){
-    this.db = database;
-    print("orde constructor");
-  }
+  OrderDao(this.db);
 
   OrderDao.createTable(Database database){
     createTable(database);
