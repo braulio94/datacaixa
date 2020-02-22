@@ -5,9 +5,9 @@ import 'package:sqflite/sqlite_api.dart';
 
 class UserDao implements DaoHelper {
   Database db;
-  UserDao(Database database){
-    this.db = database;
-  }
+  List<User> users = [];
+
+  UserDao(this.db);
 
   UserDao.createTable(Database database){
     createTable(database);
@@ -30,40 +30,34 @@ class UserDao implements DaoHelper {
 
   @override
   Future get(int id) async {
-      List<Map> maps = await db.query(userTable,
-          columns: [
-            identifier,
-            hotelId,
-            userId,
-            username,
-            name,
-            password,
-            email,
-          ],
-          where: '$identifier = ?',
-          whereArgs: [id]
-      );
-      if(maps.length > 0)
-        return User.fromMap(maps.first);
+      try {
+        List<Map> maps = await db.query(userTable,
+            columns: [identifier, hotelId, userId, username, name, password, email],
+            where: '$identifier = ?',
+            whereArgs: [id]
+        );
+        if(maps.length > 0)
+          return User.fromMap(maps.first);
+      } catch(_){}
   }
 
   @override
-  Future<List<User>> getAll() async {
-      List<Map> maps = await db.query(userTable,
-        columns: [
-          identifier,
-          hotelId,
-          userId,
-          username,
-          name,
-          password,
-          email,
-        ],
+  getAll() async {
+    try {
+      List<Map> maps = await db.query(
+        userTable,
+        columns: [identifier, hotelId, userId, username, name, password, email],
       );
       if(maps.length > 0) {
-        return maps.map((map) => User.fromMap(map)).toList();
+        users = maps.map((map) => User.fromMap(map)).toList();
+        print("GET ALL USERS $users");
+        return users;
       }
-    return [];
+    } catch(_){
+      print("GET ALL USERS CATHC");
+      return [];
+    }
+    return users;
   }
 
   @override
@@ -71,7 +65,11 @@ class UserDao implements DaoHelper {
     if(item is User){
       try {
         item.identifier = await db.insert(userTable, item.toMap());
-      } catch (_){}
+        users.add(item);
+        print("${item.username}");
+      } catch (_){
+        //TODO update here an already existing item
+      }
     }
   }
 
@@ -91,10 +89,30 @@ class UserDao implements DaoHelper {
     }
   }
 
+  removeNoneExisting(List<User> list) async {
+    List<int> ids = users.map((u) => u.userId).toList();
+    try {
+      int idRemoved = await db.delete(
+          userTable,
+          where: '$userId NOT NULL AND $userId NOT IN (${ids.join(', ')})',
+      );
+      print("ID REMOVED: $idRemoved");
+    } catch(_){
+      print("DID NOT RUN DELETE QUERY");
+    }
+  }
+
   @override
   remove(item) async {
     if(item is User){
-      await db.delete(userTable, where: '$identifier = ?', whereArgs: [item.identifier]);
+      try {
+        await db.delete(
+            userTable,
+            where: '$identifier = ?',
+            whereArgs: [item.identifier]
+        );
+        users.removeWhere((user) => user.identifier == item.identifier);
+      } catch(_){}
     }
   }
 

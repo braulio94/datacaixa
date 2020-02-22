@@ -1,3 +1,4 @@
+import 'package:datacaixa/models/user.dart';
 import 'package:datacaixa/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   UserRepository userRepository;
+  List<User> users = [];
 
   @override
   void initState() {
@@ -20,7 +22,7 @@ class _MyAppState extends State<MyApp> {
 
   _initRepo() async {
     await userRepository.store.connect();
-    await userRepository.loadUsers();
+    users = await userRepository.loadUsers();
     setState(() {});
   }
 
@@ -30,7 +32,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Counter App',
       home: Scaffold(
         body: ListView(
-          children: userRepository.users.map((user)=>
+          children: users.map((user)=>
               Text(user.username, style: TextStyle(fontSize: 20))
           ).toList(),
         ),

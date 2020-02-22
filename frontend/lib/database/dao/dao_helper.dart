@@ -6,7 +6,7 @@ abstract class DaoHelper {
   insertAll(List<dynamic> items);
   update(dynamic item);
   Future<dynamic> get(int id);
-  Future<List<dynamic>> getAll();
+  getAll();
   remove(dynamic item);
   removeAll(List<dynamic> items);
 }
