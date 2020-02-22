@@ -14,11 +14,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    userRepository = UserRepository();
     _initRepo();
   }
 
   _initRepo() async {
-    userRepository = UserRepository();
     await userRepository.store.connect();
     await userRepository.loadUsers();
     setState(() {});

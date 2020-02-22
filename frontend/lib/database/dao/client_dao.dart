@@ -84,10 +84,15 @@ class ClientDao implements DaoHelper {
   }
 
   @override
-  void delete(item) async {
+  void remove(item) async {
     if(item is Client){
       await db.delete(clientTable,
           where: '$identifier = ?', whereArgs: [item.identifier]);
     }
+  }
+
+  @override
+  void removeAll(List items) {
+    // TODO: implement removeAll
   }
 }

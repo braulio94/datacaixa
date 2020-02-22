@@ -48,7 +48,7 @@ class UserDao implements DaoHelper {
   }
 
   @override
-  Future<List> getAll() async {
+  Future<List<User>> getAll() async {
       List<Map> maps = await db.query(userTable,
         columns: [
           identifier,
@@ -67,9 +67,8 @@ class UserDao implements DaoHelper {
   }
 
   @override
-  void insert(item) async {
+  insert(item) async {
     if(item is User){
-      //
       try {
         item.identifier = await db.insert(userTable, item.toMap());
       } catch (_){}
@@ -77,7 +76,7 @@ class UserDao implements DaoHelper {
   }
 
   @override
-  void insertAll(List items) async {
+  insertAll(List items) async {
     if(items is List<User>){
       for(User item in items){
         insert(item);
@@ -86,16 +85,25 @@ class UserDao implements DaoHelper {
   }
 
   @override
-  void update(item) async {
+  update(item) async {
     if(item is User){
       await db.update(userTable, item.toMap(), where: '$identifier = ?', whereArgs: [item.identifier]);
     }
   }
 
   @override
-  void delete(item) async {
+  remove(item) async {
     if(item is User){
       await db.delete(userTable, where: '$identifier = ?', whereArgs: [item.identifier]);
+    }
+  }
+
+  @override
+  removeAll(List items) async {
+    if(items is List<User>){
+      for(User item in items){
+        remove(item);
+      }
     }
   }
 }

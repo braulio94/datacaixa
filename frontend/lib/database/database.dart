@@ -57,7 +57,6 @@ class DataStore implements DataStoreHelper {
     tableDao = TableDao(db);
     userDao = UserDao(db);
     clientDao = ClientDao(db);
-    print("CREATE DAOS");
   }
 
   @override

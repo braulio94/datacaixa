@@ -128,10 +128,15 @@ class OrderDao implements DaoHelper {
   }
 
   @override
-  void delete(item) async {
+  void remove(item) async {
     if(item is Order){
       await db.delete(orderTable,
           where: '$identifier = ?', whereArgs: [item.identifier]);
     }
+  }
+
+  @override
+  void removeAll(List items) {
+    // TODO: implement removeAll
   }
 }
