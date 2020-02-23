@@ -94,11 +94,12 @@ class UserDao implements DaoHelper {
     try {
       await db.delete(
           userTable,
+
           where: '$userId NOT IN (${ids.join(', ')})',
       );
     } catch(_){}
   }
-
+  
   @override
   remove(item) async {
     if(item is User){

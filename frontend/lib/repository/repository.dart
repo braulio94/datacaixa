@@ -6,6 +6,7 @@ import 'package:datacaixa/services/table_service.dart';
 import 'package:datacaixa/services/user_service.dart';
 
 class Repository {
+  bool connected = false;
   DataStore store = DataStore();
   ProductService productService = ProductService();
   OrderService orderService = OrderService();

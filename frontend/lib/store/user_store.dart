@@ -1,34 +1,31 @@
 import 'package:datacaixa/models/user.dart';
+import 'package:datacaixa/repository/user_repository.dart';
 import 'package:mobx/mobx.dart';
-//part 'user_store.g.dart';
+part 'user_store.g.dart';
 
-//class UserStore = _UserStore with _$UserStore;
+class UserStore = _UserStore with _$UserStore;
 
 abstract class _UserStore with Store {
-
-  _UserStore(this.user);
-
-  ObservableList<User> users = ObservableList<User>();
+  UserRepository repository = UserRepository();
 
   @observable
-  ObservableFuture<bool> isLoggedIn = ObservableFuture.value(false);
+  bool get connected => repository.connected;
 
   @observable
-  ObservableFuture<List<User>> fetchUsers = emptyResponse;
+  List<User> users = [];
 
   @observable
-  User user;
+  ObservableFuture<List<User>> futureUsers = emptyResponse;
 
-  static ObservableFuture<List<User>> emptyResponse = ObservableFuture.value([]);
+  @computed
+  bool get hasResults =>
+      futureUsers != emptyResponse &&
+          futureUsers.status == FutureStatus.fulfilled;
 
-
+  static final ObservableFuture<List<User>> emptyResponse = ObservableFuture.value([]);
 
   @action
-  login(String password) async {
-
-  }
-
-  getUsers() {
-
+  getUsers() async {
+    users = await repository.loadUsers();
   }
 }

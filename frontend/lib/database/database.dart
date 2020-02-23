@@ -6,15 +6,12 @@ import 'package:datacaixa/database/dao/product_group_dao.dart';
 import 'package:datacaixa/database/dao/product_dao.dart';
 import 'package:datacaixa/database/dao/table_dao.dart';
 import 'package:datacaixa/database/dao/user_dao.dart';
-import 'package:datacaixa/database/store_queries.dart';
-import 'package:datacaixa/database/store_queries_helper.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DataStore implements DataStoreHelper {
   Database db;
   String dbName = 'datacaixa.db';
-  StoreQueriesHelper storeHelper = StoreQueries();
   String path;
   ClientDao clientDao;
   TableDao tableDao;

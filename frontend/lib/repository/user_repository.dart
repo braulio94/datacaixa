@@ -1,17 +1,18 @@
-import 'package:datacaixa/data/mock_data.dart';
+import 'package:datacaixa/database/database.dart';
 import 'package:datacaixa/models/user.dart';
 import 'package:datacaixa/repository/repository.dart';
 
 class UserRepository extends Repository {
 
   loadUsers() async {
+    await initDao();
     try {
       List<User> newUsers = await userService.getUsers();
       await _addNoneExisting(newUsers);
       await _removeNoneExisting(newUsers);
-      return store.userDao.getAll();
+      connected = true;
+      return await store.userDao.getAll();
     } catch(_) {
-      print("COULD NOT LOAD");
       return await store.userDao.getAll();
     }
   }
@@ -22,5 +23,11 @@ class UserRepository extends Repository {
 
   _removeNoneExisting(List<User> newUsers) async {
     await store.userDao.removeNoneExisting(newUsers);
+  }
+
+  initDao() async {
+    if(store.userDao == null){
+      await store.connect();
+    }
   }
 }

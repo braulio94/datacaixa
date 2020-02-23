@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:datacaixa/common/api_routes.dart';
 import 'package:datacaixa/models/user.dart';
 import 'package:datacaixa/services/base_service.dart';
@@ -7,8 +6,10 @@ import 'package:http/http.dart';
 
 class UserService extends BaseService {
 
-  login() async {
-    //TODO implement this method
+  login(User user) async {
+    Response response = await client.post(BASE_URL + USER + LOGIN, body: json.encode(user.toJson()));
+    bool success = jsonDecode(response.body)["usuario"];
+    return success;
   }
 
   getUser(int id) async {

@@ -1,3 +1,4 @@
+import 'package:datacaixa/data/mock_data.dart';
 import 'package:datacaixa/models/client.dart';
 import 'package:datacaixa/models/order.dart';
 import 'package:datacaixa/models/order_item.dart';
@@ -117,5 +118,12 @@ void main(){
   test('Get Users Test', () async {
     List<User> users = await userService.getUsers();
     expect('VENANCIO', users.first.username);
+  });
+
+  test('Login User Test', () async {
+    User user = mockUsers[4];
+    user.password = 'vc1970vc';
+    bool success = await userService.login(user);
+    expect(true, success);
   });
 }
