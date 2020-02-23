@@ -8,7 +8,7 @@ class UserStore = _UserStore with _$UserStore;
 abstract class _UserStore with Store {
   UserRepository repository = UserRepository();
 
-  @observable
+  @computed
   bool get connected => repository.connected;
 
   @observable
@@ -25,7 +25,5 @@ abstract class _UserStore with Store {
   static final ObservableFuture<List<User>> emptyResponse = ObservableFuture.value([]);
 
   @action
-  getUsers() async {
-    users = await repository.loadUsers();
-  }
+  Future<List<User>> getUsers() async => users = await repository.loadUsers();
 }

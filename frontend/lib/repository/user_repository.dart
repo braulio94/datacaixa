@@ -1,4 +1,4 @@
-import 'package:datacaixa/database/database.dart';
+import 'package:datacaixa/helpers/shared_preferences_helper.dart';
 import 'package:datacaixa/models/user.dart';
 import 'package:datacaixa/repository/repository.dart';
 
@@ -15,6 +15,20 @@ class UserRepository extends Repository {
     } catch(_) {
       return await store.userDao.getAll();
     }
+  }
+
+  login(User user) async {
+    bool success = await userService.login(user);
+    if(success){
+      SharedPreferencesHelper.setLoggedInUser(user.userId);
+    }
+  }
+
+  getLoggedInUser() async {
+    int id = await SharedPreferencesHelper.getLoggedInUser();
+    try {
+      return await store.userDao.get(id);
+    } catch(_){}
   }
 
   _addNoneExisting(List<User> list) async {

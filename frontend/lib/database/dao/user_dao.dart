@@ -33,7 +33,7 @@ class UserDao implements DaoHelper {
       try {
         List<Map> maps = await db.query(userTable,
             columns: [identifier, hotelId, userId, username, name, password, email],
-            where: '$identifier = ?',
+            where: '$userId = ?',
             whereArgs: [id]
         );
         if(maps.length > 0)
