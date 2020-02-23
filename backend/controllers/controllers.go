@@ -164,11 +164,12 @@ func (D *Datacaixa) FetchClient(rw http.ResponseWriter, r *http.Request) {
 	util.Respond(rw, map[string]interface{}{"cliente": client})
 }
 
+
 func (D *Datacaixa) LoginUser(rw http.ResponseWriter, r *http.Request) {
 	user := model.User{}
 	_ = json.NewDecoder(r.Body).Decode(&user)
-	user = D.Repository.LoginUser(user)
-	util.Respond(rw, map[string]interface{}{"usuario": user})
+	sucess := D.Repository.LoginUser(user)
+	util.Respond(rw, map[string]interface{}{"usuario": sucess})
 }
 
 func (D *Datacaixa) FetchUser(rw http.ResponseWriter, r *http.Request) {

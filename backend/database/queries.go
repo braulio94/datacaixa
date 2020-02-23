@@ -146,6 +146,10 @@ var SelectUser = `SELECT ID_HOTEL,
 					     EMAIL
 					     FROM TUSUARIOS WHERE ID_USUARIO = %d`
 
+var LoginUser = `SELECT 1 SUCESS 
+					     FROM TUSUARIOS WHERE ID_USUARIO = %d
+						 AND SENHA = '%s'`
+
 var SelectUsers = `SELECT  ID_HOTEL,
 						   ID_USUARIO,
 						   USUARIO,

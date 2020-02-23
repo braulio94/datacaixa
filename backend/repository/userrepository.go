@@ -7,9 +7,14 @@ import (
 )
 
 
-func (r *DatabaseRepository) LoginUser(user model.User) model.User {
-	//TODO implement login
-	return user
+func (r *DatabaseRepository) LoginUser(user model.User) bool {
+	sucess := -1
+	formattedQuery := fmt.Sprintf(database.LoginUser, user.UserId, user.Password)
+	_ = database.Database.QueryRow(formattedQuery).Scan(&sucess)
+	if sucess == 1 {
+		return true
+	}
+	return false
 }
 
 func (r *DatabaseRepository) GetUser(userId int) (user model.User) {
