@@ -30,7 +30,7 @@ abstract class _UserStore with Store {
   Future<bool> login() async => loginSuccess = await repository.login(currentUser);
 
   @action
-  Future<User> getCurrentUser() async => await repository.getLoggedInUser();
+  Future<User> getCurrentUser() async => currentUser = await repository.getLoggedInUser();
 
   @action
   getUsers() async => users = await repository.loadUsers();

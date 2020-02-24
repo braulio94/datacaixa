@@ -30,11 +30,13 @@ class UserRepository extends Repository {
     return null;
   }
 
-  getLoggedInUser() async {
+  Future<User> getLoggedInUser() async {
+    await initDao();
     try {
       int id = await SharedPreferencesHelper.getLoggedInUser();
       return await store.userDao.get(id);
     } catch(_){}
+    return null;
   }
 
   _addNoneExisting(List<User> list) async {

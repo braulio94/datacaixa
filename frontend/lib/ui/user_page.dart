@@ -12,19 +12,19 @@ class UserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: store.getUsers(),
+      future: userStore.getUsers(),
       builder: (context, _) {
         return Observer(
           builder: (_) {
-            if(store.users.isEmpty){
+            if(userStore.users.isEmpty){
               return Center(child: Text(noUsers));
             } else {
               return ListView(
                 physics: BouncingScrollPhysics(),
-                children: store.users.map((user) =>
+                children: userStore.users.map((user) =>
                     InkWell(
                       onTap: (){
-                        store.select(user);
+                        userStore.select(user);
                         Navigator.of(context).push(createRoute(UserLoginPage()));
                       },
                       child: UserRow(user),
