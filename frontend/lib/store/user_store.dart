@@ -15,15 +15,21 @@ abstract class _UserStore with Store {
   List<User> users = [];
 
   @observable
-  ObservableFuture<List<User>> futureUsers = emptyResponse;
-
-  @computed
-  bool get hasResults =>
-      futureUsers != emptyResponse &&
-          futureUsers.status == FutureStatus.fulfilled;
-
-  static final ObservableFuture<List<User>> emptyResponse = ObservableFuture.value([]);
+  User currentUser;
 
   @action
-  Future<List<User>> getUsers() async => users = await repository.loadUsers();
+  select(User user) => currentUser = user;
+
+  @action
+  login() async {
+    await repository.login(currentUser);
+  }
+
+  @action
+  Future<User> getCurrentUser() async {
+    return await repository.getLoggedInUser();
+  }
+
+  @action
+  getUsers() async => users = await repository.loadUsers();
 }

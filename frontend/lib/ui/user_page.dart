@@ -1,48 +1,37 @@
-import 'package:datacaixa/models/user.dart';
 import 'package:datacaixa/store/user_store.dart';
+import 'package:datacaixa/ui/user_login_page.dart';
+import 'package:datacaixa/ui/user_row.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-class UserPage extends StatefulWidget {
-  @override
-  _UserPageState createState() => _UserPageState();
-}
+final UserStore store = UserStore();
 
-class _UserPageState extends State<UserPage> {
-  final UserStore store = UserStore();
+class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<User>>(
+    return FutureBuilder(
       future: store.getUsers(),
-      builder: (context, snapshot) {
+      builder: (context, _) {
         return Observer(
           builder: (_) {
             if(store.users.isEmpty){
               return Text('Não existe usuarios!');
             } else {
-              return Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    child: Visibility(
-                      visible: !store.connected,
-                      child: Icon(Icons.refresh)
+              return ListView(
+                physics: BouncingScrollPhysics(),
+                children: store.users.map((user) =>
+                    InkWell(
+                      onTap: (){
+                        store.select(user);
+                        Navigator.of(context).push(CupertinoPageRoute<void>(builder: (_) {
+                          return UserLoginPage();
+                        }));
+                      },
+                      child: UserRow(user),
                     ),
-                  ),
-                  Expanded(
-                    child: ListView(
-                      physics: BouncingScrollPhysics(),
-                      children: snapshot.data.map((user) =>
-                          ListTile(
-                            leading: CircleAvatar(radius: 25),
-                            title: Text(user.name, style: TextStyle(fontSize: 20)),
-                            subtitle: Text(user.username, style: TextStyle(fontSize: 12))
-                          )
-                      ).toList(),
-                    ),
-                  ),
-                ],
+                ).toList(),
               );
             }
         });
