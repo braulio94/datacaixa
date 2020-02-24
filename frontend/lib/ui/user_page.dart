@@ -5,27 +5,11 @@ import 'package:datacaixa/ui/user_row.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:datacaixa/ui/navigator.dart';
 
 final UserStore store = UserStore();
 
 class UserPage extends StatelessWidget {
-
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => UserLoginPage(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(0.0, 1.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-        Tween(begin: begin, end: end).chain(CurveTween(curve: curve)).animate(animation);
-
-        return FadeTransition(
-          opacity: animation,
-          child: child,
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +27,7 @@ class UserPage extends StatelessWidget {
                     InkWell(
                       onTap: (){
                         store.select(user);
-                        Navigator.of(context).push(_createRoute());
+                        Navigator.of(context).push(createRoute(UserLoginPage()));
                       },
                       child: UserRow(user),
                     ),

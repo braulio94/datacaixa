@@ -25,7 +25,6 @@ class UserDao implements DaoHelper {
             "$password TEXT, "
             "$email TEXT)"
     );
-    print("CREATED USER TABLE");
   }
 
   @override
@@ -50,11 +49,9 @@ class UserDao implements DaoHelper {
       );
       if(maps.length > 0) {
         users = maps.map((map) => User.fromMap(map)).toList();
-        print("GET ALL USERS $users");
         return users;
       }
     } catch(_){
-      print("GET ALL USERS CATHC");
       return [];
     }
     return users;

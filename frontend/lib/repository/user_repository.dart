@@ -8,9 +8,9 @@ class UserRepository extends Repository {
     await initDao();
     try {
       List<User> newUsers = await userService.getUsers();
+      connected = true;
       await _addNoneExisting(newUsers);
       await _removeNoneExisting(newUsers);
-      connected = true;
       return await store.userDao.getAll();
     } catch(_) {
       return await store.userDao.getAll();
@@ -18,19 +18,21 @@ class UserRepository extends Repository {
   }
 
   Future<bool> login(User user) async {
-    bool success = false;
     try{
-      success = await userService.login(user);
+      bool success = await userService.login(user);
+      connected = true;
       if(success){
-        SharedPreferencesHelper.setLoggedInUser(user.userId);
+        //SharedPreferencesHelper.setLoggedInUser(user.userId);
       }
+      print("LOGIN: $success");
+      return success;
     }catch(_){}
-    return success;
+    return null;
   }
 
   getLoggedInUser() async {
-    int id = await SharedPreferencesHelper.getLoggedInUser();
     try {
+      int id = await SharedPreferencesHelper.getLoggedInUser();
       return await store.userDao.get(id);
     } catch(_){}
   }

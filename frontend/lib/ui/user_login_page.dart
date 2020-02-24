@@ -1,10 +1,24 @@
 import 'package:datacaixa/common/app_strings.dart';
+import 'package:datacaixa/ui/home_page.dart';
+import 'package:datacaixa/ui/navigator.dart';
 import 'package:datacaixa/ui/user_page.dart';
 import 'package:datacaixa/ui/user_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class UserLoginPage extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+
+  _validate() async {
+    if(store.currentUser.password != null){
+      await store.login().whenComplete((){
+        _formKey.currentState.validate();
+      });
+    } else {
+      _formKey.currentState.validate();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Observer(
@@ -16,12 +30,27 @@ class UserLoginPage extends StatelessWidget {
                   UserRow(store.currentUser),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                    child: TextField(
-                      onChanged: (password) => store.setPassword(password),
-                      onSubmitted: (value) => store.login(),
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: passwordHint,
+                    child: Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        onChanged: (password) => store.setPassword(password),
+                        onFieldSubmitted: (value) => _validate(),
+                        validator: (value){
+                          if (value.isEmpty) {
+                            return 'Please enter some text';
+                          } else if(store.loginSuccess == null){
+                            return 'Não estas conectado';
+                          } else if(store.loginSuccess != null && !store.loginSuccess){
+                            return 'Senha está incorrecta';
+                          }
+                          Navigator.of(context).push(createRoute(HomePage()));
+                          return null;
+                        },
+                        //onSubmitted: (value) => store.login(),
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: passwordHint,
+                        ),
                       ),
                     ),
                   )
@@ -29,10 +58,12 @@ class UserLoginPage extends StatelessWidget {
               ),
             ),
             bottomNavigationBar: RaisedButton(
-              onPressed: (){
-                store.login();
+              color: Colors.blue,
+              padding: EdgeInsets.all(25),
+              onPressed: () {
+                _validate();
               },
-              child: Text(login),
+              child: Text(login, style: TextStyle(color: Colors.white)),
             ),
           ),
     );

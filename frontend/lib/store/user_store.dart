@@ -12,19 +12,22 @@ abstract class _UserStore with Store {
   bool get connected => repository.connected;
 
   @observable
-  List<User> users = [];
+  bool loginSuccess;
 
   @observable
+  List<User> users = [];
+
+  @computed
   User currentUser;
 
   @action
   select(User user) => currentUser = user;
 
   @action
-  setPassword(String password) => currentUser.copyWith(password: password);
+  setPassword(String password) => currentUser.password = password;
 
   @action
-  Future<bool> login() async => await repository.login(currentUser);
+  Future<bool> login() async => loginSuccess = await repository.login(currentUser);
 
   @action
   Future<User> getCurrentUser() async => await repository.getLoggedInUser();
