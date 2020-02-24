@@ -1,4 +1,4 @@
-import 'package:datacaixa/common/contants.dart' as c;
+import 'package:datacaixa/common/database_strings.dart' as c;
 
 class User {
   int identifier;
@@ -13,6 +13,18 @@ class User {
 
   User.add({this.identifier, this.hotelId, this.userId, this.username,
       this.name, this.password, this.email});
+
+  User copyWith({int identifier, int hotelId, int userId, String username, String name, String password, String email}){
+    return User.add(
+      identifier: identifier ?? this.identifier,
+      hotelId: hotelId ?? this.hotelId,
+      userId: userId ?? this.userId,
+      username: username ?? this.username,
+      name: name ?? this.name,
+      password: password ?? this.password,
+      email: email ?? this.email
+    );
+  }
 
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{

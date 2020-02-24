@@ -17,11 +17,15 @@ class UserRepository extends Repository {
     }
   }
 
-  login(User user) async {
-    bool success = await userService.login(user);
-    if(success){
-      SharedPreferencesHelper.setLoggedInUser(user.userId);
-    }
+  Future<bool> login(User user) async {
+    bool success = false;
+    try{
+      success = await userService.login(user);
+      if(success){
+        SharedPreferencesHelper.setLoggedInUser(user.userId);
+      }
+    }catch(_){}
+    return success;
   }
 
   getLoggedInUser() async {

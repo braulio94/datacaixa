@@ -1,3 +1,4 @@
+import 'package:datacaixa/common/app_strings.dart';
 import 'package:datacaixa/store/user_store.dart';
 import 'package:datacaixa/ui/user_login_page.dart';
 import 'package:datacaixa/ui/user_row.dart';
@@ -9,6 +10,23 @@ final UserStore store = UserStore();
 
 class UserPage extends StatelessWidget {
 
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => UserLoginPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve)).animate(animation);
+
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -17,7 +35,7 @@ class UserPage extends StatelessWidget {
         return Observer(
           builder: (_) {
             if(store.users.isEmpty){
-              return Text('Não existe usuarios!');
+              return Text(noUsers);
             } else {
               return ListView(
                 physics: BouncingScrollPhysics(),
@@ -25,9 +43,7 @@ class UserPage extends StatelessWidget {
                     InkWell(
                       onTap: (){
                         store.select(user);
-                        Navigator.of(context).push(CupertinoPageRoute<void>(builder: (_) {
-                          return UserLoginPage();
-                        }));
+                        Navigator.of(context).push(_createRoute());
                       },
                       child: UserRow(user),
                     ),

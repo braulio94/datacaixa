@@ -1,4 +1,4 @@
-import 'package:datacaixa/common/contants.dart' as c;
+import 'package:datacaixa/common/database_strings.dart' as c;
 import 'dart:convert';
 import 'package:datacaixa/models/product.dart';
 

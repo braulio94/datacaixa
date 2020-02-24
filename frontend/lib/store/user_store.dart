@@ -21,14 +21,13 @@ abstract class _UserStore with Store {
   select(User user) => currentUser = user;
 
   @action
-  login() async {
-    await repository.login(currentUser);
-  }
+  setPassword(String password) => currentUser.copyWith(password: password);
 
   @action
-  Future<User> getCurrentUser() async {
-    return await repository.getLoggedInUser();
-  }
+  Future<bool> login() async => await repository.login(currentUser);
+
+  @action
+  Future<User> getCurrentUser() async => await repository.getLoggedInUser();
 
   @action
   getUsers() async => users = await repository.loadUsers();

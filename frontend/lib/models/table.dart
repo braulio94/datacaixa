@@ -1,4 +1,4 @@
-import 'package:datacaixa/common/contants.dart' as c;
+import 'package:datacaixa/common/database_strings.dart' as c;
 
 class Table {
   int identifier;

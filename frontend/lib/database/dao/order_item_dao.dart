@@ -1,7 +1,7 @@
 import 'package:datacaixa/database/dao/dao_helper.dart';
 import 'package:datacaixa/models/order_item.dart';
 import 'package:sqflite/sqlite_api.dart';
-import 'package:datacaixa/common/contants.dart';
+import 'package:datacaixa/common/database_strings.dart';
 
 class OrderItemDao implements DaoHelper {
   Database db;

@@ -1,4 +1,4 @@
-import 'package:datacaixa/common/contants.dart';
+import 'package:datacaixa/common/database_strings.dart';
 import 'package:datacaixa/database/dao/dao_helper.dart';
 import 'package:datacaixa/models/order.dart';
 import 'package:sqflite/sqlite_api.dart';

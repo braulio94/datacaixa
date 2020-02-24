@@ -57,5 +57,3 @@ final String seats = 'LUGARES';
 final String sequence = 'SEQUENCIA';
 final String quantity = 'QUANTIDADE';
 final String unitValue = 'VALOR_UNITARIO';
-final String currentUser = 'USUARIO_ACTUAL';
-final String selectedUser = 'USUARIO_SELECIONADO';
