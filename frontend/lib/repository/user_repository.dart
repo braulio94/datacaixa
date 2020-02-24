@@ -22,7 +22,7 @@ class UserRepository extends Repository {
       bool success = await userService.login(user);
       connected = true;
       if(success){
-        //SharedPreferencesHelper.setLoggedInUser(user.userId);
+        SharedPreferencesHelper.setLoggedInUser(user.userId);
       }
       print("LOGIN: $success");
       return success;

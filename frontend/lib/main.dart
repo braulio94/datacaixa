@@ -1,8 +1,13 @@
 import 'package:datacaixa/helpers/shared_preferences_helper.dart';
+import 'package:datacaixa/models/user.dart';
+import 'package:datacaixa/store/user_store.dart';
+import 'package:datacaixa/ui/home_page.dart';
 import 'package:datacaixa/ui/user_page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(Datacaixa());
+
+final UserStore store = UserStore();
 
 class Datacaixa extends StatelessWidget {
   @override
@@ -10,12 +15,12 @@ class Datacaixa extends StatelessWidget {
     return MaterialApp(
       title: 'Counter App',
       home: Scaffold(
-        body: FutureBuilder<int>(
-          future: SharedPreferencesHelper.getLoggedInUser(),
+        body: FutureBuilder<User>(
+          future: store.getCurrentUser(),
           builder: (context, snapshot) =>
-            snapshot.data == 0 ?
+            snapshot.data == null ?
             UserPage() :
-            Card()
+            HomePage()
         )
       )
     );

@@ -1,7 +1,7 @@
 import 'package:datacaixa/common/app_strings.dart';
+import 'package:datacaixa/main.dart';
 import 'package:datacaixa/ui/home_page.dart';
 import 'package:datacaixa/ui/navigator.dart';
-import 'package:datacaixa/ui/user_page.dart';
 import 'package:datacaixa/ui/user_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -37,11 +37,11 @@ class UserLoginPage extends StatelessWidget {
                         onFieldSubmitted: (value) => _validate(),
                         validator: (value){
                           if (value.isEmpty) {
-                            return 'Please enter some text';
+                            return passwordEmpty;
                           } else if(store.loginSuccess == null){
-                            return 'Não estas conectado';
+                            return notConnected;
                           } else if(store.loginSuccess != null && !store.loginSuccess){
-                            return 'Senha está incorrecta';
+                            return wrongPassword;
                           }
                           Navigator.of(context).push(createRoute(HomePage()));
                           return null;
