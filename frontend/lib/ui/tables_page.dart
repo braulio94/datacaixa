@@ -1,4 +1,6 @@
 import 'package:datacaixa/store/app_state.dart';
+import 'package:datacaixa/ui/navigator.dart';
+import 'package:datacaixa/ui/table_page_detail.dart';
 import 'package:datacaixa/ui/table_view.dart';
 import 'package:flutter/material.dart';
 import 'package:datacaixa/models/table.dart' as table;
@@ -21,21 +23,25 @@ class TablesPage extends StatelessWidget {
                 children: List.generate(tableStore.tables.length, (int index) {
                   return AnimationConfiguration.staggeredGrid(
                     position: index,
-                    duration: const Duration(milliseconds: 300),
                     columnCount: 1,
                     child: ScaleAnimation(
                       child: FadeInAnimation(
-                        child: tableStore.status(index) == table.TableStatus.Busy ?
-                        TableView.busy(
-                          tableStore.table(index),
-                        ): TableView.idle(
-                          tableStore.table(index),
-                        )
+                        child: InkWell(
+                          onTap: (){
+                            tableStore.select(tableStore.table(index));
+                            Navigator.of(context).pushReplacement(createRoute(TablePageDetail()));
+                          },
+                          child: tableStore.status(index) == table.TableStatus.Busy ?
+                          TableView.busy(
+                            tableStore.table(index),
+                          ): TableView.idle(
+                            tableStore.table(index),
+                          ),
+                        ),
                       ),
                     ),
                   );
-                },
-                ),
+                }),
               ),
             ): Container(),
         );

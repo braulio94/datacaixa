@@ -69,30 +69,30 @@ class TableDao implements DaoHelper {
   }
 
   @override
-  void insert(item) async {
+  insert(item) async {
     if(item is Table){
       try {
         item.identifier = await db.insert(tablesTable, item.toMap());
       } catch(_){
-        update(item);
+        await update(item);
       }
     }
   }
 
   @override
-  void insertAll(List items) {
+  void insertAll(List items) async {
     if(items is List<Table>){
       for(Table item in items){
-        insert(item);
+        await insert(item);
       }
     }
   }
 
   @override
-  void update(item) async {
+  update(item) async {
     if(item is Table){
       await db.update(tablesTable, item.toMap(),
-          where: '$tableId = ? AND $status <> ? AND $totalValue <> ?', whereArgs: [item.tableId, item.status, item.totalAmount]);
+          where: '$tableId = ?', whereArgs: [item.tableId]);
     }
   }
 

@@ -39,7 +39,22 @@ func (r *DatabaseRepository) GetTables() (tables []model.Table) {
 			&table.PVD,
 			&table.Seats,
 		)
+		order := r.GetTableOrderDetails(table.TableId)
+		if len(order.TableStatus) > 0 {
+			table.Status = order.TableStatus
+		}
+		table.TotalAmount = order.GeneralTotalAmount
+		table.OrderId = order.OrderId
 		tables = append(tables, table)
 	}
 	return tables
+}
+
+func (r *DatabaseRepository) GetTableOrderDetails(tableId int) (order model.Order) {
+	formattedQuery := fmt.Sprintf(database.SelectTableOrder, tableId)
+	_ = database.Database.QueryRow(formattedQuery).Scan(
+		&order.OrderId,
+		&order.GeneralTotalAmount,
+		&order.TableStatus)
+	return order
 }

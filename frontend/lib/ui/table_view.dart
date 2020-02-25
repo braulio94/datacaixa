@@ -33,8 +33,7 @@ class TableView extends StatelessWidget {
     padding: EdgeInsets.all(10),
     child: Text(
       '${table.number}',
-      style: TextStyle(
-          fontWeight: FontWeight.bold, color: accentColor),
+      style: TextStyle(fontWeight: FontWeight.bold, color: accentColor),
     ),
   );
 

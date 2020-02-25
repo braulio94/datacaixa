@@ -36,6 +36,7 @@ class UserDao implements DaoHelper {
         if(maps.length > 0)
           return User.fromMap(maps.first);
       } catch(_){}
+      return null;
   }
 
   @override
