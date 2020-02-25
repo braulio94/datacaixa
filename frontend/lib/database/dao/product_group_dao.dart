@@ -84,4 +84,10 @@ class ProductGroupDao implements DaoHelper {
     // TODO: implement removeAll
   }
 
+  @override
+  removeNoneExisting(List newItems) {
+    // TODO: implement removeNoneExisting
+    throw UnimplementedError();
+  }
+
 }

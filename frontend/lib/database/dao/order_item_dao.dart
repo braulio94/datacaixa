@@ -104,4 +104,10 @@ class OrderItemDao implements DaoHelper {
   void removeAll(List items) {
     // TODO: implement removeAll
   }
+
+  @override
+  removeNoneExisting(List newItems) {
+    // TODO: implement removeNoneExisting
+    throw UnimplementedError();
+  }
 }

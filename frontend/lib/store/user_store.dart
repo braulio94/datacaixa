@@ -1,12 +1,12 @@
 import 'package:datacaixa/models/user.dart';
-import 'package:datacaixa/repository/user_repository.dart';
+import 'package:datacaixa/repository/users_repository.dart';
 import 'package:mobx/mobx.dart';
 part 'user_store.g.dart';
 
 class UserStore = _UserStore with _$UserStore;
 
 abstract class _UserStore with Store {
-  UserRepository repository = UserRepository();
+  UsersRepository repository = UsersRepository();
 
   @computed
   bool get connected => repository.connected;

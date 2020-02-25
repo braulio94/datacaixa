@@ -9,4 +9,5 @@ abstract class DaoHelper {
   getAll();
   remove(dynamic item);
   removeAll(List<dynamic> items);
+  removeNoneExisting(List<dynamic> newItems);
 }

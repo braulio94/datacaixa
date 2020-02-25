@@ -2,15 +2,15 @@ import 'package:datacaixa/helpers/shared_preferences_helper.dart';
 import 'package:datacaixa/models/user.dart';
 import 'package:datacaixa/repository/repository.dart';
 
-class UserRepository extends Repository {
+class UsersRepository extends Repository {
 
   loadUsers() async {
-    await initDao();
+    await initStore();
     try {
       List<User> newUsers = await userService.getUsers();
       connected = true;
-      await _addNoneExisting(newUsers);
-      await _removeNoneExisting(newUsers);
+      await addNoneExisting(store.userDao, newUsers);
+      await removeNoneExisting(store.userDao, newUsers);
       return await store.userDao.getAll();
     } catch(_) {
       return await store.userDao.getAll();
@@ -31,25 +31,11 @@ class UserRepository extends Repository {
   }
 
   Future<User> getLoggedInUser() async {
-    await initDao();
+    await initStore();
     try {
       int id = await SharedPreferencesHelper.getLoggedInUser();
       return await store.userDao.get(id);
     } catch(_){}
     return null;
-  }
-
-  _addNoneExisting(List<User> list) async {
-    await store.userDao.insertAll(list);
-  }
-
-  _removeNoneExisting(List<User> newUsers) async {
-    await store.userDao.removeNoneExisting(newUsers);
-  }
-
-  initDao() async {
-    if(store.userDao == null){
-      await store.connect();
-    }
   }
 }

@@ -86,15 +86,18 @@ class UserDao implements DaoHelper {
     }
   }
 
-  removeNoneExisting(List<User> list) async {
-    List<int> ids = list.map((u) => u.userId != null ? u.userId : -1).toList();
-    try {
-      await db.delete(
+  @override
+  removeNoneExisting(List list) async {
+    if(list is List<User>){
+      List<int> ids = list.map((u) => u.userId != null ? u.userId : -1).toList();
+      try {
+        await db.delete(
           userTable,
 
           where: '$userId NOT IN (${ids.join(', ')})',
-      );
-    } catch(_){}
+        );
+      } catch(_){}
+    }
   }
   
   @override
