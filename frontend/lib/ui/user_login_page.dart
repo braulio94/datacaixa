@@ -26,6 +26,7 @@ class UserLoginPage extends StatelessWidget {
           Scaffold(
             body: SafeArea(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   UserRow(userStore.currentUser),
                   Padding(
@@ -53,18 +54,19 @@ class UserLoginPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  RaisedButton(
+                    color: Colors.blue,
+                    padding: EdgeInsets.all(25),
+                    onPressed: () {
+                      _validate();
+                    },
+                    child: Text(login, style: TextStyle(color: Colors.white)),
+                  ),
                 ],
-              ),
-            ),
-            bottomNavigationBar: BottomAppBar(
-              child: RaisedButton(
-                color: Colors.blue,
-                padding: EdgeInsets.all(25),
-                onPressed: () {
-                  _validate();
-                },
-                child: Text(login, style: TextStyle(color: Colors.white)),
               ),
             ),
           ),
