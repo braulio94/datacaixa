@@ -18,7 +18,7 @@ class TableDao implements DaoHelper {
             "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
             "$hotelId INTEGER, "
             "$pdvId INTEGER, "
-            "$tableId INTEGER, "
+            "$tableId INTEGER UNIQUE, "
             "$number INTEGER, "
             "$status TEXT, "
             "$birthDayPerson TEXT, "
@@ -80,7 +80,11 @@ class TableDao implements DaoHelper {
   @override
   void insert(item) async {
     if(item is Table){
-      item.identifier = await db.insert(tablesTable, item.toMap());
+      try {
+        item.identifier = await db.insert(tablesTable, item.toMap());
+      } catch(_){
+        update(item);
+      }
     }
   }
 
@@ -97,7 +101,7 @@ class TableDao implements DaoHelper {
   void update(item) async {
     if(item is Table){
       await db.update(tablesTable, item.toMap(),
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+          where: '$tableId = ? AND $status <> ?', whereArgs: [item.tableId, item.status]);
     }
   }
 
@@ -116,7 +120,6 @@ class TableDao implements DaoHelper {
 
   @override
   removeNoneExisting(List newItems) {
-    // TODO: implement removeNoneExisting
     throw UnimplementedError();
   }
 }

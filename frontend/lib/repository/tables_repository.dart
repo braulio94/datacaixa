@@ -10,7 +10,6 @@ class TablesRepository extends Repository {
       var newTables = await tableService.getTables();
       connected = true;
       await addNoneExisting(store.tableDao, newTables);
-      await removeNoneExisting(store.tableDao, newTables);
       tables = await store.tableDao.getAll();
     } catch (_){
       tables = await store.tableDao.getAll();

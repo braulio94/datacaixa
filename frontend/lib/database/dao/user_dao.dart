@@ -5,8 +5,6 @@ import 'package:sqflite/sqlite_api.dart';
 
 class UserDao implements DaoHelper {
   Database db;
-  List<User> users = [];
-
   UserDao(this.db);
 
   UserDao.createTable(Database database){
@@ -48,13 +46,11 @@ class UserDao implements DaoHelper {
         columns: [identifier, hotelId, userId, username, name, password, email],
       );
       if(maps.length > 0) {
-        users = maps.map((map) => User.fromMap(map)).toList();
-        return users;
+        return maps.map((map) => User.fromMap(map)).toList();
       }
     } catch(_){
       return [];
     }
-    return users;
   }
 
   @override
@@ -62,8 +58,6 @@ class UserDao implements DaoHelper {
     if(item is User){
       try {
         item.identifier = await db.insert(userTable, item.toMap());
-        users.add(item);
-        print("${item.username}");
       } catch (_){
         //TODO update here an already existing item
       }
@@ -109,7 +103,6 @@ class UserDao implements DaoHelper {
             where: '$identifier = ?',
             whereArgs: [item.identifier]
         );
-        users.removeWhere((user) => user.identifier == item.identifier);
       } catch(_){}
     }
   }

@@ -1,5 +1,5 @@
 import 'package:datacaixa/common/app_strings.dart';
-import 'package:datacaixa/main.dart';
+import 'package:datacaixa/store/app_state.dart';
 import 'package:datacaixa/ui/home_page.dart';
 import 'package:datacaixa/ui/navigator.dart';
 import 'package:datacaixa/ui/user_row.dart';

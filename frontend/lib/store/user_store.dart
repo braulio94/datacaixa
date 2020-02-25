@@ -17,7 +17,7 @@ abstract class _UserStore with Store {
   @observable
   List<User> users = [];
 
-  @computed
+  @observable
   User currentUser;
 
   @action
