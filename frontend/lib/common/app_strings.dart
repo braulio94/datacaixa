@@ -6,3 +6,5 @@ final String noUsers = 'Não existe usuarios!';
 final String passwordEmpty = 'Senha não pode estar vazia';
 final String notConnected = 'Não estas conectado';
 final String wrongPassword = 'Senha está incorrecta';
+final String products = 'Produtos';
+final String defaultClient = 'Consumidor não identificado';

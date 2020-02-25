@@ -25,7 +25,7 @@ class UserPage extends StatelessWidget {
                     InkWell(
                       onTap: (){
                         userStore.select(user);
-                        Navigator.of(context).push(createRoute(UserLoginPage()));
+                        Navigator.of(context).pushReplacement(createRoute(UserLoginPage()));
                       },
                       child: UserRow(user),
                     ),

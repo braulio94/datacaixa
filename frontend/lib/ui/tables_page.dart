@@ -29,7 +29,8 @@ class TablesPage extends StatelessWidget {
                         child: InkWell(
                           onTap: (){
                             tableStore.select(tableStore.table(index));
-                            Navigator.of(context).pushReplacement(createRoute(TablePageDetail()));
+                            int tableNumber = tableStore.currentTable.number;
+                            Navigator.of(context).push(createRoute(OrderPageDetail(tableNumber)));
                           },
                           child: tableStore.status(index) == table.TableStatus.Busy ?
                           TableView.busy(
