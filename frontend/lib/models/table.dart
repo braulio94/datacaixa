@@ -6,17 +6,19 @@ class Table {
   int pdvId;
   int tableId;
   int number;
+  int orderId;
   String status;
   String birthDayPerson;
   String vip;
   String honeyMoon;
   String pdv;
   String seats;
+  double totalAmount;
 
   Table();
 
   Table.add({this.identifier, this.hotelId, this.pdvId, this.tableId, this.number, this.status,
-      this.birthDayPerson, this.vip, this.honeyMoon, this.pdv, this.seats});
+      this.birthDayPerson, this.vip, this.honeyMoon, this.pdv, this.seats, this.orderId, this.totalAmount});
 
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{
@@ -25,11 +27,8 @@ class Table {
       c.tableId: tableId,
       c.number: number,
       c.status: status,
-      c.birthDayPerson: birthDayPerson,
-      c.vip: vip,
-      c.honeyMoon: honeyMoon,
-      c.pdv: pdv,
-      c.seats: seats,
+      c.orderId: orderId,
+      c.totalValue: totalAmount,
     };
     if(identifier != null){
       map[c.identifier] = identifier;
@@ -44,27 +43,25 @@ class Table {
     tableId = map[c.tableId];
     number = map[c.number];
     status = map[c.status];
-    birthDayPerson = map[c.birthDayPerson];
-    vip = map[c.vip];
-    honeyMoon = map[c.honeyMoon];
-    pdv = map[c.pdv];
-    seats = map[c.seats];
+    orderId = map[c.orderId];
+    totalAmount = map[c.totalValue];
   }
 
   factory Table.fromJson(Map<String, dynamic> json) => Table.add(
     tableId: json["id_mesa"],
     number: json["numero"],
     status: json["situacao"],
+    orderId: json["id_pedido"],
+    totalAmount: json["valor_total"]!= null ? json["valor_total"].toDouble() : null,
   );
-
-  Map<String, dynamic> toJson() => {
-    "id_mesa": tableId,
-    "numero": number,
-    "situacao": status,
-  };
 
   @override
   String toString() {
     return 'Table{identifier: $identifier, hotelId: $hotelId, pdvId: $pdvId, tableId: $tableId, number: $number, status: $status, birthDayPerson: $birthDayPerson, vip: $vip, honeyMoon: $honeyMoon, pdv: $pdv, seats: $seats}';
   }
+}
+
+enum TableStatus {
+  Busy,
+  Idle
 }

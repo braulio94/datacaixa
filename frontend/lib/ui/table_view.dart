@@ -1,14 +1,42 @@
 import 'package:datacaixa/common/style.dart';
 import 'package:flutter/material.dart';
+import 'package:datacaixa/models/table.dart' as model;
 
 class TableView extends StatelessWidget {
-  final int number;
+  final model.Table table;
+  final Widget child;
 
-  TableView(this.number);
+  TableView.busy(this.table) : child = Column(
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Padding(
+        padding: EdgeInsets.all(10),
+        child: Text(
+          '${table.number}',
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: accentColor),
+        ),
+      ),
+      Expanded(child: Container()),
+      Padding(
+        padding: EdgeInsets.all(10),
+        child: Text(
+          '${table.totalAmount}',
+          style: TextStyle(fontSize: 10, color: Colors.black45),
+        ),
+      ),
+    ],
+  );
 
-  TableView.busy(this.number);
-
-  TableView.idle(this.number);
+  TableView.idle(this.table) : child = Padding(
+    padding: EdgeInsets.all(10),
+    child: Text(
+      '${table.number}',
+      style: TextStyle(
+          fontWeight: FontWeight.bold, color: accentColor),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +48,7 @@ class TableView extends StatelessWidget {
           constraints: BoxConstraints.tightFor(width: 100, height: 100),
           child: DecoratedBox(
             decoration: BoxDecoration(color: Colors.white),
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                '$number',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: accentColor),
-              ),
-            ),
+            child: child,
           ),
         ),
       ),

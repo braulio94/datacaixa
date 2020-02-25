@@ -21,11 +21,8 @@ class TableDao implements DaoHelper {
             "$tableId INTEGER UNIQUE, "
             "$number INTEGER, "
             "$status TEXT, "
-            "$birthDayPerson TEXT, "
-            "$vip TEXT, "
-            "$honeyMoon TEXT, "
-            "$pdv TEXT, "
-            "$seats TEXT)"
+            "$orderId INTEGER, "
+            "$totalValue REAL)"
     );
     print("CREATED TABLE TABLE");
   }
@@ -40,13 +37,10 @@ class TableDao implements DaoHelper {
             tableId,
             number,
             status,
-            birthDayPerson,
-            vip,
-            honeyMoon,
-            pdv,
-            seats,
+            orderId,
+            totalValue
           ],
-          where: '$identifier = ?',
+          where: '$tableId = ?',
           whereArgs: [id]
       );
       if(maps.length > 0)
@@ -64,11 +58,8 @@ class TableDao implements DaoHelper {
           tableId,
           number,
           status,
-          birthDayPerson,
-          vip,
-          honeyMoon,
-          pdv,
-          seats,
+          orderId,
+          totalValue
         ],
       );
       if(maps.length > 0) {
@@ -101,7 +92,7 @@ class TableDao implements DaoHelper {
   void update(item) async {
     if(item is Table){
       await db.update(tablesTable, item.toMap(),
-          where: '$tableId = ? AND $status <> ?', whereArgs: [item.tableId, item.status]);
+          where: '$tableId = ? AND $status <> ? AND $totalValue <> ?', whereArgs: [item.tableId, item.status, item.totalAmount]);
     }
   }
 
@@ -109,7 +100,7 @@ class TableDao implements DaoHelper {
   void remove(item) async {
     if(item is Table){
       await db.delete(orderItemsTable,
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+          where: '$tableId = ?', whereArgs: [item.tableId]);
     }
   }
 

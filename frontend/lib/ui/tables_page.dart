@@ -25,9 +25,12 @@ class TablesPage extends StatelessWidget {
                     columnCount: 1,
                     child: ScaleAnimation(
                       child: FadeInAnimation(
-                        child: TableView(
-                            tableStore.tableNumber(index)
-                        ),
+                        child: tableStore.status(index) == table.TableStatus.Busy ?
+                        TableView.busy(
+                          tableStore.table(index),
+                        ): TableView.idle(
+                          tableStore.table(index),
+                        )
                       ),
                     ),
                   );

@@ -11,7 +11,11 @@ abstract class _TableStore with Store {
   @observable
   List<Table> tables = [];
 
-  int tableNumber(index) => tables[index].number;
+  TableStatus status(index) =>
+      tables[index].status == 'Ocupada' ?
+      TableStatus.Busy : TableStatus.Idle;
+
+  table(index) => tables[index];
 
   @action
   Future<List<Table>> getTables() async => tables = await repository.loadTables();
