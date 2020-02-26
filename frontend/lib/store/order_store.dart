@@ -6,16 +6,16 @@ part 'order_store.g.dart';
 
 class OrderStore = _OrderStore with _$OrderStore;
 
-abstract class OrderStore with Store {
+abstract class _OrderStore with Store {
   @observable
   Order currentOrder;
 
   @computed
-  client get => currentOrder == null &&
+  String get client  => currentOrder == null ||
                   currentOrder.client == null ?
                     defaultClient : currentOrder.client;
   @computed
-  openingDate get currentOrder == null ?
+  String get openingDate => currentOrder == null ?
                       dateFormatter.format(DateTime.now()):
                         currentOrder.openingDate;
 }

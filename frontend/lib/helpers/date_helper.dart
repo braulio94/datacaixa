@@ -1,4 +1,4 @@
 import 'package:intl/intl.dart';
 
-DateFormat dateFormatter = DateFormat("dd-MM-yyyy");
+DateFormat dateFormatter = DateFormat("HH:mm | dd-MM-yyyy");
 

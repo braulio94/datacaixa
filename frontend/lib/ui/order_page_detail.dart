@@ -33,23 +33,29 @@ class OrderPageDetail extends StatelessWidget {
                         backgroundColor: accentColor,
                         child: Text(
                           '${tableStore.currentTable.number}',
-                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(fontWeight: FontWeight.bold, color: neutralColor),
                         ),
                       ),
                     ),
-                    Expanded(child: Container()),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Text(order.client.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis),
-                          ),
-                          //Expanded(child: Container()),
-                          Text(order.openingDate, style: TextStyle(fontSize: 12)),
-                        ],
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 25),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              child: Text(
+                                orderStore.client,
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                softWrap: true,
+                              ),
+                            ),
+                            Text(orderStore.openingDate, style: TextStyle(fontSize: 12)),
+                          ],
+                        ),
                       ),
                     ),
                   ],

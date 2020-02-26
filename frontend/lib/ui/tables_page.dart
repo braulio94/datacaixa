@@ -1,6 +1,6 @@
 import 'package:datacaixa/store/app_state.dart';
 import 'package:datacaixa/ui/navigator.dart';
-import 'package:datacaixa/ui/table_page_detail.dart';
+import 'package:datacaixa/ui/order_page_detail.dart';
 import 'package:datacaixa/ui/table_view.dart';
 import 'package:flutter/material.dart';
 import 'package:datacaixa/models/table.dart' as table;

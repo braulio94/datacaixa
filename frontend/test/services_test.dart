@@ -61,7 +61,7 @@ void main(){
         hotelId: 1,
         pdvId: 1,
         userId: 2,
-        tableId: 32,
+        tableId: 8,
         status: 'Aberto',
         clientId: 51,
         people: 13,
@@ -69,7 +69,8 @@ void main(){
         type: 'MESA'
       )
     );
-    expect('Ocupada', order.status);
+    print("ORDER: $order");
+    expect('Aberto', order.status);
   });
 
   test('Create Order Items test', () async {

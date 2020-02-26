@@ -1,5 +1,5 @@
 final String PORT = '9090';
-final String HOST = '192.168.15.127:$PORT';
+final String HOST = '172.28.64.72:$PORT';
 final String BASE_URL = 'http://$HOST';
 final String PRODUCT = '/api/product';
 final String PRODUCTS = '/api/products';
