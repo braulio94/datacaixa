@@ -1,3 +1,4 @@
+import 'package:datacaixa/models/order.dart';
 import 'package:datacaixa/store/app_state.dart';
 import 'package:datacaixa/ui/navigator.dart';
 import 'package:datacaixa/ui/order_page_detail.dart';
@@ -27,9 +28,12 @@ class TablesPage extends StatelessWidget {
                     child: ScaleAnimation(
                       child: FadeInAnimation(
                         child: InkWell(
-                          onTap: (){
+                          onTap: () async {
                             tableStore.select(tableStore.table(index));
                             int tableNumber = tableStore.currentTable.number;
+                            if(tableStore.currentTable.orderId != null){
+                              await orderStore.getOrder(tableStore.currentTable.orderId);
+                            }
                             Navigator.of(context).push(createRoute(OrderPageDetail(tableNumber)));
                           },
                           child: tableStore.status(index) == table.TableStatus.Busy ?

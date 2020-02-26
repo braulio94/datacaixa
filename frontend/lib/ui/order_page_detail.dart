@@ -8,8 +8,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 class OrderPageDetail extends StatelessWidget {
   final int tableNumber;
-  final Order order;
-  OrderPageDetail(this.tableNumber, {this.order});
+  OrderPageDetail(this.tableNumber);
 
   @override
   Widget build(BuildContext context) {

@@ -17,7 +17,7 @@ class OrderDao implements DaoHelper {
       "CREATE TABLE $orderTable "
             "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
             "$hotelId INTEGER, "
-            "$orderId INTEGER, "
+            "$orderId INTEGER UNIQUE, "
             "$pdvId INTEGER, "
             "$userId INTEGER, "
             "$tableId INTEGER, "
@@ -67,7 +67,6 @@ class OrderDao implements DaoHelper {
           where: '$identifier = ?',
           whereArgs: [id]);
       if (maps.length > 0) {
-        print("MAP IS HIGHER THAN 0");
         return Order.fromMap(maps.first);
       }
   }
@@ -104,17 +103,18 @@ class OrderDao implements DaoHelper {
   }
 
   @override
-  void insert(item) async {
+  insert(item) async {
     if(item is Order){
       item.identifier = await db.insert(orderTable, item.toMap());
+      print("INSERTED ORDER: $item");
     }
   }
 
   @override
-  void insertAll(List items) {
+  insertAll(List items) async {
     if(items is List<Order>){
       for(Order item in items){
-        insert(item);
+        await insert(item);
       }
     }
   }

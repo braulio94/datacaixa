@@ -26,7 +26,7 @@ class Repository {
     await dao.insertAll(list);
   }
 
-  removeNoneExisting(DaoHelper dao, List<dynamic> newUsers) async {
-    await dao.removeNoneExisting(newUsers);
+  removeNoneExisting(DaoHelper dao, List<dynamic> items) async {
+    await dao.removeNoneExisting(items);
   }
 }
