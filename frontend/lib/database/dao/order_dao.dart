@@ -64,7 +64,7 @@ class OrderDao implements DaoHelper {
             deliveryTime,
             type
           ],
-          where: '$identifier = ?',
+          where: '$orderId = ?',
           whereArgs: [id]);
       if (maps.length > 0) {
         return Order.fromMap(maps.first);

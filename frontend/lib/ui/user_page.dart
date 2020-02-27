@@ -16,7 +16,7 @@ class UserPage extends StatelessWidget {
       builder: (context, _) {
         return Observer(
           builder: (_) {
-            if(userStore.users.isEmpty){
+            if(userStore.users == null){
               return Center(child: Text(noUsers));
             } else {
               return ListView(
