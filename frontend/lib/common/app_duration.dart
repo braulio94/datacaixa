@@ -1,0 +1,1 @@
+final loadDuration = Duration(seconds: 2);

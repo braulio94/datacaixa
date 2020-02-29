@@ -1,4 +1,7 @@
 import 'package:datacaixa/common/style.dart';
+import 'package:datacaixa/helpers/currency_value_helper.dart';
+import 'package:datacaixa/store/app_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:datacaixa/models/table.dart' as model;
 
@@ -6,11 +9,9 @@ class TableView extends StatelessWidget {
   final model.Table table;
   final model.TableStatus status;
 
-  TableView.busy(this.table) :
-        status = model.TableStatus.Busy;
+  TableView.busy(this.table) : status = model.TableStatus.Busy;
 
-  TableView.idle(this.table) :
-        status = model.TableStatus.Idle;
+  TableView.idle(this.table) : status = model.TableStatus.Idle;
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +28,21 @@ class TableView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    status == model.TableStatus.Idle ?
-                    '' : '${table.totalAmount}',
-                    style: TextStyle(fontSize: 10, color: Colors.black45),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10, top: 10, right: 14.8),
+                    child: Text(
+                      status == model.TableStatus.Idle ?
+                      '':'${currencyFormatter.format(table.totalAmount)}',
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(color: neutralColor, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
-                Expanded(child: Container()),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.only(left: 8, bottom: 10),
                   child: CircleAvatar(
+                    radius: 15,
                     backgroundColor: neutralColor,
                     child: Text(
                       '${table.number}',

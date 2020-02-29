@@ -33,6 +33,7 @@ class UserDao implements DaoHelper {
             where: '$userId = ?',
             whereArgs: [id]
         );
+        print("LOGGED IN USER $id");
         if(maps.length > 0)
           return User.fromMap(maps.first);
       } catch(_){}

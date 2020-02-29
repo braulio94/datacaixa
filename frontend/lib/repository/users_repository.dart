@@ -38,7 +38,6 @@ class UsersRepository extends Repository {
       if(id == null){
         throw ArgumentError;
       }
-      print("LOGGED IN USER $id");
       return await store.userDao.get(id);
     } catch(_){
       return null;

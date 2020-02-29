@@ -1,3 +1,4 @@
+import 'package:datacaixa/helpers/currency_value_helper.dart';
 import 'package:datacaixa/models/table.dart';
 import 'package:datacaixa/repository/tables_repository.dart';
 import 'package:mobx/mobx.dart';
@@ -9,9 +10,13 @@ class TableStore = _TableStore with _$TableStore;
 abstract class _TableStore with Store {
   TablesRepository repository = TablesRepository();
   @observable
+  bool showAllTables = true;
+  @observable
   List<Table> tables = [];
   @observable
   Table currentTable;
+
+  changeTablesDisplay() => showAllTables = !showAllTables;
 
   TableStatus status(index) =>
       tables[index].status == 'Ocupada' ?
@@ -26,5 +31,6 @@ abstract class _TableStore with Store {
   @action
   Future<List<Table>> getTables() async => tables = await repository.loadTables();
 
-  get busyTables => tables.where((t)=> t.status == 'Ocupada');
+  @action
+  Future<List<Table>> getBusyTables() async => tables = await repository.loadBusyTables();
 }

@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:datacaixa/common/app_strings.dart';
 import 'package:datacaixa/common/style.dart';
 import 'package:datacaixa/models/order.dart';
@@ -18,6 +19,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
   AnimationController controller;
   static const List<String> _kStrings = const <String>['....','...','...'];
   String get _currentString => _kStrings[_stringIndex % _kStrings.length];
+  var _memoizer = AsyncMemoizer<Order>();
 
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
   @override
   void dispose() {
     controller.dispose();
+    _memoizer = null;
     super.dispose();
   }
 
@@ -49,7 +52,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder<Order>(
-          future: orderStore.getOrder(tableStore.currentTable.orderId),
+          future: this._memoizer.runOnce(() async => orderStore.getOrder(tableStore.currentTable.orderId)),
           builder: (context, snapshot) {
             return Observer(
               builder: (context){

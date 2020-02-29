@@ -16,4 +16,9 @@ class TablesRepository extends Repository {
     }
     return tables;
   }
+
+  loadBusyTables() async {
+    List<Table> busyTables = await loadTables();
+    return busyTables.where((t)=> t.status == 'Ocupada');
+  }
 }

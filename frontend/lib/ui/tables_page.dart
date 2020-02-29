@@ -12,39 +12,55 @@ class TablesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        return FutureBuilder<List<table.Table>>(
-            future: tableStore.getTables(),
-            builder: (context, snapshot) =>
-            tableStore.tables.isNotEmpty ?
-            AnimationLimiter(
-              child: GridView.count(
-                physics: BouncingScrollPhysics(),
-                crossAxisCount: 3,
-                children: List.generate(tableStore.tables.length, (int index) {
-                  return AnimationConfiguration.staggeredGrid(
-                    position: index,
-                    columnCount: 1,
-                    child: ScaleAnimation(
-                      child: FadeInAnimation(
-                        child: InkWell(
-                          onTap: () async {
-                            tableStore.select(tableStore.table(index));
-                            orderStore.newCurrentOrder();
-                            Navigator.of(context).push(createRoute(OrderPageDetail()));
-                          },
-                          child: tableStore.status(index) == table.TableStatus.Busy ?
-                          TableView.busy(
-                            tableStore.table(index),
-                          ): TableView.idle(
-                            tableStore.table(index),
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('MESAS', style: TextStyle(fontSize: 20)),
+                Switch(
+                  value: tableStore.showAllTables,
+                  onChanged: (bool newValue) async {
+                    tableStore.changeTablesDisplay();
+                    tableStore.showAllTables ? await tableStore.getTables() : await tableStore.getBusyTables();
+                  },
+                ),
+              ],
+            ),
+            Expanded(
+              child: FutureBuilder<List<table.Table>>(
+                  future: tableStore.showAllTables ? tableStore.getTables() : tableStore.getBusyTables(),
+                  builder: (context, snapshot) =>
+                  tableStore.tables.isNotEmpty ?
+                  AnimationLimiter(
+                    child: GridView.count(
+                      physics: BouncingScrollPhysics(),
+                      crossAxisCount: 3,
+                      children: List.generate(tableStore.tables.length, (int index) {
+                        return AnimationConfiguration.staggeredGrid(
+                          position: index,
+                          columnCount: 1,
+                          child: ScaleAnimation(
+                            child: FadeInAnimation(
+                              child: InkWell(
+                                onTap: () async {
+                                  tableStore.select(tableStore.table(index));
+                                  orderStore.newCurrentOrder();
+                                  Navigator.of(context).push(createRoute(OrderPageDetail()));
+                                },
+                                child: tableStore.status(index) == table.TableStatus.Busy ?
+                                TableView.busy(tableStore.table(index)):
+                                TableView.idle(tableStore.table(index)),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      }),
                     ),
-                  );
-                }),
+                  ): Center(child: CircularProgressIndicator()),
               ),
-            ): Container(),
+            ),
+          ],
         );
       }
     );

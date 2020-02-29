@@ -9,16 +9,20 @@ class OrderStore = _OrderStore with _$OrderStore;
 
 abstract class _OrderStore with Store {
   OrderRepository repository = OrderRepository();
+
   @observable
   Order currentOrder;
 
   @computed
-  String get client  => currentOrder == null ||
-                  currentOrder.client == null ||
-                    currentOrder.client.name == null ?
-                    defaultClient : currentOrder.client.name;
+  String get client  => currentOrder != null &&
+                          currentOrder.client.name != null ?
+                            currentOrder.client.name :
+                              currentOrder != null &&
+                                currentOrder.client.name == null ?
+                                  defaultClient : '';
   @computed
-  String get openingDate => currentOrder == null ? dateFormatter.format(DateTime.now()): currentOrder.openingDate;
+  String get openingDate => currentOrder == null ?
+                '': dateFormatter.format(DateTime.parse(currentOrder.openingDate));
 
   @action
   newCurrentOrder() => currentOrder = null;
