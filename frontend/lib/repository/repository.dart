@@ -18,7 +18,7 @@ class Repository {
   initStore() async {
     if(store == null){
       store = DataStore();
-      store.connect();
+      await store.connect();
     }
   }
 

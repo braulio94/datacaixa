@@ -18,13 +18,14 @@ class UsersRepository extends Repository {
   }
 
   Future<bool> login(User user) async {
+    await initStore();
     try{
       bool success = await userService.login(user);
-      connected = true;
+      bool saved;
       if(success){
-        SharedPreferencesHelper.setLoggedInUser(user.userId);
+        saved = await Prefs.setLoggedInUser(user.userId);
       }
-      print("LOGIN: $success");
+      print("SAVED: $saved WITH ${user.userId}");
       return success;
     }catch(_){}
     return null;
@@ -33,9 +34,15 @@ class UsersRepository extends Repository {
   Future<User> getLoggedInUser() async {
     await initStore();
     try {
-      int id = await SharedPreferencesHelper.getLoggedInUser();
+      int id = await Prefs.getLoggedInUser();
+      if(id == null){
+        throw ArgumentError;
+      }
+      print("LOGGED IN USER $id");
       return await store.userDao.get(id);
-    } catch(_){}
-    return null;
+    } catch(_){
+      return null;
+    }
+
   }
 }

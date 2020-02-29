@@ -9,13 +9,14 @@ import (
 func (r *DatabaseRepository) GetOrder(orderId int, withItems bool) (order model.Order) {
 	rows, _ := database.Query(database.SelectOrder, orderId)
 	for rows.Next() {
-		_ = rows.Scan(&order.OrderId, &order.ClientId, &order.UserId, &order.TableId, &order.TableStatus, &order.OpeningDate, &order.GeneralTotalAmount)
+		_ = rows.Scan(&order.OrderId, &order.UserId, &order.TableId, &order.TableStatus, &order.OpeningDate, &order.GeneralTotalAmount, &order.ClientId)
 	}
-	order.Client = r.GetClient(order.ClientId)
+	if &order.ClientId != nil {
+		order.Client = r.GetClient(order.ClientId)
+	}
 	if withItems {
 		order.OrderItems = r.GetOrderItems(orderId)
 	}
-
 	return order
 }
 

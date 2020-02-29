@@ -20,6 +20,8 @@ abstract class _UserStore with Store {
   @observable
   User currentUser;
 
+  User get user => currentUser;
+
   @action
   select(User user) => currentUser = user;
 
@@ -30,7 +32,18 @@ abstract class _UserStore with Store {
   Future<bool> login() async => loginSuccess = await repository.login(currentUser);
 
   @action
-  Future<User> getCurrentUser() async => await repository.getLoggedInUser();
+  Future<User> getCurrentUser() async {
+    currentUser = await repository.getLoggedInUser();
+    print(currentUser);
+    return currentUser;
+  }
+
+  @action
+  Future<User> savedUser() async {
+    User user = await repository.getLoggedInUser();
+    print("SAVED USER: $user");
+    return user;
+  }
 
   @action
   getUsers() async => users = await repository.loadUsers();

@@ -48,13 +48,13 @@ var SelectProductsRecentlySold = `SELECT P.ID_PRODUTO,
 										ORDER BY V.DATA_HORA_LANCTO DESC
 										ROWS %d TO %d`
 
-var SelectOrder = `SELECT ID_PEDIDO, 
-								ID_CLIENTE,
+var SelectOrder = `SELECT ID_PEDIDO,
 								ID_USUARIO, 
 								ID_MESA, 
 								SITUACAO_MESA, 
 								DATA_HORA_ABERTURA, 
-								VALOR_TOTAL_GERAL 
+								VALOR_TOTAL_GERAL, 
+								ID_CLIENTE 
 								FROM TPEDIDOS 
 								WHERE ID_PEDIDO = %d;`
 
