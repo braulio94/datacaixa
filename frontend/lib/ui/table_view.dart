@@ -35,7 +35,7 @@ class TableView extends StatelessWidget {
                       status == model.TableStatus.Idle ?
                       '':'${currencyFormatter.format(table.totalAmount)}',
                       overflow: TextOverflow.visible,
-                      style: TextStyle(color: neutralColor, fontWeight: FontWeight.bold),
+                      style: boldBodyStyle.copyWith(color: neutralColor),
                     ),
                   ),
                 ),
@@ -44,12 +44,10 @@ class TableView extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 15,
                     backgroundColor: neutralColor,
+                    foregroundColor: semiDarkColor,
                     child: Text(
                       '${table.number}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: accentColor
-                      ),
+                      style: boldBodyStyle,
                     ),
                   ),
                 ),

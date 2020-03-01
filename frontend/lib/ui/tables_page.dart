@@ -1,3 +1,6 @@
+import 'package:datacaixa/common/app_strings.dart';
+import 'package:datacaixa/common/database_strings.dart';
+import 'package:datacaixa/common/style.dart';
 import 'package:datacaixa/store/app_state.dart';
 import 'package:datacaixa/ui/navigator.dart';
 import 'package:datacaixa/ui/order_page_detail.dart';
@@ -14,24 +17,29 @@ class TablesPage extends StatelessWidget {
       builder: (context) {
         return Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('MESAS', style: TextStyle(fontSize: 20)),
-                Switch(
-                  value: tableStore.showAllTables,
-                  onChanged: (bool newValue) async {
-                    tableStore.changeTablesDisplay();
-                    tableStore.showAllTables ? await tableStore.getTables() : await tableStore.getBusyTables();
-                  },
-                ),
-              ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  Text(tables, style: titleStyle),
+                  Spacer(),
+                  Switch(
+                    activeColor: accentColor,
+                    value: tableStore.showAllTables,
+                    onChanged: (bool newValue) async {
+                      tableStore.changeTablesDisplay();
+                      tableStore.showAllTables ? await tableStore.getTables() : await tableStore.getBusyTables();
+                    },
+                  ),
+                  Text(allTables, style: overlineStyle),
+                ],
+              ),
             ),
             Expanded(
               child: FutureBuilder<List<table.Table>>(
                   future: tableStore.showAllTables ? tableStore.getTables() : tableStore.getBusyTables(),
                   builder: (context, snapshot) =>
-                  tableStore.tables.isNotEmpty ?
+                  tableStore.tables != null && tableStore.tables.isNotEmpty ?
                   AnimationLimiter(
                     child: GridView.count(
                       physics: BouncingScrollPhysics(),

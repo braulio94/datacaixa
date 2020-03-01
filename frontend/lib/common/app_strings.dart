@@ -9,3 +9,6 @@ final String wrongPassword = 'Senha está incorrecta';
 final String products = 'Produtos';
 final String defaultClient = 'Consumidor não identificado';
 final String categories = 'Categorias';
+final String tables = 'Mesas';
+final String allTables = 'Todas Mesas';
+final String busy = 'Ocupada';

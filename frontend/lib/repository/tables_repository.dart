@@ -1,3 +1,4 @@
+import 'package:datacaixa/common/app_strings.dart';
 import 'package:datacaixa/models/table.dart';
 import 'package:datacaixa/repository/repository.dart';
 
@@ -19,6 +20,7 @@ class TablesRepository extends Repository {
 
   loadBusyTables() async {
     List<Table> busyTables = await loadTables();
-    return busyTables.where((t)=> t.status == 'Ocupada');
+    busyTables.retainWhere((t)=> t.status == busy);
+    return busyTables;
   }
 }

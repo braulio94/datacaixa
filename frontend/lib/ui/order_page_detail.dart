@@ -128,6 +128,12 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
                 return productStore.showProducts ? ProductsView() : ProductGroupsView();
               }
             );
+          }).whenComplete((){
+            if(productStore.showProducts){
+              productStore.restartMemorizer();
+              productStore.resetPage();
+              productStore.changeDisplay();
+            }
           });
         },
       ),
