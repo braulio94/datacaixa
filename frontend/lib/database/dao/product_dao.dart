@@ -17,42 +17,47 @@ class ProductDao implements DaoHelper{
     await database.execute(
         "CREATE TABLE $productsTable "
             "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
-            "$productId INTEGER, "
+            "$productId INTEGER UNIQUE, "
             "$productGroupId INTEGER, "
             "$description TEXT, "
             "$createdAt TEXT, "
             "$price REAL, "
             "$sales INTEGER)"
     );
-    print("CREATED PRODUCT TABLE");
   }
 
   @override
   Future get(int id) async {
-      List<Map> maps = await db.query(productsTable,
-          columns: [identifier, productId, productGroupId, description, createdAt, price, sales],
-          where: '$identifier = ?',
-          whereArgs: [id]
-      );
-      if(maps.length > 0)
-        return Product.fromMap(maps.first);
+      try {
+        List<Map> maps = await db.query(productsTable,
+            columns: [identifier, productId, productGroupId, description, createdAt, price, sales],
+            where: '$identifier = ?',
+            whereArgs: [id]
+        );
+        if(maps.length > 0)
+          return Product.fromMap(maps.first);
+      } catch (_){
+
+      }
   }
 
   @override
   Future<List> getAll() async {
-      List<Map> maps = await db.query(productsTable,
-          columns: [identifier, productId, productGroupId, description, createdAt, price, sales]
-      );
+    try {
+      List<Map> maps = await db.query(productsTable, columns: [identifier, productId, productGroupId, description, createdAt, price, sales]);
       if(maps.length > 0) {
         return maps.map((map) => Product.fromMap(map)).toList();
       }
+    } catch(_){}
     return [];
   }
 
   @override
   void insert(item) async {
     if(item is Product){
-      item.identifier = await db.insert(productsTable, item.toMap());
+      try {
+        item.identifier = await db.insert(productsTable, item.toMap());
+      } catch(_){}
     }
   }
 
@@ -68,22 +73,29 @@ class ProductDao implements DaoHelper{
   @override
   void update(item) async {
     if(item is Product){
-      await db.update(productsTable, item.toMap(),
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+      try {
+        await db.update(productsTable, item.toMap(), where: '$identifier = ?', whereArgs: [item.identifier]);
+      } catch (_){}
     }
   }
 
   @override
   void remove(item) async {
     if(item is Product){
-      await db.delete(productsTable,
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+      try {
+        await db.delete(productsTable, where: '$identifier = ?', whereArgs: [item.identifier]);
+      } catch(_){}
     }
   }
 
   @override
-  void removeAll(List items) {
-    // TODO: implement removeAll
+  void removeAll(List items) async {
+    if(items is List<Product>){
+      List<int> ids = items.map((u) => u.productId != null ? u.productId : -1).toList();
+      try {
+        await db.delete(userTable, where: '$userId NOT IN (${ids.join(', ')})');
+      } catch(_){}
+    }
   }
 
   @override

@@ -17,12 +17,11 @@ class ProductGroupDao implements DaoHelper {
         "CREATE TABLE $productGroupTable "
             "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
             "$hotelId INTEGER, "
-            "$productGroupId INTEGER, "
+            "$productGroupId INTEGER UNIQUE, "
             "$description TEXT, "
             "$display TEXT, "
             "$code INTEGER)"
     );
-    print("CREATED PRODUCT GROUP TABLE");
   }
 
   @override
@@ -50,7 +49,11 @@ class ProductGroupDao implements DaoHelper {
   @override
   void insert(item) async {
     if(item is ProductGroup){
-      item.identifier = await db.insert(productGroupTable, item.toMap());
+      try {
+        item.identifier = await db.insert(productGroupTable, item.toMap());
+      } catch (_){
+
+      }
     }
   }
 
@@ -66,16 +69,22 @@ class ProductGroupDao implements DaoHelper {
   @override
   void update(item) async {
     if(item is ProductGroup){
-      await db.update(productGroupTable, item.toMap(),
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+      try {
+        await db.update(productGroupTable, item.toMap(), where: '$identifier = ?', whereArgs: [item.identifier]);
+      } catch (_){
+
+      }
     }
   }
 
   @override
   void remove(item) async {
     if(item is ProductGroup){
-      await db.delete(productGroupTable,
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+      try {
+        await db.delete(productGroupTable, where: '$identifier = ?', whereArgs: [item.identifier]);
+      } catch (_){
+
+      }
     }
   }
 

@@ -8,3 +8,4 @@ final String notConnected = 'Não estas conectado';
 final String wrongPassword = 'Senha está incorrecta';
 final String products = 'Produtos';
 final String defaultClient = 'Consumidor não identificado';
+final String categories = 'Categorias';

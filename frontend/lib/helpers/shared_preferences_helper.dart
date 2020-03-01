@@ -14,7 +14,7 @@ class Prefs {
 
   static Future<String> getProductsOrder() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(productsOrder ?? 'sales');
+    return prefs.getString(productsOrder) ?? 'sales';
   }
 
   static Future<bool> setProductsOrder(String value) async {

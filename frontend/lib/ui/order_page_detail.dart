@@ -4,6 +4,7 @@ import 'package:datacaixa/common/style.dart';
 import 'package:datacaixa/models/order.dart';
 import 'package:datacaixa/store/app_state.dart';
 import 'package:datacaixa/ui/product_groups_view.dart';
+import 'package:datacaixa/ui/products_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -122,7 +123,11 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
         backgroundColor: accentColor,
         onPressed: (){
           showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
-            return ProductGroupsView();
+            return Observer(
+                builder: (context) {
+                return productStore.showProducts ? ProductsView() : ProductGroupsView();
+              }
+            );
           });
         },
       ),

@@ -10,9 +10,9 @@ class ProductsRepository extends Repository {
     List<Product> products = [];
     try {
       String order = await Prefs.getProductsOrder();
-      products = await productService.getProductsByGroup(group, page, order);
-    } catch (_){
-
+      return await productService.getProductsByGroup(group, page, order);
+    } catch (_) {
+      return products;
     }
   }
 
@@ -32,6 +32,7 @@ class ProductsRepository extends Repository {
     List<ProductGroup> groups = [];
     try {
       groups = await productService.getProductGroups();
+      return groups;
     } catch (_){
       return groups;
     }
