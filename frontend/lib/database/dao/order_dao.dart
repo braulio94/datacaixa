@@ -105,8 +105,11 @@ class OrderDao implements DaoHelper {
   @override
   insert(item) async {
     if(item is Order){
-      item.identifier = await db.insert(orderTable, item.toMap());
-      print("INSERTED ORDER: $item");
+      try {
+        item.identifier = await db.insert(orderTable, item.toMap());
+      } catch(_){
+        await update(item);
+      }
     }
   }
 
@@ -120,10 +123,11 @@ class OrderDao implements DaoHelper {
   }
 
   @override
-  void update(item) async {
+  update(item) async {
     if(item is Order){
-      await db.update(orderTable, item.toMap(),
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+      try {
+        await db.update(orderTable, item.toMap(), where: '$identifier = ?', whereArgs: [item.identifier]);
+      } catch(_){}
     }
   }
 

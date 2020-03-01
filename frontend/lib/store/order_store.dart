@@ -9,6 +9,8 @@ class OrderStore = _OrderStore with _$OrderStore;
 
 abstract class _OrderStore with Store {
   OrderRepository repository = OrderRepository();
+  @observable
+  bool loading = false;
 
   @observable
   Order currentOrder;
@@ -28,5 +30,10 @@ abstract class _OrderStore with Store {
   newCurrentOrder() => currentOrder = null;
 
   @action
-  Future<Order> getOrder(int id) async => currentOrder = await repository.getOrder(id);
+  Future<Order> getOrder(int id) async {
+    loading = true;
+    currentOrder = await repository.getOrder(id);
+    loading = false;
+    return currentOrder;
+  }
 }

@@ -60,23 +60,25 @@ class ClientDao implements DaoHelper {
   }
 
   @override
-  void insert(item) async {
+  insert(item) async {
     if(item is Client){
-      item.identifier = await db.insert(clientTable, item.toMap());
+      try {
+        item.identifier = await db.insert(clientTable, item.toMap());
+      } catch(_){}
     }
   }
 
   @override
-  void insertAll(List items) async {
+  insertAll(List items) async {
     if(items is List<Client>){
       for(Client item in items){
-        insert(item);
+        await insert(item);
       }
     }
   }
 
   @override
-  void update(item) async {
+  update(item) async {
     if(item is Client){
       await db.update(clientTable, item.toMap(),
           where: '$identifier = ?', whereArgs: [item.identifier]);

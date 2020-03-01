@@ -17,7 +17,7 @@ class OrderItemDao implements DaoHelper {
         "CREATE TABLE $orderItemsTable "
             "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
             "$hotelId INTEGER, "
-            "$orderItemId INTEGER, "
+            "$orderItemId INTEGER UNIQUE, "
             "$orderId INTEGER, "
             "$productId INTEGER, "
             "$sequence INTEGER, "
@@ -30,6 +30,7 @@ class OrderItemDao implements DaoHelper {
 
   @override
   Future get(int id) async {
+    try {
       List<Map> maps = await db.query(orderItemsTable,
           columns: [
             identifier,
@@ -46,10 +47,13 @@ class OrderItemDao implements DaoHelper {
       );
       if(maps.length > 0)
         return OrderItem.fromMap(maps.first);
+    } catch (_){}
+    return null;
   }
 
   @override
   Future<List> getAll() async {
+    try {
       List<Map> maps = await db.query(orderItemsTable,
         columns: [
           identifier,
@@ -65,21 +69,47 @@ class OrderItemDao implements DaoHelper {
       if(maps.length > 0) {
         return maps.map((map) => OrderItem.fromMap(map)).toList();
       }
+    } catch(_){}
+    return [];
+  }
+
+  Future<List> getAllFromOrder(int order) async {
+    try {
+      List<Map> maps = await db.query(orderItemsTable,
+          columns: [
+            identifier,
+            orderItemId,
+            orderId,
+            productId,
+            sequence,
+            quantity,
+            unitValue,
+            totalValue,
+          ],
+          where: '$identifier = ?',
+          whereArgs: [order]
+      );
+      if(maps.length > 0) {
+        return maps.map((map) => OrderItem.fromMap(map)).toList();
+      }
+    } catch(_){}
     return [];
   }
 
   @override
-  void insert(item) async {
+  insert(item) async {
     if(item is OrderItem){
-      item.identifier = await db.insert(orderItemsTable, item.toMap());
+      try {
+        item.identifier = await db.insert(orderItemsTable, item.toMap());
+      } catch(_){}
     }
   }
 
   @override
-  void insertAll(List items) {
+  insertAll(List items) async {
     if(items is List<OrderItem>){
       for(OrderItem item in items){
-        insert(item);
+        await insert(item);
       }
     }
   }
@@ -87,8 +117,11 @@ class OrderItemDao implements DaoHelper {
   @override
   void update(item) async {
     if(item is OrderItem){
-      await db.update(orderItemsTable, item.toMap(),
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+      try{
+        await db.update(orderItemsTable, item.toMap(), where: '$identifier = ?', whereArgs: [item.identifier]);
+      } catch(_){
+        await insert(item);
+      }
     }
   }
 

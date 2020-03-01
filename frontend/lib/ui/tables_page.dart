@@ -28,10 +28,11 @@ class TablesPage extends StatelessWidget {
                     value: tableStore.showAllTables,
                     onChanged: (bool newValue) async {
                       tableStore.changeTablesDisplay();
+                      tableStore.clear();
                       tableStore.showAllTables ? await tableStore.getTables() : await tableStore.getBusyTables();
                     },
                   ),
-                  Text(allTables, style: overlineStyle),
+                  Text(tableStore.showAllTables ? all:busyTables, style: overlineStyle),
                 ],
               ),
             ),
@@ -39,7 +40,7 @@ class TablesPage extends StatelessWidget {
               child: FutureBuilder<List<table.Table>>(
                   future: tableStore.showAllTables ? tableStore.getTables() : tableStore.getBusyTables(),
                   builder: (context, snapshot) =>
-                  tableStore.tables != null && tableStore.tables.isNotEmpty ?
+                  tableStore.tables.isNotEmpty ?
                   AnimationLimiter(
                     child: GridView.count(
                       physics: BouncingScrollPhysics(),
