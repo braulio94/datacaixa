@@ -1,5 +1,4 @@
 import 'package:datacaixa/models/order.dart';
-import 'package:datacaixa/models/order_item.dart';
 import 'package:datacaixa/repository/repository.dart';
 
 class OrderRepository extends Repository {
@@ -11,28 +10,38 @@ class OrderRepository extends Repository {
         throw ArgumentError;
       }
       Order newOrder =  await orderService.getOrder(id, 'yes');
-      order = await store.orderDao.insert(newOrder);
-      order.client = await store.clientDao.insert(newOrder.client);
-      //await saveOrderItems(order.orderItems);
-      //order =  await store.orderDao.get(id);
-      //order.orderItems = await store.orderItemDao.getAllFromOrder(order.identifier);
-      print("PASSOU");
-      print('${order.toString()} \n\n\n');
+      await saveOrder(newOrder);
+      print("PASSOU $order");
       return newOrder;
     } catch (_){
-      if(id == null){
-        return null;
-      }
-      order =  await store.orderDao.get(id);
-      order.client = await store.clientDao.get(order.clientId);
-      order.orderItems = await store.orderItemDao.getAllFromOrder(order.identifier);
-      return order;
+      return await storedOrder(id);
     }
   }
 
-  saveOrderItems(List<OrderItem> items) async {
-    if(items != null && items.isNotEmpty){
-      await addNoneExisting(store.orderItemDao, items);
+  saveOrder(Order newOrder) async {
+    await store.orderDao.insert(newOrder);
+    await store.clientDao.insert(newOrder.client);
+    await store.orderItemDao.insertAll(newOrder.orderItems);
+    newOrder.orderItems.forEach((item) async => await store.productDao.insert(item.product));
+  }
+
+  Future<Order> storedOrder(int id) async {
+    if(id == null){
+      return null;
     }
+    var order = await store.orderDao.get(id);
+    if(order == null){
+      return null;
+    }
+    if(order.clientId != null){
+      order.client = await store.clientDao.get(order.clientId);
+    }
+    print(order.client.toString());
+    order.orderItems = await store.orderItemDao.getAllFromOrder(order.orderId);
+    for (int i = 0; i < order.orderItems.length; i++){
+      order.orderItems[i].product = await store.productDao.get(order.orderItems[i].productId);
+    }
+    print('${order.toString()} \n\n\n');
+    return order;
   }
 }

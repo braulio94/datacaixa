@@ -17,7 +17,7 @@ class ClientDao implements DaoHelper {
     await database.execute(
         "CREATE TABLE $clientTable "
             "($identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
-            "$clientId INTEGER, "
+            "$clientId INTEGER UNIQUE, "
             "$name TEXT, "
             "$phoneNumber TEXT, "
             "$gender TEXT)"
@@ -27,6 +27,7 @@ class ClientDao implements DaoHelper {
 
   @override
   Future get(int id) async {
+    try {
       List<Map> maps = await db.query(clientTable,
           columns: [
             identifier,
@@ -35,11 +36,14 @@ class ClientDao implements DaoHelper {
             phoneNumber,
             gender,
           ],
-          where: '$identifier = ?',
+          where: '$clientId = ?',
           whereArgs: [id]
       );
       if(maps.length > 0)
         return Client.fromMap(maps.first);
+    } catch(_){
+      return null;
+    }
   }
 
   @override
@@ -64,6 +68,7 @@ class ClientDao implements DaoHelper {
     if(item is Client){
       try {
         item.identifier = await db.insert(clientTable, item.toMap());
+        print('INSERTED \n${item.toString()} \n\n\n');
       } catch(_){}
     }
   }

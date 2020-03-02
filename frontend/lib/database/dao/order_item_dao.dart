@@ -86,22 +86,26 @@ class OrderItemDao implements DaoHelper {
             unitValue,
             totalValue,
           ],
-          where: '$identifier = ?',
+          where: '$orderId = ?',
           whereArgs: [order]
       );
-      if(maps.length > 0) {
+      if(maps.isNotEmpty) {
         return maps.map((map) => OrderItem.fromMap(map)).toList();
       }
-    } catch(_){}
-    return [];
+      return <OrderItem>[];
+    } catch(_){
+      return <OrderItem>[];
+    }
   }
 
   @override
   insert(item) async {
     if(item is OrderItem){
       try {
-        item.identifier = await db.insert(orderItemsTable, item.toMap());
-      } catch(_){}
+        await db.insert(orderItemsTable, item.toMap());
+      } catch(_){
+        await update(item);
+      }
     }
   }
 
@@ -115,13 +119,11 @@ class OrderItemDao implements DaoHelper {
   }
 
   @override
-  void update(item) async {
+  update(item) async {
     if(item is OrderItem){
       try{
-        await db.update(orderItemsTable, item.toMap(), where: '$identifier = ?', whereArgs: [item.identifier]);
-      } catch(_){
-        await insert(item);
-      }
+        await db.update(orderItemsTable, item.toMap(), where: '$orderItemId = ?', whereArgs: [item.orderItemId]);
+      } catch(_){}
     }
   }
 

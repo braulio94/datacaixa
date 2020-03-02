@@ -1,5 +1,6 @@
 import 'package:datacaixa/common/database_strings.dart';
 import 'package:datacaixa/database/dao/dao_helper.dart';
+import 'package:datacaixa/models/order_item.dart';
 import 'package:datacaixa/models/product.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -31,14 +32,13 @@ class ProductDao implements DaoHelper{
       try {
         List<Map> maps = await db.query(productsTable,
             columns: [identifier, productId, productGroupId, description, createdAt, price, sales],
-            where: '$identifier = ?',
+            where: '$productId = ?',
             whereArgs: [id]
         );
         if(maps.length > 0)
+          print("GETTER PRODUCT ${maps.first}");
           return Product.fromMap(maps.first);
-      } catch (_){
-
-      }
+      } catch (_){}
   }
 
   @override
@@ -52,8 +52,22 @@ class ProductDao implements DaoHelper{
     return [];
   }
 
+  Future<List<Product>> getAllProducts(List<OrderItem> items) async {
+    List<int> ids = items.map((i) => i.productId).toList();
+    try {
+      List<Map> maps = await db.query(
+        productsTable,
+        columns: [identifier, productId, productGroupId, description, createdAt, price, sales],
+        where: '$productId IN (${ids.join(', ')})',
+      );
+      if(maps.length > 0) {
+        return maps.map((map) => Product.fromMap(map)).toList();
+      }
+    } catch(_){}
+  }
+
   @override
-  void insert(item) async {
+  insert(item) async {
     if(item is Product){
       try {
         item.identifier = await db.insert(productsTable, item.toMap());
@@ -62,7 +76,7 @@ class ProductDao implements DaoHelper{
   }
 
   @override
-  void insertAll(List items) {
+  insertAll(List items) {
     if(items is List<Product>){
       for(Product item in items){
         insert(item);
@@ -71,7 +85,7 @@ class ProductDao implements DaoHelper{
   }
 
   @override
-  void update(item) async {
+  update(item) async {
     if(item is Product){
       try {
         await db.update(productsTable, item.toMap(), where: '$identifier = ?', whereArgs: [item.identifier]);

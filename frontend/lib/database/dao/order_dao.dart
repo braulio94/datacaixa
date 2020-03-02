@@ -41,6 +41,7 @@ class OrderDao implements DaoHelper {
 
   @override
   Future get(id) async {
+    try {
       List<Map> maps = await db.query(orderTable,
           columns: [
             identifier,
@@ -69,6 +70,9 @@ class OrderDao implements DaoHelper {
       if (maps.length > 0) {
         return Order.fromMap(maps.first);
       }
+    } catch(_){
+      return null;
+    }
   }
 
   @override
@@ -107,6 +111,7 @@ class OrderDao implements DaoHelper {
     if(item is Order){
       try {
         item.identifier = await db.insert(orderTable, item.toMap());
+        print('INSERTED \n${item.toString()} \n\n\n');
       } catch(_){
         await update(item);
       }
@@ -127,6 +132,7 @@ class OrderDao implements DaoHelper {
     if(item is Order){
       try {
         await db.update(orderTable, item.toMap(), where: '$identifier = ?', whereArgs: [item.identifier]);
+        print('UPDATED \n${item.toString()} \n\n\n');
       } catch(_){}
     }
   }

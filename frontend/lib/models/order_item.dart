@@ -29,12 +29,11 @@ class OrderItem {
   double discountValue;
   double accrual;
   double accrualValue;
-  List<OrderItem> orderItems;
 
   OrderItem();
   OrderItem.add({this.identifier, this.hotelId, this.orderItemId, this.orderId,
       this.productId, this.sequence, this.quantity, this.unitValue, this.userId,
-      this.totalValue, this.product, this.orderItems, this.entryDateTime});
+      this.totalValue, this.product, this.entryDateTime});
 
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{
@@ -59,7 +58,7 @@ class OrderItem {
     orderId = map[c.orderId];
     productId = map[c.productId];
     sequence = map[c.sequence];
-    quantity = map[c.quantity];
+    quantity = map[c.quantity].toDouble();
     unitValue = map[c.unitValue];
     totalValue = map[c.totalValue];
   }
@@ -67,6 +66,7 @@ class OrderItem {
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem.add(
     orderItemId: json["id"],
     orderId: json["pedido"],
+    productId: json["id_produto"],
     product: Product.fromJson(json["produto"]),
     sequence: json["sequencia"],
     quantity: json["quantidade"].toDouble(),
@@ -84,6 +84,6 @@ class OrderItem {
 
   @override
   String toString() {
-    return 'OrderItem{identifier: $identifier, hotelId: $hotelId, orderItemId: $orderItemId, orderId: $orderId, productId: $productId, product: $product, userId: $userId, sequence: $sequence, entryDateTime: $entryDateTime, deliveryDateTime: $deliveryDateTime, quantity: $quantity, unitValue: $unitValue, totalValue: $totalValue, generalTotalValue: $generalTotalValue, canceled: $canceled, preparingTime: $preparingTime, comment: $comment, printed: $printed, discount: $discount, discountValue: $discountValue, accrual: $accrual, accrualValue: $accrualValue, orderItems: $orderItems}';
+    return 'OrderItem{identifier: $identifier, hotelId: $hotelId, orderItemId: $orderItemId, orderId: $orderId, productId: $productId, product: $product, userId: $userId, sequence: $sequence, entryDateTime: $entryDateTime, deliveryDateTime: $deliveryDateTime, quantity: $quantity, unitValue: $unitValue, totalValue: $totalValue, generalTotalValue: $generalTotalValue, canceled: $canceled, preparingTime: $preparingTime, comment: $comment, printed: $printed, discount: $discount, discountValue: $discountValue, accrual: $accrual, accrualValue: $accrualValue}';
   }
 }
