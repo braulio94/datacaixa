@@ -68,7 +68,6 @@ class ClientDao implements DaoHelper {
     if(item is Client){
       try {
         item.identifier = await db.insert(clientTable, item.toMap());
-        print('INSERTED \n${item.toString()} \n\n\n');
       } catch(_){}
     }
   }

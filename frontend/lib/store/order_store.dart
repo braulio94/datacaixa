@@ -1,6 +1,7 @@
 import 'package:datacaixa/common/app_strings.dart';
 import 'package:datacaixa/helpers/date_helper.dart';
 import 'package:datacaixa/models/order.dart';
+import 'package:datacaixa/models/order_item.dart';
 import 'package:mobx/mobx.dart';
 import '../repository/order_repository.dart';
 part 'order_store.g.dart';
@@ -11,6 +12,9 @@ abstract class _OrderStore with Store {
   OrderRepository repository = OrderRepository();
   @observable
   bool loading = false;
+
+  @observable
+  List<OrderItem> orderItems = <OrderItem>[];
 
   @observable
   Order currentOrder;
@@ -27,13 +31,20 @@ abstract class _OrderStore with Store {
                 '': dateFormatter.format(DateTime.parse(currentOrder.openingDate));
 
   @action
-  newCurrentOrder() => currentOrder = null;
+  newCurrentOrder(){
+    currentOrder = null;
+    orderItems = <OrderItem>[];
+  }
 
   @action
-  Future<Order> getOrder(int id) async {
-    loading = true;
-    currentOrder = await repository.getOrder(id);
+  Future<Order> getOrder(int id) async => currentOrder = await repository.getOrder(id);
+
+  Future<List<OrderItem>> getOrderItems() async {
+    if(currentOrder != null){
+      loading = true;
+      return orderItems = await repository.loadOrderItems(currentOrder.orderId);
+    }
     loading = false;
-    return currentOrder;
+    return orderItems;
   }
 }

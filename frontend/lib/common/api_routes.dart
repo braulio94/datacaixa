@@ -20,3 +20,5 @@ final String CLIENTS = '/api/clients';
 final String USER = '/api/user';
 final String USERS = '/api/users';
 final String LOGIN = '/login';
+final String YES = 'yes';
+final String NO = 'no';

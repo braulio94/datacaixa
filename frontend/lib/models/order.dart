@@ -130,7 +130,7 @@ class Order {
     userId: json["usuario"],
     tableId: json["mesa"],
     clientId: json["id_cliente"],
-    client: Client.fromJson(json["client"]),
+    client: Client.fromJson(json["client"]).clientId != null ? Client.fromJson(json["client"]) : null,
     openingDate: json["data_abertura"],
     totalAmount: json["valor_total_geral"] != null ? json["valor_total_geral"].toDouble() : 0.0,
     tableStatus: json["situacao_mesa"],

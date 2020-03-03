@@ -95,7 +95,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
                                     },
                                   ):
                                   Text(
-                                    '${orderStore.client}',
+                                    '',//'''${orderStore.client}',
                                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,

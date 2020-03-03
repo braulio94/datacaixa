@@ -36,7 +36,6 @@ class ProductDao implements DaoHelper{
             whereArgs: [id]
         );
         if(maps.length > 0)
-          print("GETTER PRODUCT ${maps.first}");
           return Product.fromMap(maps.first);
       } catch (_){}
   }
@@ -63,7 +62,10 @@ class ProductDao implements DaoHelper{
       if(maps.length > 0) {
         return maps.map((map) => Product.fromMap(map)).toList();
       }
-    } catch(_){}
+      return <Product>[];
+    } catch(_){
+      return <Product>[];
+    }
   }
 
   @override
@@ -71,15 +73,17 @@ class ProductDao implements DaoHelper{
     if(item is Product){
       try {
         item.identifier = await db.insert(productsTable, item.toMap());
-      } catch(_){}
+      } catch(_){
+        await update(item);
+      }
     }
   }
 
   @override
-  insertAll(List items) {
+  insertAll(List items) async {
     if(items is List<Product>){
       for(Product item in items){
-        insert(item);
+        await insert(item);
       }
     }
   }

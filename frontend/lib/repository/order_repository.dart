@@ -1,18 +1,16 @@
+import 'package:datacaixa/common/api_routes.dart';
 import 'package:datacaixa/models/order.dart';
+import 'package:datacaixa/models/order_item.dart';
+import 'package:datacaixa/models/product.dart';
 import 'package:datacaixa/repository/repository.dart';
 
 class OrderRepository extends Repository {
   getOrder(int id) async {
     await initStore();
-    Order order;
     try{
-      if(id == null){
-        throw ArgumentError;
-      }
-      Order newOrder =  await orderService.getOrder(id, 'yes');
+      Order newOrder =  await orderService.getOrder(id, NO);
       await saveOrder(newOrder);
-      print("PASSOU $order");
-      return newOrder;
+      return await storedOrder(id);
     } catch (_){
       return await storedOrder(id);
     }
@@ -21,27 +19,37 @@ class OrderRepository extends Repository {
   saveOrder(Order newOrder) async {
     await store.orderDao.insert(newOrder);
     await store.clientDao.insert(newOrder.client);
-    await store.orderItemDao.insertAll(newOrder.orderItems);
-    newOrder.orderItems.forEach((item) async => await store.productDao.insert(item.product));
   }
 
   Future<Order> storedOrder(int id) async {
-    if(id == null){
-      return null;
-    }
-    var order = await store.orderDao.get(id);
-    if(order == null){
-      return null;
-    }
+    Order order = await store.orderDao.get(id);
     if(order.clientId != null){
       order.client = await store.clientDao.get(order.clientId);
     }
-    print(order.client.toString());
-    order.orderItems = await store.orderItemDao.getAllFromOrder(order.orderId);
-    for (int i = 0; i < order.orderItems.length; i++){
-      order.orderItems[i].product = await store.productDao.get(order.orderItems[i].productId);
-    }
-    print('${order.toString()} \n\n\n');
     return order;
+  }
+
+  loadOrderItems(int orderId) async {
+    await initStore();
+    List<OrderItem> items = <OrderItem>[];
+    try{
+      items =  await orderService.getOrderItems(orderId);
+      await store.orderItemDao.insertAll(items);
+      await saveProductItems(items);
+      return await storedOrderItems(orderId);
+    } catch (_){
+      return storedOrderItems(orderId);
+    }
+  }
+
+  saveProductItems(List<OrderItem> items) async {
+    List<Product> products = items.map((i) => i.product).toList();
+    await store.productDao.insertAll(products);
+  }
+
+  storedOrderItems(int orderId) async {
+    List<OrderItem> items = await store.orderItemDao.getAllFromOrder(orderId);
+    //List<Product> products = await store.productDao.getAllProducts(items);
+    return List<OrderItem>.from(items.map((item) async => item.product = await store.productDao.get(item.productId)).toList());
   }
 }

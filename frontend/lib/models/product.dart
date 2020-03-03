@@ -20,7 +20,7 @@ class Product {
   String isActive;
   String stockWatch;
   double buyings;
-  double sales;
+  int sales;
   double consumption;
   String unit;
   double outlet;
@@ -62,7 +62,7 @@ class Product {
     productGroupId = map[c.productGroupId];
     description = map[c.description];
     createdAt = map[c.createdAt];
-    price = map[c.price];
+    price = map[c.price].toDouble();
     sales = map[c.sales];
   }
 
