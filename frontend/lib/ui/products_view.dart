@@ -72,6 +72,7 @@ class ProductsView extends StatelessWidget {
                                 title: Text(product.description),
                                 trailing: Text('${currencyFormatter.format(product.price)}'),
                                 onTap: (){
+                                  orderStore.addOrderItem(product);
                                   productStore.changeDisplay();
                                   productStore.restartMemorizer();
                                   productStore.resetPage();
