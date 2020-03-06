@@ -21,10 +21,10 @@ abstract class _OrderStore with Store {
 
   @computed
   String get client  => currentOrder != null &&
-                          currentOrder.client.name != null ?
+                          currentOrder.client != null ?
                             currentOrder.client.name :
                               currentOrder != null &&
-                                currentOrder.client.name == null ?
+                                currentOrder.client == null ?
                                   defaultClient : '';
   @computed
   String get openingDate => currentOrder == null ?

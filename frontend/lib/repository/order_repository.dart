@@ -18,7 +18,9 @@ class OrderRepository extends Repository {
 
   saveOrder(Order newOrder) async {
     await store.orderDao.insert(newOrder);
-    await store.clientDao.insert(newOrder.client);
+    if(newOrder.client != null){
+      await store.clientDao.insert(newOrder.client);
+    }
   }
 
   Future<Order> storedOrder(int id) async {
@@ -49,7 +51,9 @@ class OrderRepository extends Repository {
 
   storedOrderItems(int orderId) async {
     List<OrderItem> items = await store.orderItemDao.getAllFromOrder(orderId);
-    //List<Product> products = await store.productDao.getAllProducts(items);
-    return List<OrderItem>.from(items.map((item) async => item.product = await store.productDao.get(item.productId)).toList());
+    for(OrderItem item in items){
+      item.product = await store.productDao.get(item.productId);
+    }
+    return items;
   }
 }

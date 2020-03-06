@@ -20,7 +20,7 @@ class Product {
   String isActive;
   String stockWatch;
   double buyings;
-  int sales;
+  double sales;
   double consumption;
   String unit;
   double outlet;
@@ -60,10 +60,10 @@ class Product {
     identifier = map[c.identifier];
     productId = map[c.productId];
     productGroupId = map[c.productGroupId];
-    description = map[c.description];
+    description = map[c.description] != null ? map[c.description] : '';
     createdAt = map[c.createdAt];
-    price = map[c.price].toDouble();
-    sales = map[c.sales];
+    price = map[c.price] != null ? map[c.price].toDouble() : 0;
+    sales = map[c.sales] != null ? map[c.sales].toDouble() : 0;
   }
 
   factory Product.fromJson(Map<String, dynamic> json) => Product.add(

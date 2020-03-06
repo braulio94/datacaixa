@@ -23,7 +23,7 @@ class ProductDao implements DaoHelper{
             "$description TEXT, "
             "$createdAt TEXT, "
             "$price REAL, "
-            "$sales INTEGER)"
+            "$sales REAL)"
     );
   }
 
