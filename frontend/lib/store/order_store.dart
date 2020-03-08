@@ -17,6 +17,8 @@ abstract class _OrderStore with Store {
 
   @observable
   List<OrderItem> orderItems = <OrderItem>[];
+  @observable
+  ObservableList<OrderItem> observableItems = ObservableList<OrderItem>();
 
   @observable
   Order currentOrder;
@@ -34,27 +36,28 @@ abstract class _OrderStore with Store {
 
   @action
   addOrderItem(Product product){
-    if(currentOrder != null){
-      OrderItem newItem = OrderItem.add(orderId: currentOrder.orderId, quantity: 2, productId: product.productId, product: product, userId: userStore.currentUser.userId);
-      orderItems.add(newItem);
+    if(observableItems != null){
+      OrderItem newItem = OrderItem.add(orderId: currentOrder.orderId, quantity: 2, productId: product.productId, product: product, userId: userStore.currentUser.userId, totalValue: 2 * product.price);
+      observableItems.add(newItem);
     }
   }
 
   @action
   newCurrentOrder(){
     currentOrder = null;
-    orderItems = <OrderItem>[];
+    observableItems = ObservableList<OrderItem>();
   }
 
   @action
   Future<Order> getOrder(int id) async => currentOrder = await repository.getOrder(id);
 
-  Future<List<OrderItem>> getOrderItems() async {
+  Future<ObservableList<OrderItem>> getOrderItems() async {
     if(currentOrder != null){
       loading = true;
-      return orderItems = await repository.loadOrderItems(currentOrder.orderId);
+      orderItems = await repository.loadOrderItems(currentOrder.orderId);
+      observableItems.addAll(orderItems);
     }
     loading = false;
-    return orderItems;
+    return observableItems;
   }
 }

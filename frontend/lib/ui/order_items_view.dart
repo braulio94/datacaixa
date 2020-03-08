@@ -20,7 +20,7 @@ class OrderItemsView extends StatelessWidget {
         orderStore.currentOrder != null ?
           ListView(
             physics: BouncingScrollPhysics(),
-            children: orderStore.orderItems.map((item) =>
+            children: orderStore.observableItems.map((item) =>
               ListTile(
                 leading: Text('${item.quantity.floor()}'),
                 title: Text(item.product.description),
