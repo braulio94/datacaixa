@@ -6,6 +6,13 @@
       <synchronize>true</synchronize>
       <configured-by-url>true</configured-by-url>
       <jdbc-driver>org.firebirdsql.jdbc.FBDriver</jdbc-driver>
+      <jdbc-url>jdbc:firebirdsql://192.168.15.230:3050/DataCaixa/BD/DATACAIXA.FDB</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="Firebirdsql - DATACAIXA DEVELOPMENT" uuid="c1cab064-ddbf-4dc7-bdc7-83ddcf1a61d3">
+      <driver-ref>java.sql.Driver</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.firebirdsql.jdbc.FBDriver</jdbc-driver>
       <jdbc-url>jdbc:firebirdsql://localhost:3050/C:/DATACAIXA.FDB</jdbc-url>
     </data-source>
   </component>

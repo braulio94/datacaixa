@@ -8,6 +8,7 @@ Color secondaryColor = Colors.black45;
 Color timidColor = Colors.black26;
 Color darkColor = Colors.black;
 Color semiDarkColor = Colors.black54;
+Color validColor = Colors.green;
 
 //=============== TEXT STYLES =====================//
 TextStyle titleStyle = TextStyle(fontSize: 20);

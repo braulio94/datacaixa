@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:datacaixa/common/app_strings.dart';
 import 'package:datacaixa/common/style.dart';
+import 'package:datacaixa/helpers/currency_value_helper.dart';
 import 'package:datacaixa/models/order.dart';
 import 'package:datacaixa/store/app_state.dart';
 import 'package:datacaixa/ui/order_items_view.dart';
@@ -60,6 +61,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
             return Observer(
               builder: (context){
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Row(
                       children: [
@@ -113,7 +115,18 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
                     Divider(),
                     Expanded(
                       child: OrderItemsView(),
-                    )
+                    ),
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                        child: Text('${currencyFormatter.format(orderStore.currentOrder == null ? 00 : orderStore.currentOrder.totalAmount)}',
+                        style: boldTitleStyle.copyWith(fontSize: 25, color: validColor)),
+                      ),
+                    ),
                   ],
                 );
               },

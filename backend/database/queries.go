@@ -68,7 +68,7 @@ var SelectOpenOrders = `SELECT ID_PEDIDO,
 								FROM TPEDIDOS 
 								WHERE Situacao = 'Aberto'
 								ORDER BY ID_MESA ASC;`
-
+ 
 var SelectOrderItemsFromOrder = `SELECT ID_PEDIDO_ITEM,
 								ID_PEDIDO, 
 								ID_PRODUTO, 
