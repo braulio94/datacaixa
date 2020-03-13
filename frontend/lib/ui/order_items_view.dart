@@ -20,7 +20,7 @@ class OrderItemsView extends StatelessWidget {
         orderStore.currentOrder != null ?
           ListView(
             physics: BouncingScrollPhysics(),
-            children: orderStore.observableItems.map((item) =>
+            children: orderStore.observableItems.reversed.map((item) =>
               ListTile(
                 leading: Text('${item.quantity.floor()}'),
                 title: Text(item.product.description),
@@ -30,7 +30,24 @@ class OrderItemsView extends StatelessWidget {
             ).toList()..insert(0,
               ListTile(
                 leading: Icon(Icons.filter_9_plus, color: darkColor),
-                title: Text(product, style: boldBodyStyle),
+                title: Row(
+                  children: [
+                    Text(product, style: boldBodyStyle),
+                    Padding(
+                      padding: EdgeInsets.only(left: 4, bottom: 8),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: accentColor, //borderRadius: BorderRadius.circular(25),
+                          shape: BoxShape.circle
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Text('${orderStore.observableItems.length}', style: overlineStyle.copyWith(color: neutralColor)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 trailing: Text(totalAmount, style: boldBodyStyle),
               ),
             ),

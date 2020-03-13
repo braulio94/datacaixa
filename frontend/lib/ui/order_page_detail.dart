@@ -74,10 +74,10 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: CircleAvatar(
-                            backgroundColor: accentColor,
+                            backgroundColor: transparentColor,
                             child: Text(
                               '${tableStore.currentTable.number}',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: neutralColor),
+                              style: boldTitleStyle.copyWith(color: accentColor),
                             ),
                           ),
                         ),
@@ -119,12 +119,11 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
                     DecoratedBox(
                       decoration: BoxDecoration(
                         color: Colors.white,
-
                       ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                         child: Text('${currencyFormatter.format(orderStore.currentOrder == null ? 00 : orderStore.currentOrder.totalAmount)}',
-                        style: boldTitleStyle.copyWith(fontSize: 25, color: validColor)),
+                        style: boldTitleStyle.copyWith(color: validColor)),
                       ),
                     ),
                   ],

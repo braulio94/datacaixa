@@ -9,6 +9,7 @@ Color timidColor = Colors.black26;
 Color darkColor = Colors.black;
 Color semiDarkColor = Colors.black54;
 Color validColor = Colors.green;
+Color transparentColor = Colors.transparent;
 
 //=============== TEXT STYLES =====================//
 TextStyle titleStyle = TextStyle(fontSize: 20);
