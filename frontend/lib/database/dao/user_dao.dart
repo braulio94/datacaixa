@@ -70,7 +70,7 @@ class UserDao implements DaoHelper {
   insertAll(List items) async {
     if(items is List<User>){
       for(User item in items){
-        insert(item);
+        await insert(item);
       }
     }
   }
@@ -85,7 +85,7 @@ class UserDao implements DaoHelper {
   @override
   removeNoneExisting(List list) async {
     if(list is List<User>){
-      List<int> ids = list.map((u) => u.userId != null ? u.userId : -1).toList();
+      List<int> ids = list.map((u) => u.userId != null ? u.userId : negative).toList();
       try {
         await db.delete(
           userTable,

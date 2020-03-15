@@ -1,5 +1,4 @@
 import 'package:datacaixa/common/app_strings.dart';
-import 'package:datacaixa/common/database_strings.dart';
 import 'package:datacaixa/common/style.dart';
 import 'package:datacaixa/store/app_state.dart';
 import 'package:datacaixa/ui/navigator.dart';
@@ -54,7 +53,7 @@ class TablesPage extends StatelessWidget {
                               child: InkWell(
                                 onTap: () async {
                                   tableStore.select(tableStore.table(index));
-                                  orderStore.newCurrentOrder();
+                                  orderStore.reset();
                                   Navigator.of(context).push(createRoute(OrderPageDetail()));
                                 },
                                 child: tableStore.status(index) == table.TableStatus.Busy ?

@@ -32,8 +32,12 @@ class OrderItem {
 
   OrderItem();
   OrderItem.add({this.identifier, this.hotelId, this.orderItemId, this.orderId,
-      this.productId, this.sequence, this.quantity, this.unitValue, this.userId,
-      this.totalValue, this.product, this.entryDateTime});
+      this.productId, this.sequence, this.quantity = 1, this.unitValue, this.userId,
+      this.product, this.entryDateTime}) : this.totalValue = quantity * unitValue;
+
+  OrderItem.create({this.identifier, this.hotelId, this.orderItemId, this.orderId,
+    this.productId, this.sequence, this.quantity = 1, this.unitValue, this.userId,
+    this.totalValue, this.product, this.entryDateTime});
 
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{
@@ -63,7 +67,7 @@ class OrderItem {
     totalValue = map[c.totalValue];
   }
 
-  factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem.add(
+  factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem.create(
     orderItemId: json["id"],
     orderId: json["pedido"],
     productId: json["id_produto"],

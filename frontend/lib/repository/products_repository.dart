@@ -12,7 +12,7 @@ class ProductsRepository extends Repository {
       String order = await Prefs.getProductsOrder();
       return await productService.getProductsByGroup(group, page, order);
     } catch (_) {
-      return products;
+      return store.productDao.getAllByGroup(group);
     }
   }
 

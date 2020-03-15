@@ -93,8 +93,15 @@ class Order {
     return map;
   }
 
+  Order.add({this.identifier, this.hotelId = 1, this.orderId, this.pdvId = 1, this.userId, this.chargeId,
+    this.tableId, this.clientId, this.accommodationId, this.roomId, this.orderItems,
+    this.accountTypeId, this.employeeId, this.openingDate, this.closingDate,
+    this.totalAmount, this.serviceTax, this.generalTotalAmount, this.people,
+    this.status = 'Aberto', this.tableStatus = 'Ocupada', this.discountValue, this.accrualValue,
+    this.comment, this.discount, this.accrual, this.delivererId, this.client,
+    this.deliveryStatus, this.deliveryDate, this.deliveryTime, this.type = 'MESA'});
 
-  Order.add({this.identifier, this.hotelId, this.orderId, this.pdvId, this.userId, this.chargeId,
+  Order.create({this.identifier, this.hotelId, this.orderId, this.pdvId, this.userId, this.chargeId,
       this.tableId, this.clientId, this.accommodationId, this.roomId, this.orderItems,
       this.accountTypeId, this.employeeId, this.openingDate, this.closingDate,
       this.totalAmount, this.serviceTax, this.generalTotalAmount, this.people,
@@ -125,7 +132,7 @@ class Order {
     type = map[c.type];
   }
 
-  factory Order.fromJson(Map<String, dynamic> json) => Order.add(
+  factory Order.fromJson(Map<String, dynamic> json) => Order.create(
     orderId: json["id"],
     userId: json["usuario"],
     tableId: json["mesa"],
@@ -136,6 +143,10 @@ class Order {
     tableStatus: json["situacao_mesa"],
     orderItems: json["pedido_itens"] != null ? List<OrderItem>.from(json["pedido_itens"].map((x) => OrderItem.fromJson(x))) : [],
   );
+
+  bool get hasOrderId => this.orderId != null;
+
+  bool get hasIdentifier => this.identifier != null;
 
   Map<String, dynamic> toJson() => {
     "hotel": hotelId,

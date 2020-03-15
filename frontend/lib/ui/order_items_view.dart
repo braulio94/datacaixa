@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class OrderItemsView extends StatelessWidget {
-  AsyncMemoizer<List<OrderItem>> _memoizer = AsyncMemoizer<List<OrderItem>>();
+  final AsyncMemoizer<List<OrderItem>> _memoizer = AsyncMemoizer<List<OrderItem>>();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<OrderItem>>(
@@ -22,7 +22,7 @@ class OrderItemsView extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             children: orderStore.observableItems.reversed.map((item) =>
               ListTile(
-                leading: Text('${item.quantity.floor()}'),
+                leading: Text(item.quantity == null ? '':'${item.quantity.floor()}'),
                 title: Text(item.product.description),
                 trailing: Text('${currencyFormatter.format(item.totalValue)}'),
                 subtitle: Text('${currencyFormatter.format(item.product.price)}', style: captionStyle),

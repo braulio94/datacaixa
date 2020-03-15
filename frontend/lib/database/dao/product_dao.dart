@@ -41,9 +41,15 @@ class ProductDao implements DaoHelper{
   }
 
   @override
-  Future<List> getAll() async {
+  getAll() {
+    // TODO: implement getAll
+    throw UnimplementedError();
+  }
+
+  Future<List> getAllByGroup(int group) async {
     try {
-      List<Map> maps = await db.query(productsTable, columns: [identifier, productId, productGroupId, description, createdAt, price, sales]);
+      List<Map> maps = await db.query(productsTable, columns: [identifier, productId, productGroupId, description, createdAt, price, sales],
+          where: '$productGroupId = ?', whereArgs: [group]);
       if(maps.length > 0) {
         return maps.map((map) => Product.fromMap(map)).toList();
       }

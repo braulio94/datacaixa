@@ -20,6 +20,8 @@ class Table {
   Table.add({this.identifier, this.hotelId, this.pdvId, this.tableId, this.number, this.status,
       this.birthDayPerson, this.vip, this.honeyMoon, this.pdv, this.seats, this.orderId, this.totalAmount});
 
+  bool get hasOrder => orderId != null;
+
   Map<String, dynamic> toMap(){
     var map = <String, dynamic>{
       c.hotelId: hotelId,

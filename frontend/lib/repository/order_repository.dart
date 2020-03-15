@@ -16,6 +16,11 @@ class OrderRepository extends Repository {
     }
   }
 
+  getOrderAmount(int orderId) async {
+    Order order = await getOrder(orderId);
+    return order.totalAmount;
+  }
+
   saveOrder(Order newOrder) async {
     await store.orderDao.insert(newOrder);
     if(newOrder.client != null){
@@ -55,5 +60,24 @@ class OrderRepository extends Repository {
       item.product = await store.productDao.get(item.productId);
     }
     return items;
+  }
+
+  createOrder(Order newOrder) async {
+    await initStore();
+    try {
+      var order = await orderService.createOrder(newOrder);
+      return await store.orderDao.insert(order);
+    } catch(_){
+      await store.tableDao.updateTableStatusAndAmount(newOrder.tableId, 0);
+      return await store.orderDao.insert(newOrder);
+    }
+  }
+
+  createOrderItem(OrderItem newItem) async {
+    try {
+      var item = await orderService.createOrderItem(newItem);
+      await store.orderItemDao.insert(item);
+      return item;
+    } catch(_){}
   }
 }

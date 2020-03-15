@@ -58,3 +58,4 @@ final String sequence = 'SEQUENCIA';
 final String quantity = 'QUANTIDADE';
 final String unitValue = 'VALOR_UNITARIO';
 final String productsOrder = 'ORDEM_PRODUTOS';
+final int negative = -1;

@@ -56,7 +56,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> with TickerProviderSt
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder<Order>(
-          future: this._memoizer.runOnce(() async => orderStore.getOrder(tableStore.currentTable.orderId)),
+          future: tableStore.currentTable.hasOrder ? this._memoizer.runOnce(() async => orderStore.getOrder(tableStore.currentTable.orderId)) : null,
           builder: (context, snapshot) {
             return Observer(
               builder: (context){

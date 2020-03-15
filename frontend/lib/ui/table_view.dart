@@ -1,6 +1,5 @@
 import 'package:datacaixa/common/style.dart';
 import 'package:datacaixa/helpers/currency_value_helper.dart';
-import 'package:datacaixa/store/app_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:datacaixa/models/table.dart' as model;
@@ -22,8 +21,9 @@ class TableView extends StatelessWidget {
         child: ConstrainedBox(
           constraints: BoxConstraints.tightFor(width: 100, height: 100),
           child: DecoratedBox(
-            decoration: BoxDecoration(color: status == model.TableStatus.Idle ?
-              neutralColor : accentColor),
+            decoration: BoxDecoration(color: status == model.TableStatus.Busy && table.hasOrder  ? accentColor :
+              status == model.TableStatus.Busy ? timidColor :
+              neutralColor),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +32,7 @@ class TableView extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(left: 10, top: 10, right: 14.8),
                     child: Text(
-                      status == model.TableStatus.Idle ?
+                      status == model.TableStatus.Idle || !table.hasOrder ?
                       '':'${currencyFormatter.format(table.totalAmount)}',
                       overflow: TextOverflow.visible,
                       style: boldBodyStyle.copyWith(color: neutralColor),

@@ -1,3 +1,4 @@
+import 'package:datacaixa/common/app_strings.dart';
 import 'package:datacaixa/common/database_strings.dart';
 import 'package:datacaixa/database/dao/dao_helper.dart';
 import 'package:datacaixa/models/table.dart';
@@ -74,7 +75,13 @@ class TableDao implements DaoHelper {
       try {
         item.identifier = await db.insert(tablesTable, item.toMap());
       } catch(_){
-        await update(item);
+        Table t = await get(item.tableId);
+        if(t.pdvId == null){
+          await update(item);
+        } else if(t.pdvId != null && item.hasOrder){
+          await removeTableOrder(item.tableId);
+          await update(item);
+        }
       }
     }
   }
@@ -92,15 +99,22 @@ class TableDao implements DaoHelper {
   update(item) async {
     if(item is Table){
       await db.update(tablesTable, item.toMap(),
-          where: '$tableId = ?', whereArgs: [item.tableId]);
+        where: '$tableId = ?',
+        whereArgs: [item.tableId]);
     }
+  }
+
+  updateTableStatusAndAmount(id, amount) async {
+    await db.rawUpdate(
+      'UPDATE $tablesTable SET $status = ?, $totalValue = ?, $pdvId = ? WHERE $tableId = $id',
+      [busy, amount, negative]
+    );
   }
 
   @override
   void remove(item) async {
     if(item is Table){
-      await db.delete(orderItemsTable,
-          where: '$tableId = ?', whereArgs: [item.tableId]);
+      await db.delete(orderItemsTable, where: '$tableId = ?', whereArgs: [item.tableId]);
     }
   }
 
@@ -112,5 +126,9 @@ class TableDao implements DaoHelper {
   @override
   removeNoneExisting(List newItems) {
     throw UnimplementedError();
+  }
+
+  removeTableOrder(id) async {
+    await db.delete(orderTable, where: '$tableId = ?', whereArgs: [id]);
   }
 }

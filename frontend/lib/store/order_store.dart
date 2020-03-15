@@ -34,16 +34,37 @@ abstract class _OrderStore with Store {
   String get openingDate => currentOrder == null ?
                 '': dateFormatter.format(DateTime.parse(currentOrder.openingDate));
 
+  @computed
+  bool get isFirstItem => observableItems.length <= 1;
+
   @action
-  addOrderItem(Product product){
-    if(observableItems != null){
-      OrderItem newItem = OrderItem.add(orderId: currentOrder.orderId, quantity: 2, productId: product.productId, product: product, userId: userStore.currentUser.userId, totalValue: 2 * product.price);
+  addOrderItem(Product product) async {
+
+  }
+
+  @action
+  createNewOrder() async {
+    Order newOrder = Order.add(userId: userStore.currentUser.userId, tableId: tableStore.currentTable.tableId, openingDate: '${DateTime.now()}');
+    currentOrder = await repository.createOrder(newOrder);
+  }
+
+  @action
+  createNewOrderItem(Product product) async {
+    OrderItem newItem = OrderItem.add(productId: product.productId, product: product, userId: userStore.currentUser.userId, unitValue: product.price);
+    if(currentOrder.hasOrderId){
+      newItem.orderId = currentOrder.orderId;
+    }
+    newItem = await repository.createOrderItem(newItem);
+    if(newItem != null){
       observableItems.add(newItem);
+    }
+    if(currentOrder.hasOrderId){
+      await getOrder(currentOrder.orderId);
     }
   }
 
   @action
-  newCurrentOrder(){
+  reset(){
     currentOrder = null;
     observableItems = ObservableList<OrderItem>();
   }
@@ -55,6 +76,7 @@ abstract class _OrderStore with Store {
     if(currentOrder != null){
       loading = true;
       orderItems = await repository.loadOrderItems(currentOrder.orderId);
+      observableItems.clear();
       observableItems.addAll(orderItems);
     }
     loading = false;

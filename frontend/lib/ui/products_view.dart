@@ -71,8 +71,14 @@ class ProductsView extends StatelessWidget {
                               ListTile(
                                 title: Text(product.description),
                                 trailing: Text('${currencyFormatter.format(product.price)}'),
-                                onTap: (){
-                                  orderStore.addOrderItem(product);
+                                onTap: () async {
+                                  if(orderStore.currentOrder == null){
+                                    await orderStore.createNewOrder();
+                                    await orderStore.createNewOrderItem(product);
+
+                                  } else {
+                                    orderStore.createNewOrderItem(product);
+                                  }
                                   //productStore.changeDisplay();
                                   //productStore.restartMemorizer();
                                   //productStore.resetPage();

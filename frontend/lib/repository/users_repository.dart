@@ -27,7 +27,7 @@ class UsersRepository extends Repository {
       }
       print("SAVED: $saved WITH ${user.userId}");
       return success;
-    }catch(_){}
+    } catch(_){}
     return null;
   }
 

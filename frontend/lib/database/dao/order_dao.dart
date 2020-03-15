@@ -111,6 +111,7 @@ class OrderDao implements DaoHelper {
     if(item is Order){
       try {
         item.identifier = await db.insert(orderTable, item.toMap());
+        return item;
       } catch(_){
         await update(item);
       }
@@ -130,7 +131,7 @@ class OrderDao implements DaoHelper {
   update(item) async {
     if(item is Order){
       try {
-        await db.update(orderTable, item.toMap(), where: '$identifier = ?', whereArgs: [item.identifier]);
+        await db.update(orderTable, item.toMap(), where: '$orderId = ?', whereArgs: [item.orderId]);
       } catch(_){}
     }
   }

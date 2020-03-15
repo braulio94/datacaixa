@@ -57,7 +57,7 @@ void main(){
 
   test('Create Order test', () async {
     Order order = await orderService.createOrder(
-      Order.add(
+      Order.create(
         hotelId: 1,
         pdvId: 1,
         userId: 2,
@@ -75,7 +75,7 @@ void main(){
 
   test('Create Order Items test', () async {
     OrderItem orderItem = await orderService.createOrderItem(
-      OrderItem.add(
+      OrderItem.create(
         orderId: 32280,
         productId: 92,
         quantity: 5,
