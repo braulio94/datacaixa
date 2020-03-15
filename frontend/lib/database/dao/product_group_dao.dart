@@ -47,13 +47,11 @@ class ProductGroupDao implements DaoHelper {
   }
 
   @override
-  void insert(item) async {
+  insert(item) async {
     if(item is ProductGroup){
       try {
         item.identifier = await db.insert(productGroupTable, item.toMap());
-      } catch (_){
-
-      }
+      } catch (_){}
     }
   }
 

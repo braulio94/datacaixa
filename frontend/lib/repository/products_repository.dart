@@ -32,9 +32,10 @@ class ProductsRepository extends Repository {
     List<ProductGroup> groups = [];
     try {
       groups = await productService.getProductGroups();
+      await addNoneExisting(store.productGroupDao, groups);
       return groups;
     } catch (_){
-      return groups;
+      return await store.productGroupDao.getAll();
     }
   }
 }

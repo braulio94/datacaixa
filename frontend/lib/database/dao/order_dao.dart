@@ -1,6 +1,7 @@
 import 'package:datacaixa/common/database_strings.dart';
 import 'package:datacaixa/database/dao/dao_helper.dart';
 import 'package:datacaixa/models/order.dart';
+import 'package:datacaixa/models/table.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class OrderDao implements DaoHelper {
@@ -139,8 +140,7 @@ class OrderDao implements DaoHelper {
   @override
   void remove(item) async {
     if(item is Order){
-      await db.delete(orderTable,
-          where: '$identifier = ?', whereArgs: [item.identifier]);
+      await db.delete(orderTable, where: '$identifier = ?', whereArgs: [item.identifier]);
     }
   }
 
@@ -150,7 +150,25 @@ class OrderDao implements DaoHelper {
   }
 
   @override
-  removeNoneExisting(List newItems) {
+  removeNoneExisting(List newItems) async {
+    if(newItems is List<Table>){
+      List<int> ids = newItems.map((t) => t.hasOrder ? t.orderId : negative).toList();
+      try {
+        int orderids = await db.delete(
+          orderTable,
+          where: '$orderId NOT IN (${ids.join(', ')})',
+        );
+        print("ORDERS DELETED $orderids");
+        int itemsids = await db.delete(
+          orderItemsTable,
+          where: '$orderId NOT IN (${ids.join(', ')})',
+        );
+        print("ITEMS DELETED $itemsids");
+      } catch(_){}
+    }
+  }
+
+  removeNoneExistingOrder(Order order) {
     // TODO: implement removeNoneExisting
     throw UnimplementedError();
   }
