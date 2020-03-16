@@ -37,6 +37,11 @@ class OrderService extends BaseService {
     return OrderItem.fromJson(json.decode(response.body)["item"]);
   }
 
+  deleteOrderItem(int id) async {
+    var uri = Uri.http(HOST, ORDER + ORDER_ITEM + '/$id');
+    await client.delete(uri);
+  }
+
   //TODO create below methods
   updateOrder(){
 

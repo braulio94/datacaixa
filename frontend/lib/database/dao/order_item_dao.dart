@@ -141,8 +141,15 @@ class OrderItemDao implements DaoHelper {
   }
 
   @override
-  removeNoneExisting(List newItems) {
-    // TODO: implement removeNoneExisting
-    throw UnimplementedError();
+  removeNoneExisting(List items) async {
+    if(items is List<OrderItem>){
+      List<int> ids = items.map((i) => i.orderItemId).toList();
+      try {
+        await db.delete(
+          orderItemsTable,
+          where: '$orderId NOT IN (${ids.join(', ')})',
+        );
+      } catch(_){}
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:datacaixa/common/app_strings.dart';
+import 'package:datacaixa/common/database_strings.dart';
 import 'package:datacaixa/models/table.dart';
 import 'package:datacaixa/repository/repository.dart';
 
@@ -9,9 +10,10 @@ class TablesRepository extends Repository {
     List<Table> tables = [];
     try {
       var newTables = await tableService.getTables();
+      List<int> ids = newTables.map((t) => t.hasOrder ? t.orderId : negative).toList();
       connected = true;
       await addNoneExisting(store.tableDao, newTables);
-      await store.orderDao.removeNoneExisting(newTables);
+      await store.orderDao.removeNoneExisting(ids);
       tables = await store.tableDao.getAll();
     } catch (_){
       tables = await store.tableDao.getAll();

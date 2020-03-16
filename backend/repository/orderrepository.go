@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/braulio94/datacaixa/backend/database"
 	"github.com/braulio94/datacaixa/backend/model"
+	"log"
 )
 
 func (r *DatabaseRepository) GetOrder(orderId int, withItems bool) (order model.Order) {
@@ -89,7 +90,10 @@ func (r *DatabaseRepository) CreateOrderItem(new model.OrderItem, orderId int) (
 
 func (r *DatabaseRepository) DeleteOrderItem(id int) {
 	formattedQuery := fmt.Sprintf(database.DeleteOrderItem, id)
-	_ = database.Database.QueryRow(formattedQuery)
+	_, err := database.Database.Exec(formattedQuery)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func (r *DatabaseRepository) UpdateOrder(id int) {

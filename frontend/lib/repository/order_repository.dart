@@ -41,6 +41,7 @@ class OrderRepository extends Repository {
     List<OrderItem> items = <OrderItem>[];
     try{
       items =  await orderService.getOrderItems(orderId);
+      await store.orderItemDao.removeNoneExisting(items);
       await store.orderItemDao.insertAll(items);
       await saveProductItems(items);
       return await storedOrderItems(orderId);
