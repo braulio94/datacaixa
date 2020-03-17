@@ -42,6 +42,7 @@ func (r *DatabaseRepository) GetOrderItems(orderId int) (items []model.OrderItem
 			&oi.OrderItemId,
 			&oi.OrderId,
 			&oi.ProductId,
+			&oi.UserId,
 			&oi.Sequence,
 			&oi.Quantity,
 			&oi.UnitValue,

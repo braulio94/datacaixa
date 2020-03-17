@@ -18,7 +18,7 @@ class OrderItemsView extends StatelessWidget {
         return Observer(builder: (context) =>
         orderStore.currentOrder == null && !orderStore.loading ?
           Center(child: Text(emptyList, style: titleStyle)):
-        orderStore.currentOrder != null ?
+          orderStore.currentOrder != null ?
           ListView(
             physics: BouncingScrollPhysics(),
             children: orderStore.observableItems.reversed.map((item) =>
@@ -29,7 +29,6 @@ class OrderItemsView extends StatelessWidget {
 
                 },
                 confirmDismiss: (axis) async {
-                  print(item);
                   bool sameUser = item.userId == userStore.currentUser.userId;
                   if(!sameUser){
                     Scaffold.of(context).showSnackBar(SnackBar(content: Text(cannotDelete)));

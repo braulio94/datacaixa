@@ -71,7 +71,8 @@ var SelectOpenOrders = `SELECT ID_PEDIDO,
  
 var SelectOrderItemsFromOrder = `SELECT ID_PEDIDO_ITEM,
 								ID_PEDIDO, 
-								ID_PRODUTO, 
+								ID_PRODUTO,
+								COALESCE(ID_USUARIO, 5) AS ID_USUARIO,
 								SEQUENCIA, 
 								QUANTIDADE, 
 								VALOR_UNITARIO, 
@@ -156,4 +157,4 @@ var SelectUsers = `SELECT  ID_HOTEL,
 						   USUARIO,
 						   NOME,
 						   EMAIL
-						   FROM TUSUARIOS WHERE ID_USUARIO NOT IN (1, 5);`
+						   FROM TUSUARIOS WHERE ID_USUARIO NOT IN (1);`
