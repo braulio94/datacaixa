@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:datacaixa/common/app_strings.dart';
+import 'package:datacaixa/common/database_strings.dart';
 import 'package:datacaixa/common/style.dart';
 import 'package:datacaixa/helpers/currency_value_helper.dart';
 import 'package:datacaixa/models/order_item.dart';
@@ -21,34 +22,54 @@ class OrderItemsView extends StatelessWidget {
           ListView(
             physics: BouncingScrollPhysics(),
             children: orderStore.observableItems.reversed.map((item) =>
-              ListTile(
-                leading: Text(item.quantity == null ? '':'${item.quantity.floor()}'),
-                title: Text(item.product.description),
-                trailing: Text('${currencyFormatter.format(item.totalValue)}'),
-                subtitle: Text('${currencyFormatter.format(item.product.price)}', style: captionStyle),
+              Dismissible(
+                key: Key('${item.identifier}'),
+                direction: DismissDirection.endToStart,
+                onDismissed: (axis){
+
+                },
+                confirmDismiss: (axis) async {
+                  print(item);
+                  bool sameUser = item.userId == userStore.currentUser.userId;
+                  if(!sameUser){
+                    Scaffold.of(context).showSnackBar(SnackBar(content: Text(cannotDelete)));
+                  }
+                  return sameUser;
+                },
+                background: Container(color: accentColor),
+                child: ListTile(
+                  leading: Text(item.quantity == null ? '':'${item.quantity.floor()}'),
+                  title: Text(item.product.description),
+                  trailing: Text('${currencyFormatter.format(item.totalValue)}'),
+                  subtitle: Text('${currencyFormatter.format(item.product.price)}', style: captionStyle),
+                ),
               )
             ).toList()..insert(0,
-              ListTile(
-                leading: Icon(Icons.filter_9_plus, color: darkColor),
-                title: Row(
-                  children: [
-                    Text(product, style: boldBodyStyle),
-                    Padding(
-                      padding: EdgeInsets.only(left: 4, bottom: 8),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: accentColor, //borderRadius: BorderRadius.circular(25),
-                          shape: BoxShape.circle
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Text('${orderStore.observableItems.length}', style: overlineStyle.copyWith(color: neutralColor)),
+              Dismissible(
+                key: Key(orderItemId),
+                direction: null,
+                child: ListTile(
+                  leading: Icon(Icons.filter_9_plus, color: darkColor),
+                  title: Row(
+                    children: [
+                      Text(product, style: boldBodyStyle),
+                      Padding(
+                        padding: EdgeInsets.only(left: 4, bottom: 8),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: accentColor, //borderRadius: BorderRadius.circular(25),
+                            shape: BoxShape.circle
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(5),
+                            child: Text('${orderStore.observableItems.length}', style: overlineStyle.copyWith(color: neutralColor)),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  trailing: Text(totalAmount, style: boldBodyStyle),
                 ),
-                trailing: Text(totalAmount, style: boldBodyStyle),
               ),
             ),
           ): Center(child: CircularProgressIndicator()),

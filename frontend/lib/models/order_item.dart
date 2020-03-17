@@ -31,6 +31,7 @@ class OrderItem {
   double accrualValue;
 
   OrderItem();
+
   OrderItem.add({this.identifier, this.hotelId, this.orderItemId, this.orderId,
       this.productId, this.sequence, this.quantity = 1, this.unitValue, this.userId,
       this.product, this.entryDateTime}) : this.totalValue = quantity * unitValue;
@@ -45,6 +46,7 @@ class OrderItem {
       c.orderItemId: orderItemId,
       c.orderId: orderId,
       c.productId: productId,
+      c.userId: userId,
       c.sequence: sequence,
       c.quantity: quantity,
       c.unitValue: unitValue,
@@ -61,6 +63,7 @@ class OrderItem {
     orderItemId = map[c.orderItemId];
     orderId = map[c.orderId];
     productId = map[c.productId];
+    userId = map[c.userId];
     sequence = map[c.sequence];
     quantity = map[c.quantity].toDouble();
     unitValue = map[c.unitValue];

@@ -20,6 +20,7 @@ class OrderItemDao implements DaoHelper {
             "$orderItemId INTEGER UNIQUE, "
             "$orderId INTEGER, "
             "$productId INTEGER, "
+            "$userId INTEGER, "
             "$sequence INTEGER, "
             "$quantity INTEGER, "
             "$unitValue REAL, "
@@ -37,6 +38,7 @@ class OrderItemDao implements DaoHelper {
             orderItemId,
             orderId,
             productId,
+            userId,
             sequence,
             quantity,
             unitValue,
@@ -60,6 +62,7 @@ class OrderItemDao implements DaoHelper {
           orderItemId,
           orderId,
           productId,
+          userId,
           sequence,
           quantity,
           unitValue,
@@ -81,6 +84,7 @@ class OrderItemDao implements DaoHelper {
             orderItemId,
             orderId,
             productId,
+            userId,
             sequence,
             quantity,
             unitValue,

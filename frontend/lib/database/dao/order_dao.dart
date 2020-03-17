@@ -150,17 +150,22 @@ class OrderDao implements DaoHelper {
   }
 
   @override
-  removeNoneExisting(List ids) async {
-    try {
-      await db.delete(
-        orderTable,
-        where: '$orderId NOT IN (${ids.join(', ')})',
-      );
-      await db.delete(
-        orderItemsTable,
-        where: '$orderId NOT IN (${ids.join(', ')})',
-      );
-    } catch(_){}
+  removeNoneExisting(List newItems) async {
+    if(newItems is List<Table>){
+      List<int> ids = newItems.map((t) => t.hasOrder ? t.orderId : negative).toList();
+      try {
+        int orderids = await db.delete(
+          orderTable,
+          where: '$orderId NOT IN (${ids.join(', ')})',
+        );
+        print("ORDERS DELETED $orderids");
+        int itemsids = await db.delete(
+          orderItemsTable,
+          where: '$orderId NOT IN (${ids.join(', ')})',
+        );
+        print("ITEMS DELETED $itemsids");
+      } catch(_){}
+    }
   }
 
   removeNoneExistingOrder(Order order) {

@@ -19,3 +19,4 @@ final String totalAmount = 'Valor Total';
 final String busyTables = 'Ocupadas';
 final String emptyList = 'Lista está vazia';
 final String noProducts = 'Sem produtos pra mostrar';
+final String cannotDelete = 'Não podes apagar itens que não registaste';
