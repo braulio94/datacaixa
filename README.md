@@ -1,6 +1,6 @@
 # Datacaixa
 
-Consuming FirebirdSql Database and exposing in REST
+PoS mobile client and backend consuming FirebirdSql Database and exposing in REST
 
 ## API 
 
