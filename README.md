@@ -1,6 +1,6 @@
 # Datacaixa
 
-PoS mobile client and backend consuming FirebirdSql Database and exposing in REST
+PoS mobile client [(flutter)](https://flutter.dev) and backend [(Go)](https://golang.org) consuming FirebirdSql Database and exposing in REST
 
 ## Up and Running 
 
