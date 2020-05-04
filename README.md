@@ -2,7 +2,7 @@
 
 PoS mobile client and backend consuming FirebirdSql Database and exposing in REST
 
-## UP and Running
+## Up and Running
 
 This project uses an existing and pre-populated database that can be found [here]()
 
