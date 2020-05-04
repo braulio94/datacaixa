@@ -8,7 +8,7 @@ This project uses an existing and pre-populated database that can be found [here
 
 - Make sure you have [Golang](https://golang.org) installed
 - Download th firbirdsql database file.
-- Make sure your database connection url string is poting to the same directory where the database file is
+- Make sure your database connection url string is pointing to the same directory where the database file is
 - 
 
 ## API 
